@@ -10,10 +10,17 @@
     <hr>
     <h1>Testing a simple GraphQL Server</h2>
         <hr>
-        <h2>This is just a normal POST</h2>
-        <div>Enter a new item in the text box and hit Submit to save it to the database</div>
-        <form action="/quotes" method="POST">
-            <input type="text" placeholder="item" name="item">
+        <h2>Add User</h2>
+        <div>Enter a new user in the text box and hit Submit to save it to the database</div>
+        <form action="/users" method="POST">
+            <input type="text" value="item" name="item">
+            <button type="submit">Submit</button>
+        </form>
+        <hr>
+        <h2>Add Student</h2>
+        <div>Enter a new Student in the text box and hit Submit to save it to the database</div>
+        <form action="/students" method="POST">
+            <input type="text" value="item" name="item">
             <button type="submit">Submit</button>
         </form>
         <hr>

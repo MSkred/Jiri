@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html')
 })
 
-app.post('/quotes', (req, res) => {
+app.post('/users', (req, res) => {
     // Insert into USER Collection
     var user = new User({
         is_admin: 1,
@@ -37,6 +37,16 @@ app.post('/quotes', (req, res) => {
         password: 'root',
         company: 'HEPL',
     })
+
+    user.save((err, result) => {
+        if (err) { console.log("---User save failed " + err) }
+        console.log("+++User saved successfully " + user.name)
+        res.redirect('/')
+        
+    })
+})
+
+app.post('/students', (req, res) => {
     // Insert into STUDENT Collection
     var student = new Student({
         id: 1,
@@ -46,16 +56,11 @@ app.post('/quotes', (req, res) => {
         photo: 'assets/img/student/maxime.jpg',
     })
 
-    user.save((err, result) => {
-        if (err) { console.log("---User save failed " + err) }
-        console.log("+++User saved successfully " + user.name)
-    })
-
     student.save((err, result) => {
         if (err) { console.log("---Student save failed " + err) }
         console.log("+++Student saved successfully " + student.name)
-    })
         res.redirect('/')
-})
+    })
 
+})
 app.listen(PORT);
