@@ -8,7 +8,7 @@ var studentSchema = new Schema({
     email: String,
     github: String,
     photo: String,
-}, { collection: "Student" } );
+}, { collection: "Student" });
 
 var Student = mongoose.model('Student', studentSchema);
 
