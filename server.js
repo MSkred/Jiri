@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 
 import graphQLSchema from './graphql/Schema/Schema'
 import User from './mongoose/user'
+import Student from './mongoose/student'
 
 const PORT = 3000;
 
@@ -28,21 +29,33 @@ app.get('/', (req, res) => {
 })
 
 app.post('/quotes', (req, res) => {
-    // Insert into TodoList Collection
+    // Insert into USER Collection
     var user = new User({
         is_admin: 1,
-        name: 'Jean',
-        email: 'Renard',
-        password: 'test',
+        name: 'Dominique Vilain',
+        email: 'domi.vilain@gmail.com',
+        password: 'root',
         company: 'HEPL',
+    })
+    // Insert into STUDENT Collection
+    var student = new Student({
+        id: 1,
+        name: 'Maxime',
+        email: 'maxime.scibetta@outlook.com',
+        github: 'http://github.com/MaximeScibetta',
+        photo: 'assets/img/student/maxime.jpg',
     })
 
     user.save((err, result) => {
         if (err) { console.log("---User save failed " + err) }
         console.log("+++User saved successfully " + user.name)
-
-        res.redirect('/')
     })
+
+    student.save((err, result) => {
+        if (err) { console.log("---Student save failed " + err) }
+        console.log("+++Student saved successfully " + student.name)
+    })
+        res.redirect('/')
 })
 
 app.listen(PORT);

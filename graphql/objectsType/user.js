@@ -13,10 +13,6 @@ export const userType = new GraphQLObjectType({
     name: 'user',
     description: 'User',
     fields: () => ({
-        id: {
-            type: GraphQLID,
-            description: 'The ID of the user',
-        },
         is_admin: {
             type: (GraphQLBoolean),
             description: 'Is the user an admin',

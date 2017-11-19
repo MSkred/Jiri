@@ -4,7 +4,6 @@ var Schema = mongoose.Schema;
 
 // Creation of student schema
 var studentSchema = new Schema({
-    id: String,
     name: String,
     email: String,
     github: String,

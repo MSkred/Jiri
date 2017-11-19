@@ -13,10 +13,6 @@ export const studentType = new GraphQLObjectType({
     name: 'student',
     description: 'Student',
     fields: () => ({
-        id: {
-            type: GraphQLID,
-            description: 'The ID of the student',
-        },
         name: {
             type: GraphQLString,
             description: 'The name of the student',
