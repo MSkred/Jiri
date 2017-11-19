@@ -1,5 +1,6 @@
 import UserMongo from '../../mongoose/user'
 import StudentMongo from '../../mongoose/student'
+import getProjection from './getProjection'
 
 export const resolvers = {
     Query: {
