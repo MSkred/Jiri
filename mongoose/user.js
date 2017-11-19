@@ -9,7 +9,7 @@ var userSchema = new Schema({
     email: String,
     password: String,
     company: String,
-}, { collection: "Jiri" });
+}, { collection: "User" });
 
 // the schema is useless so far
 // we need to create a model using it
