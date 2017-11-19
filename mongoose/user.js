@@ -9,11 +9,9 @@ var userSchema = new Schema({
     name: String,
     email: String,
     password: String,
-    company: Object,
+    company: String,
 }, { collection: "User" });
 
-// the schema is useless so far
-// we need to create a model using it
 var User = mongoose.model('User', userSchema);
 
 export default User
