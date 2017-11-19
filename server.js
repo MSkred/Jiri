@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import graphQLSchema from './graphql/Schema/Schema'
 import User from './mongoose/user'
 import Student from './mongoose/student'
+import Event from './mongoose/event'
 
 const PORT = 3000;
 
@@ -49,7 +50,6 @@ app.post('/users', (req, res) => {
 app.post('/students', (req, res) => {
     // Insert into STUDENT Collection
     var student = new Student({
-        id: 1,
         name: 'Maxime',
         email: 'maxime.scibetta@outlook.com',
         github: 'http://github.com/MaximeScibetta',
@@ -61,6 +61,20 @@ app.post('/students', (req, res) => {
         console.log("+++Student saved successfully " + student.name)
         res.redirect('/')
     })
+})
 
+app.post('/events', (req, res) => {
+    // Insert into EVENT Collection
+    var event = new Event({
+        name: 'Jury de juin 3ème année',
+        date: 'Le 23 juin 2017',
+        creator: User,
+    })
+
+    event.save((err, result) => {
+        if (err) { console.log("---Event save failed " + err) }
+        console.log("+++Event saved successfully " + event.name)
+        res.redirect('/')
+    })
 })
 app.listen(PORT);

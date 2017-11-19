@@ -35,3 +35,15 @@ export const userType = new GraphQLObjectType({
         },
     })
 });
+
+// const userType = `
+//     type User {
+//         id: Number
+//         is_admin: String
+//         name: String
+//         email: String
+//         password: String
+//         company: String
+//     }
+// `;
+// export default userType;
