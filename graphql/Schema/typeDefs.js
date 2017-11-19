@@ -1,6 +1,6 @@
 export const typeDefs = `
     type User {
-        id: Int!
+        id: String!
         is_admin: Int
         name: String
         email: String
@@ -9,15 +9,23 @@ export const typeDefs = `
     }
 
     type Student {
-        id: Int!
+        id: String!
         name: String
         email: String
         github: String
         photo: String
     }
 
+    type Event {
+        id: String!
+        name: String
+        Date: String
+        creator: User
+    }
+
     type Query {
-        user: [User]
-        student: [Student]
+        users: [User]
+        students: [Student]
+        user(id: String!): [User]  
     }
 `;

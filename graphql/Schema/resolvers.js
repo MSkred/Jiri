@@ -1,24 +1,34 @@
 import UserMongo from '../../mongoose/user'
 import StudentMongo from '../../mongoose/student'
+import EventMongo from '../../mongoose/event'
 import getProjection from './getProjection'
+import { find, filter } from 'lodash';
 
 export const resolvers = {
     Query: {
-        user: () => (root, params, context, options) => {
-            let projections = getProjection(options);
+        users: (root, params, context, options) => {
+            let projection = getProjection(options);
             
             return UserMongo
-                .find()
+                .find(params)
                 .select(projection)
                 .exec();
         },
-        student: () => (root, params, context, options) => {
-            let projections = getProjection(options);
+        students: (root, params, context, options) => {
+            let projection = getProjection(options);
 
             return StudentMongo
                 .find()
                 .select(projection)
                 .exec();
         },
-    }
+        user: (root, params, context, options) => {
+            let projection = getProjection(options);
+
+            return UserMongo
+                .find(params)
+                .select(projection)
+                .exec();
+        }
+    },
 };

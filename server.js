@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import mongoose from 'mongoose'
+import nanoid from 'nanoid'
 
 import graphQLSchema from './graphql/Schema/Schema'
 import User from './mongoose/user'
@@ -32,6 +33,7 @@ app.get('/', (req, res) => {
 app.post('/users', (req, res) => {
     // Insert into USER Collection
     var user = new User({
+        id: nanoid(),
         is_admin: 1,
         name: 'Dominique Vilain',
         email: 'domi.vilain@gmail.com',
@@ -50,6 +52,7 @@ app.post('/users', (req, res) => {
 app.post('/students', (req, res) => {
     // Insert into STUDENT Collection
     var student = new Student({
+        id: nanoid(),
         name: 'Maxime',
         email: 'maxime.scibetta@outlook.com',
         github: 'http://github.com/MaximeScibetta',
