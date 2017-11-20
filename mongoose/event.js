@@ -6,7 +6,7 @@ var eventSchema = new Schema({
     id: String,
     name: String,
     date: String,
-    creator: Object,
+    user_id: { type: String, ref: 'User' },
 }, { collection: "Event" });
 
 var Event = mongoose.model('Event', eventSchema);

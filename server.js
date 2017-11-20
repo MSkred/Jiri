@@ -8,6 +8,7 @@ import graphQLSchema from './graphql/Schema/Schema'
 import User from './mongoose/user'
 import Student from './mongoose/student'
 import Event from './mongoose/event'
+import Project from './mongoose/project'
 
 const PORT = 3000;
 
@@ -30,7 +31,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html')
 })
 
-app.post('/users', (req, res) => {
+app.post('/addUser', (req, res) => {
     // Insert into USER Collection
     var user = new User({
         id: nanoid(),
@@ -49,7 +50,7 @@ app.post('/users', (req, res) => {
     })
 })
 
-app.post('/students', (req, res) => {
+app.post('/addStudent', (req, res) => {
     // Insert into STUDENT Collection
     var student = new Student({
         id: nanoid(),
@@ -66,17 +67,35 @@ app.post('/students', (req, res) => {
     })
 })
 
-app.post('/events', (req, res) => {
+app.post('/addEvent', (req, res) => {
     // Insert into EVENT Collection
     var event = new Event({
-        name: 'Jury de juin 3ème année',
+        id: nanoid(),
+        name: 'Jury de 3ème année',
         date: 'Le 23 juin 2017',
-        creator: User,
+        user_id: 'I5Yvv2SvHWwTAv7gNUOyX',
     })
 
     event.save((err, result) => {
         if (err) { console.log("---Event save failed " + err) }
         console.log("+++Event saved successfully " + event.name)
+        res.redirect('/')
+    })
+})
+
+app.post('/addProject', (req, res) => {
+    // Insert into PROJECT Collection
+    var project = new Project({
+        id: nanoid(),
+        url_github: 'http://github.com',
+        url_project: 'http//maxime-scibetta.be',
+        event_id: 'v6yJRlbzX2dZJ5Pw6VG6Z',
+        student_id: 'ZBsAXjZvShzdu9ojjjc69',
+    })
+
+    project.save((err, result) => {
+        if (err) { console.log("---Project save failed " + err) }
+        console.log("+++Project saved successfully " + project.name)
         res.redirect('/')
     })
 })
