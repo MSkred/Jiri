@@ -27,6 +27,7 @@ export const typeDefs = `
 
     type Project {
         id: String!
+        name: String
         url_github: String
         url_project: String
         event_id: [Event]
@@ -39,5 +40,6 @@ export const typeDefs = `
         events: [Event]
         projects: [Project]
         user(id: String): [User]  
+        projects(student_id: String): [Project]
     }
 `;

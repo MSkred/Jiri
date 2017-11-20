@@ -87,6 +87,7 @@ app.post('/addProject', (req, res) => {
     // Insert into PROJECT Collection
     var project = new Project({
         id: nanoid(),
+        name: 'Saint-Léon\'Art',
         url_github: 'http://github.com',
         url_project: 'http//maxime-scibetta.be',
         event_id: 'v6yJRlbzX2dZJ5Pw6VG6Z',
