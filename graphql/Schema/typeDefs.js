@@ -41,5 +41,6 @@ export const typeDefs = `
         projects: [Project]
         user(id: String): [User]  
         projects(student_id: String): [Project]
+        events(user_id: String): [Event]
     }
 `;
