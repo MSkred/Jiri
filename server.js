@@ -14,7 +14,7 @@ import Meeting from './mongoose/meeting'
 const PORT = 3000;
 
 // Mongoose connect
-mongoose.connect('mongodb://localhost:27017/local')
+mongoose.connect('mongodb://localhost:27017/jiri')
 
 var db = mongoose.connection;
 db.on('error', () => { console.log('---FAILED to connect to mongoose') })
@@ -74,7 +74,7 @@ app.post('/addEvent', (req, res) => {
         id: nanoid(),
         name: 'Jury de 3ème année',
         date: 'Le 23 juin 2017',
-        user_id: 'I5Yvv2SvHWwTAv7gNUOyX',
+        user_id: 'kA_WvVru8w7nf4ag161Li',
     })
 
     event.save((err, result) => {
@@ -91,8 +91,8 @@ app.post('/addProject', (req, res) => {
         name: 'Saint-Léon\'Art',
         url_github: 'http://github.com',
         url_project: 'http//maxime-scibetta.be',
-        event_id: 'v6yJRlbzX2dZJ5Pw6VG6Z',
-        student_id: 'ZBsAXjZvShzdu9ojjjc69',
+        event_id: 'g~RvfjQRhb3UJq6yBDr9h',
+        student_id: 'Iwjj1hwXz3SJUuLHxMGNU',
     })
 
     project.save((err, result) => {
@@ -107,9 +107,9 @@ app.post('/addMeeting', (req, res) => {
     var meeting = new Meeting({
         id: nanoid(),
         hour: '8:45 à 9:30',
-        user_id: 'I5Yvv2SvHWwTAv7gNUOyX',
-        student_id: 'ZBsAXjZvShzdu9ojjjc69',
-        event_id: 'v6yJRlbzX2dZJ5Pw6VG6Z',
+        user_id: 'kA_WvVru8w7nf4ag161Li',
+        student_id: 'Iwjj1hwXz3SJUuLHxMGNU',
+        event_id: 'g~RvfjQRhb3UJq6yBDr9h',
         cote: '14',
     })
 

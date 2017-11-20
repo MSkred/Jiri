@@ -7,6 +7,7 @@ export const typeDefs = `
         password: String
         company: String
         events: [Event]
+        meetings: [Meeting]
     }
 
     type Student {
@@ -16,6 +17,7 @@ export const typeDefs = `
         github: String
         photo: String
         projects: [Project]
+        meetings: [Meeting]
     }
 
     type Event {
@@ -23,6 +25,7 @@ export const typeDefs = `
         name: String
         date: String
         user_id: [User]
+        meetings: [Meeting]
     }
 
     type Project {

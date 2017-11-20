@@ -10,6 +10,7 @@ var studentSchema = new Schema({
     github: String,
     photo: String,
     projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
+    meetings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
 }, { collection: "Student" });
 
 var Student = mongoose.model('Student', studentSchema);

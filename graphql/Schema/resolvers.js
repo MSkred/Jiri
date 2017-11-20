@@ -25,9 +25,28 @@ export const resolvers = {
             return getAll(MeetingMongo, root, params, context, options)
         }
     },
+    User: {
+        events: (root, params, context, options) => {
+            return getAll(EventMongo, root, { user_id: root.id  }, context, options)
+        },
+        meetings: (root, params, context, options) => {
+            return getAll(MeetingMongo, root, { user_id: root.id }, context, options)
+        },
+    }, 
+    Student: {
+        projects: (root, params, context, options) => {
+            return getAll(ProjectMongo, root, { student_id: root.id }, context, options)
+        },
+        meetings: (root, params, context, options) => {
+            return getAll(MeetingMongo, root, { student_id: root.id }, context, options)
+        },
+    },
     Event: {
         user_id: (root, params, context, options) => {
             return getAll(UserMongo, root, { id: root.user_id }, context, options)
+        },
+        meetings: (root, params, context, options) => {
+            return getAll(MeetingMongo, root, { event_id: root.id }, context, options)
         },
     },
     Project: {

@@ -7,6 +7,7 @@ var eventSchema = new Schema({
     name: String,
     date: String,
     user_id: { type: String, ref: 'User' },
+    meetings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
 }, { collection: "Event" });
 
 var Event = mongoose.model('Event', eventSchema);

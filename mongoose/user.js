@@ -11,6 +11,7 @@ var userSchema = new Schema({
     password: String,
     company: String,
     events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+    meetings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
 }, { collection: "User" });
 
 var User = mongoose.model('User', userSchema);
