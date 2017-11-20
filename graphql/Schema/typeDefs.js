@@ -34,13 +34,24 @@ export const typeDefs = `
         student_id: [Student]
     }
 
+    type Meeting {
+        id: String!
+        hour: String
+        user_id: [User]
+        student_id: [Student]
+        event_id: [Event]
+        cote: String
+    }
+
     type Query {
         users: [User]
         students: [Student]
         events: [Event]
         projects: [Project]
+        meetings: [Meeting]
         user(id: String): [User]  
         projects(student_id: String): [Project]
         events(user_id: String): [Event]
+        meetings(user_id: String, student_id: String): [Meeting]
     }
 `;

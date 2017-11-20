@@ -2,6 +2,7 @@ import UserMongo from '../../mongoose/user'
 import StudentMongo from '../../mongoose/student'
 import EventMongo from '../../mongoose/event'
 import ProjectMongo from '../../mongoose/project'
+import MeetingMongo from '../../mongoose/meeting'
 import getProjection from './functions/getProjection'
 import getAll from './functions/getAll'
 import { find, filter } from 'lodash';
@@ -20,6 +21,9 @@ export const resolvers = {
         projects: (root, params, context, options) => {
             return getAll(ProjectMongo, root, params, context, options)
         },
+        meetings: (root, params, context, options) => {
+            return getAll(MeetingMongo, root, params, context, options)
+        }
     },
     Event: {
         user_id: (root, params, context, options) => {
@@ -32,6 +36,17 @@ export const resolvers = {
         },
         event_id: (root, params, context, options) => {
             return getAll(EventMongo, root, { id: root.event_id }, context, options)
+        },
+    },
+    Meeting: {
+        student_id: (root, params, context, options) => {
+            return getAll(StudentMongo, root, { id: root.student_id }, context, options)
+        },
+        event_id: (root, params, context, options) => {
+            return getAll(EventMongo, root, { id: root.event_id }, context, options)
+        },
+        user_id: (root, params, context, options) => {
+            return getAll(UserMongo, root, { id: root.user_id }, context, options)
         },
     }
 };

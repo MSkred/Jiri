@@ -9,6 +9,7 @@ import User from './mongoose/user'
 import Student from './mongoose/student'
 import Event from './mongoose/event'
 import Project from './mongoose/project'
+import Meeting from './mongoose/meeting'
 
 const PORT = 3000;
 
@@ -97,6 +98,24 @@ app.post('/addProject', (req, res) => {
     project.save((err, result) => {
         if (err) { console.log("---Project save failed " + err) }
         console.log("+++Project saved successfully " + project.name)
+        res.redirect('/')
+    })
+})
+
+app.post('/addMeeting', (req, res) => {
+    // Insert into MEETING Collection
+    var meeting = new Meeting({
+        id: nanoid(),
+        hour: '8:45 à 9:30',
+        user_id: 'I5Yvv2SvHWwTAv7gNUOyX',
+        student_id: 'ZBsAXjZvShzdu9ojjjc69',
+        event_id: 'v6yJRlbzX2dZJ5Pw6VG6Z',
+        cote: '14',
+    })
+
+    meeting.save((err, result) => {
+        if (err) { console.log("---Meeting save failed " + err) }
+        console.log("+++Meeting saved successfully " + meeting.name)
         res.redirect('/')
     })
 })

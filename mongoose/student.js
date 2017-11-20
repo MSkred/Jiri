@@ -9,6 +9,7 @@ var studentSchema = new Schema({
     email: String,
     github: String,
     photo: String,
+    projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
 }, { collection: "Student" });
 
 var Student = mongoose.model('Student', studentSchema);

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 var Schema = mongoose.Schema;
 
-// Creation of event schema
+// Creation of project schema
 var projectSchema = new Schema({
     id: String,
     name: String,
