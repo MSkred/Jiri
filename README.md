@@ -11,7 +11,7 @@ Go to the `C:\Program Files\MongoDB\Server\3.4\bin` folder and execute `mongod`
 Go to your `project_folder` and exectue `npm run dev3`
 
 ## Query example
-
+### [GraphiQL Test](http://localhost:3000/graphiql?query=%7B%0A%20%20students%20%7B%0A%20%20%20%20id%0A%20%20%20%20name%0A%20%20%20%20projects%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%09event_id%20%7B%0A%20%20%20%20%09%20%20name%0A%20%20%20%20%09%7D%0A%20%20%20%20%7D%0A%20%20%20%20meetings%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20hour%0A%20%20%20%20%20%20user_id%7B%0A%20%20%20%20%20%20%20%20name%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%20%20events%7B%0A%20%20%20%20id%0A%20%20%20%20meetings%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20user_id%20%7B%0A%20%20%20%20%20%20%20%20name%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D)
 ### Request
 ```
 {
