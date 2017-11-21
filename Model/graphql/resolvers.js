@@ -1,8 +1,8 @@
-import UserMongo from '../../mongoose/user'
-import StudentMongo from '../../mongoose/student'
-import EventMongo from '../../mongoose/event'
-import ProjectMongo from '../../mongoose/project'
-import MeetingMongo from '../../mongoose/meeting'
+import UserMongo from '../mongoose/user'
+import StudentMongo from '../mongoose/student'
+import EventMongo from '../mongoose/event'
+import ProjectMongo from '../mongoose/project'
+import MeetingMongo from '../mongoose/meeting'
 import getProjection from './functions/getProjection'
 import getAll from './functions/getAll'
 import { find, filter } from 'lodash';
