@@ -80,8 +80,11 @@ export const typeDefs = `
         implementations: [Implementation]
         scores: [Score]
         user(id: String): [User]  
-        projects(student_id: String): [Project]
+        implementations(student_id: String): [Project]
+        implementations(event_id: String): [Project]
         events(user_id: String): [Event]
-        meetings(user_id: String, student_id: String): [Meeting]
+        meetings(event_id: String): [Meeting]
+        meetings(user_id: String): [Meeting]
+        meetings(student_id: String): [Meeting]
     }
 `;
