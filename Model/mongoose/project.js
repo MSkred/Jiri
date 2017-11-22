@@ -5,10 +5,10 @@ var Schema = mongoose.Schema;
 var projectSchema = new Schema({
     id: String,
     name: String,
-    url_github: String,
-    url_project: String,
-    event_id: { type: String, ref: 'Event' },
-    student_id: { type: String, ref: 'Student' },
+    description: String,
+    weight: Number,
+    soft_delete: Boolean,
+    implementations: { type: String, ref: 'Implementation' },
 }, { collection: "Project" });
 
 var Project = mongoose.model('Project', projectSchema);
