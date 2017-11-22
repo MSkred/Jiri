@@ -10,7 +10,8 @@ var meetingSchema = new Schema({
     soft_delete: Boolean,
     user_id: { type: String, ref: 'User' },
     student_id: { type: String, ref: 'Student' },
-    event_id: {type: String, ref: 'Event'},
+    event_id: { type: String, ref: 'Event' },
+    scores: { type: String, ref: 'Score' },
 }, { collection: "Meeting" });
 
 var Meeting = mongoose.model('Meeting', meetingSchema);
