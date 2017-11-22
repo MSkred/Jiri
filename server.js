@@ -36,11 +36,12 @@ app.post('/addUser', (req, res) => {
     // Insert into USER Collection
     var user = new User({
         id: nanoid(),
-        is_admin: 1,
+        is_admin: true,
         name: 'Dominique Vilain',
         email: 'domi.vilain@gmail.com',
         password: 'root',
         company: 'HEPL',
+        soft_delete: false,
     })
 
     user.save((err, result) => {
@@ -57,8 +58,7 @@ app.post('/addStudent', (req, res) => {
         id: nanoid(),
         name: 'Maxime',
         email: 'maxime.scibetta@outlook.com',
-        github: 'http://github.com/MaximeScibetta',
-        photo: 'assets/img/student/maxime.jpg',
+        soft_delete: false,
     })
 
     student.save((err, result) => {
@@ -72,9 +72,9 @@ app.post('/addEvent', (req, res) => {
     // Insert into EVENT Collection
     var event = new Event({
         id: nanoid(),
-        name: 'Jury de 3ème année',
-        date: 'Le 23 juin 2017',
-        user_id: 'kA_WvVru8w7nf4ag161Li',
+        name: 'Jury Design Web 3ème',
+        academic_year: '2017-2018',
+        user_id: '1',
     })
 
     event.save((err, result) => {
@@ -89,10 +89,9 @@ app.post('/addProject', (req, res) => {
     var project = new Project({
         id: nanoid(),
         name: 'Saint-Léon\'Art',
-        url_github: 'http://github.com',
-        url_project: 'http//maxime-scibetta.be',
-        event_id: 'g~RvfjQRhb3UJq6yBDr9h',
-        student_id: 'Iwjj1hwXz3SJUuLHxMGNU',
+        description: 'Projet pour l\'ASBL Saint-LéonArt',
+        weight: 0.3,
+        soft_delete: false,
     })
 
     project.save((err, result) => {
@@ -106,16 +105,55 @@ app.post('/addMeeting', (req, res) => {
     // Insert into MEETING Collection
     var meeting = new Meeting({
         id: nanoid(),
-        hour: '8:45 à 9:30',
-        user_id: 'kA_WvVru8w7nf4ag161Li',
-        student_id: 'Iwjj1hwXz3SJUuLHxMGNU',
-        event_id: 'g~RvfjQRhb3UJq6yBDr9h',
-        cote: '14',
+        start_time: '8:45',
+        end_time: '9:30',
+        evaluation: 14.5,
+        soft_delete: false,
+        user_id: '1',
+        student_id: '2',
+        event_id: '3',
     })
 
     meeting.save((err, result) => {
         if (err) { console.log("---Meeting save failed " + err) }
-        console.log("+++Meeting saved successfully " + meeting.name)
+        console.log("+++Meeting saved successfully " + meeting.evaluation)
+        res.redirect('/')
+    })
+})
+
+app.post('/addScore', (req, res) => {
+    // Insert into SCORE Collection
+    var score = new Score({
+        id: nanoid(),
+        comment: 'Très bon élèves le meilleurs de tous !',
+        score: 18.6,
+        soft_delete: false,
+        meeting_id: '10',
+        implementation_id: '11',
+    })
+
+    score.save((err, result) => {
+        if (err) { console.log("---Score save failed " + err) }
+        console.log("+++Score saved successfully " + score.score)
+        res.redirect('/')
+    })
+})
+
+app.post('/addImplementation', (req, res) => {
+    // Insert into IMPLEMENTATION Collection
+    var implementation = new Implementation({
+        id: nanoid(),
+        url_project: 'http://maxime-scibetta.be',
+        url_github: 'http://github.com',
+        soft_delete: false,
+        project_id: '541',
+        student_id: '5785',
+        event_id: '878768',
+    })
+
+    implementation.save((err, result) => {
+        if (err) { console.log("---Implementation save failed " + err) }
+        console.log("+++Implementation saved successfully " + implementation.score)
         res.redirect('/')
     })
 })

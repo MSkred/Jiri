@@ -25,7 +25,7 @@ export const typeDefs = `
         course_name: String!
         academic_year: String!
         soft_delete: Boolean!
-        user_id: [User]
+        user_id: [User]!
         meetings: [Meeting]
         implementations: [Implementation]
     }
