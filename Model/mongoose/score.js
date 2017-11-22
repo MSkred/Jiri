@@ -7,7 +7,7 @@ var scoreSchema = new Schema({
     comment: String,
     score: Number,
     soft_delete: Boolean,
-    meeting_ig: { type: String, ref: 'Meeting' },
+    meeting_id: { type: String, ref: 'Meeting' },
     implementation_id: { type: String, ref: 'Implementation' },
 }, { collection: "Score" });
 
