@@ -10,6 +10,7 @@ var userSchema = new Schema({
     email: String,
     password: String,
     company: String,
+    soft_delete: Boolean,
     events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
     meetings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
 }, { collection: "User" });
