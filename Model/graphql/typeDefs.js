@@ -64,7 +64,7 @@ export const typeDefs = `
         id: String!
         url_project: String
         url_github: String
-        soft_delete Boolean!
+        soft_delete: Boolean!
         project_id: [Project]
         student_id: [Student]
         event_id: [Event]
