@@ -11,7 +11,7 @@ var meetingSchema = new Schema({
     user_id: { type: String, ref: 'User' },
     student_id: { type: String, ref: 'Student' },
     event_id: { type: String, ref: 'Event' },
-    scores: { type: String, ref: 'Score' },
+    scores: { type: Schema.Types.ObjectId, ref: 'Score' },
 }, { collection: "Meeting" });
 
 var Meeting = mongoose.model('Meeting', meetingSchema);
