@@ -74,14 +74,15 @@ app.post('/addEvent', (req, res) => {
     // Insert into EVENT Collection
     var event = new Event({
         id: nanoid(),
-        name: 'Jury Design Web 3ème',
+        course_name: 'Jury Design Web 3ème',
         academic_year: '2017-2018',
         user_id: '1',
+        soft_delete: false,
     })
 
     event.save((err, result) => {
         if (err) { console.log("---Event save failed " + err) }
-        console.log("+++Event saved successfully " + event.name)
+        console.log("+++Event saved successfully " + event.course_name)
         res.redirect('/')
     })
 })
@@ -155,7 +156,7 @@ app.post('/addImplementation', (req, res) => {
 
     implementation.save((err, result) => {
         if (err) { console.log("---Implementation save failed " + err) }
-        console.log("+++Implementation saved successfully " + implementation.score)
+        console.log("+++Implementation saved successfully " + implementation.url_project)
         res.redirect('/')
     })
 })
