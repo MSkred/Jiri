@@ -58,6 +58,9 @@ export const resolvers = {
         meetings: (root, params, context, options) => {
             return getAll(MeetingMongo, root, { event_id: root.id }, context, options)
         },
+        implementations: (root, params, context, options) => {
+            return getAll(ImplementationMongo, root, { implementation_id: root.id }, context, options)
+        }
     },
     Project: {
         implementations: (root, params, context, options) => {
