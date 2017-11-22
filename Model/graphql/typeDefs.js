@@ -27,6 +27,7 @@ export const typeDefs = `
         soft_delete: Boolean!
         user_id: [User]
         meetings: [Meeting]
+        implementations: [Implementation]
     }
 
     type Project {
@@ -47,6 +48,7 @@ export const typeDefs = `
         user_id: [User]
         student_id: [Student]
         event_id: [Event]
+        scores: [Score]
     }
 
     type Score {
