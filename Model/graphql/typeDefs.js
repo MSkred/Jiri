@@ -58,12 +58,24 @@ export const typeDefs = `
         implementation_id: [Implementation]
     }
 
+    type Implementation {
+        id: String!
+        url_project: String
+        url_github: String
+        soft_delete Boolean!
+        project_id: [Project]
+        student_id: [Student]
+        event_id: [Event]
+        scores: [Score]
+    }
+
     type Query {
         users: [User]
         students: [Student]
         events: [Event]
         projects: [Project]
         meetings: [Meeting]
+        implementations: [Implementation]
         scores: [Score]
         user(id: String): [User]  
         projects(student_id: String): [Project]
