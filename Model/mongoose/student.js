@@ -8,7 +8,7 @@ var studentSchema = new Schema({
     name: String,
     email: String,
     soft_delete: Boolean,
-    projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
+    implementations: [{ type: Schema.Types.ObjectId, ref: 'Implementation' }],
     meetings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
 }, { collection: "Student" });
 
