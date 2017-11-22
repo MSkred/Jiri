@@ -39,8 +39,8 @@ app.post('/addUser', (req, res) => {
     var user = new User({
         id: nanoid(),
         is_admin: true,
-        name: 'Dominique Vilain',
-        email: 'domi.vilain@gmail.com',
+        name: 'Myriam Dupont',
+        email: 'myriam.dupont@gmail.com',
         password: 'root',
         company: 'HEPL',
         soft_delete: false,
@@ -58,8 +58,8 @@ app.post('/addStudent', (req, res) => {
     // Insert into STUDENT Collection
     var student = new Student({
         id: nanoid(),
-        name: 'Maxime',
-        email: 'maxime.scibetta@outlook.com',
+        name: 'Mehdy',
+        email: 'mehdy.ouras@outlook.com',
         soft_delete: false,
     })
 
@@ -74,9 +74,9 @@ app.post('/addEvent', (req, res) => {
     // Insert into EVENT Collection
     var event = new Event({
         id: nanoid(),
-        course_name: 'Jury Design Web 3ème',
+        course_name: 'Jury Design Web 2ème',
         academic_year: '2017-2018',
-        user_id: '1',
+        user_id: 'S9bVR0VU9JAETp37bETvd',
         soft_delete: false,
     })
 
@@ -91,8 +91,8 @@ app.post('/addProject', (req, res) => {
     // Insert into PROJECT Collection
     var project = new Project({
         id: nanoid(),
-        name: 'Saint-Léon\'Art',
-        description: 'Projet pour l\'ASBL Saint-LéonArt',
+        name: 'Curiculum vitae',
+        description: 'Projet d\'un cv personel',
         weight: 0.3,
         soft_delete: false,
     })
@@ -108,13 +108,13 @@ app.post('/addMeeting', (req, res) => {
     // Insert into MEETING Collection
     var meeting = new Meeting({
         id: nanoid(),
-        start_time: '8:45',
-        end_time: '9:30',
-        evaluation: 14.5,
+        start_time: '9:45',
+        end_time: '10:30',
+        evaluation: 10.5,
         soft_delete: false,
-        user_id: '1',
-        student_id: '2',
-        event_id: '3',
+        user_id: 'S9bVR0VU9JAETp37bETvd',
+        student_id: '2Lt06At2VdZtwCqDoKN8A',
+        event_id: 'YGIfEYhQ41T4ExTKowpLc',
     })
 
     meeting.save((err, result) => {
@@ -128,11 +128,11 @@ app.post('/addScore', (req, res) => {
     // Insert into SCORE Collection
     var score = new Score({
         id: nanoid(),
-        comment: 'Très bon élèves le meilleurs de tous !',
-        score: 18.6,
+        comment: 'Skuuuurt skuuuuurt',
+        score: 0.9,
         soft_delete: false,
-        meeting_id: '10',
-        implementation_id: '11',
+        meeting_id: 'jwIFovxLvMitf~UU373_P',
+        implementation_id: 'EbZQMU_YwqUR37JQSfLP6',
     })
 
     score.save((err, result) => {
@@ -146,12 +146,12 @@ app.post('/addImplementation', (req, res) => {
     // Insert into IMPLEMENTATION Collection
     var implementation = new Implementation({
         id: nanoid(),
-        url_project: 'http://maxime-scibetta.be',
+        url_project: 'http://mehdy-ouras.be/',
         url_github: 'http://github.com',
         soft_delete: false,
-        project_id: '541',
-        student_id: '5785',
-        event_id: '878768',
+        project_id: 'fFMBwr43dJQCCflxJdOWe',
+        student_id: '2Lt06At2VdZtwCqDoKN8A',
+        event_id: 'YGIfEYhQ41T4ExTKowpLc',
     })
 
     implementation.save((err, result) => {
