@@ -28,6 +28,7 @@ export const typeDefs = `
         user_id: [User]!
         meetings: [Meeting]
         implementations: [Implementation]
+        weights: [weight]
     }
 
     type Project {
@@ -37,6 +38,7 @@ export const typeDefs = `
         weight: Int!
         soft_delete: Boolean!
         implementations: [Implementation]
+        weights: [weight]
     }
 
     type Meeting {
@@ -58,6 +60,13 @@ export const typeDefs = `
         soft_delete: Boolean
         meeting_id: [Meeting]
         implementation_id: [Implementation]
+    }
+
+    type Weight {
+        id: String!
+        value: Int
+        project_id: [Project]
+        event_id: [Event]
     }
 
     type Implementation {
