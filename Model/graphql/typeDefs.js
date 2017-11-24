@@ -88,6 +88,7 @@ export const typeDefs = `
         meetings: [Meeting]
         implementations: [Implementation]
         scores: [Score]
+        weights: [Weight]
         user(id: String): [User]  
         implementations(student_id: String): [Project]
         implementations(event_id: String): [Project]
