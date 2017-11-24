@@ -3,7 +3,8 @@
 * * *
 * [Website](http://localhost:3000)
 * [GraphiQL](http://localhost:3000/graphiql)
-* [Database structure](https://github.com/MaximeScibetta/Jiri/blob/master/database_structure.jpg)
+* [Database structure](https://github.com/MaximeScibetta/Jiri/blob/master/research/database_structure.jpg)
+* [Wireframe Invision preview](https://projects.invisionapp.com/d/main#/console/12685380/265823917/preview)
 * * *
 ## Start the project
 Go to the `C:\Program Files\MongoDB\Server\3.4\bin` folder and execute `mongod`
