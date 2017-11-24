@@ -6,6 +6,7 @@ import ProjectMongo from '../mongoose/project'
 import ImplementationMongo from '../mongoose/implementation'
 import MeetingMongo from '../mongoose/meeting'
 import ScoreMongo from '../mongoose/score'
+import WeightMongo from '../mongoose/weight'
 // Functions
 import getProjection from './functions/getProjection'
 import getAll from './functions/getAll'
@@ -33,6 +34,9 @@ export const resolvers = {
         },
         scores: (root, params, context, options) => {
             return getAll(ScoreMongo, root, params, context, options)
+        },
+        weights: (root, params, context, options) => {
+            return getAll(WeightMongo, root, params, context, options)
         },
     },
     User: {
@@ -102,5 +106,13 @@ export const resolvers = {
         scores: (root, params, context, options) => {
             return getAll(ScoreMongo, root, { score_id: root.id }, context, options)
         }
-    }
+    },
+    Weight: {
+        project_id: (root, params, context, options) => {
+            return getAll(ProjectMongo, root, { id: root.project_id }, context, options)
+        },
+        event_id: (root, params, context, options) => {
+            return getAll(EventMongo, root, { id: root.event_id }, context, options)
+        },
+    },
 };
