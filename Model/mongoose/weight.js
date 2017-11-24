@@ -9,6 +9,6 @@ var weightSchema = new Schema({
     event_id: { type: String, ref: 'Event' },
 }, { collection: "Weight" });
 
-var Weight = mongoose.model('Weight', projectSchema);
+var Weight = mongoose.model('Weight', weightSchema);
 
 export default Weight;

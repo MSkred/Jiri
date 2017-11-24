@@ -63,18 +63,18 @@ export const resolvers = {
             return getAll(MeetingMongo, root, { event_id: root.id }, context, options)
         },
         implementations: (root, params, context, options) => {
-            return getAll(ImplementationMongo, root, { implementation_id: root.id }, context, options)
+            return getAll(ImplementationMongo, root, { event_id: root.id }, context, options)
         },
         weights: (root, params, context, options) => {
-            return getAll(WeightMongo, root, { weight_id: root.id }, context, options)
+            return getAll(WeightMongo, root, { event_id: root.id }, context, options)
         },
     },
     Project: {
         implementations: (root, params, context, options) => {
-            return getAll(ImplementationMongo, root, { implementation_id: root.id }, context, options)
+            return getAll(ImplementationMongo, root, { project_id: root.id }, context, options)
         },
         weights: (root, params, context, options) => {
-            return getAll(WeightMongo, root, { weight_id: root.id }, context, options)
+            return getAll(WeightMongo, root, { project_id: root.id }, context, options)
         },
     },
     Meeting: {
@@ -88,7 +88,7 @@ export const resolvers = {
             return getAll(UserMongo, root, { id: root.user_id }, context, options)
         },
         scores: (root, params, context, options) => {
-            return getAll(ScoreMongo, root, { score_id: root.id }, context, options)
+            return getAll(ScoreMongo, root, { meeting_id: root.id }, context, options)
         }
     },
     Score: {
@@ -110,7 +110,7 @@ export const resolvers = {
             return getAll(StudentMongo, root, { id: root.student_id }, context, options)
         },
         scores: (root, params, context, options) => {
-            return getAll(ScoreMongo, root, { score_id: root.id }, context, options)
+            return getAll(ScoreMongo, root, { implementation_id: root.id }, context, options)
         }
     },
     Weight: {

@@ -12,6 +12,7 @@ import Project from './Model/mongoose/project'
 import Meeting from './Model/mongoose/meeting'
 import Implementation from './Model/mongoose/implementation'
 import Score from './Model/mongoose/score'
+import Weight from './Model/mongoose/weight'
 
 const PORT = 3000;
 

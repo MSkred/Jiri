@@ -6,7 +6,6 @@ var projectSchema = new Schema({
     id: String,
     name: String,
     description: String,
-    weight: Number,
     soft_delete: Boolean,
     implementations: [{ type: Schema.Types.ObjectId, ref: 'Implementation' }],
     weights: [{ type: Schema.Types.ObjectId, ref: 'Weight' }],

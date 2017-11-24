@@ -28,17 +28,16 @@ export const typeDefs = `
         user_id: [User]!
         meetings: [Meeting]
         implementations: [Implementation]
-        weights: [weight]
+        weights: [Weight]
     }
 
     type Project {
         id: String!
         name: String!
         description: String
-        weight: Int!
         soft_delete: Boolean!
         implementations: [Implementation]
-        weights: [weight]
+        weights: [Weight]
     }
 
     type Meeting {
