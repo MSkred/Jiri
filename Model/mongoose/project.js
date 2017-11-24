@@ -8,7 +8,8 @@ var projectSchema = new Schema({
     description: String,
     weight: Number,
     soft_delete: Boolean,
-    implementations: { type: Schema.Types.ObjectId, ref: 'Implementation' },
+    implementations: [{ type: Schema.Types.ObjectId, ref: 'Implementation' }],
+    weights: [{ type: Schema.Types.ObjectId, ref: 'Weight' }],
 }, { collection: "Project" });
 
 var Project = mongoose.model('Project', projectSchema);

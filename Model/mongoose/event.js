@@ -9,6 +9,7 @@ var eventSchema = new Schema({
     soft_delete: Boolean,
     user_id: { type: String, ref: 'User' },
     meetings: [{ type: Schema.Types.ObjectId, ref: 'Meeting' }],
+    weights: [{ type: Schema.Types.ObjectId, ref: 'Weight' }],
 }, { collection: "Event" });
 
 var Event = mongoose.model('Event', eventSchema);

@@ -64,11 +64,17 @@ export const resolvers = {
         },
         implementations: (root, params, context, options) => {
             return getAll(ImplementationMongo, root, { implementation_id: root.id }, context, options)
-        }
+        },
+        weights: (root, params, context, options) => {
+            return getAll(WeightMongo, root, { weight_id: root.id }, context, options)
+        },
     },
     Project: {
         implementations: (root, params, context, options) => {
             return getAll(ImplementationMongo, root, { implementation_id: root.id }, context, options)
+        },
+        weights: (root, params, context, options) => {
+            return getAll(WeightMongo, root, { weight_id: root.id }, context, options)
         },
     },
     Meeting: {
