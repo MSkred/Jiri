@@ -39,6 +39,16 @@ export const resolvers = {
             return getAll(WeightMongo, root, params, context, options)
         },
     },
+    Mutation:{
+        changeUserName: (_, { user_id }) => {
+            const user = find(users, { id: user_id });
+            if(!user){
+                throw new Error('Il n y  a pas de user');
+            }
+            user.name = 'Skuuuuuurt';
+            return user;
+        },
+    },
     User: {
         events: (root, params, context, options) => {
             return getAll(EventMongo, root, { user_id: root.id  }, context, options)
