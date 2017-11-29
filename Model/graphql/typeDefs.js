@@ -96,4 +96,10 @@ export const typeDefs = `
         meetings(user_id: String): [Meeting]
         meetings(student_id: String): [Meeting]
     }
+
+    type Mutation {
+        changeUserName(
+            user_id: String!
+        ): User
+    }
 `;
