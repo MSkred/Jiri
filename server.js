@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import Vue from 'vue'
+
 import ApolloClient from 'apollo-client'
 import { HttpLink, InMemoryCache } from 'apollo-client-preset'
 import VueApollo from 'vue-apollo'
@@ -42,12 +42,6 @@ const apolloClient = new ApolloClient({
 
 const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
-})
-
-new Vue({
-    el: '#app',
-    apolloProvider,
-    render: h => h(App),
 })
 
 // bodyParser is needed just for POST.
