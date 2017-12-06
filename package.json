@@ -20,7 +20,8 @@
     "mongoose": "^4.13.4",
     "nanoid": "^1.0.1",
     "node-fetch": "^1.7.3",
-    "vue": "^2.5.9"
+    "vue": "^2.5.9",
+    "vue-apollo": "^3.0.0-alpha.2"
   },
   "devDependencies": {
     "babel": "^6.5.2",
