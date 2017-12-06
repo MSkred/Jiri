@@ -1,9 +1,3 @@
-import fetch from 'node-fetch';
-
-import ApolloClient from 'apollo-client'
-import { HttpLink, InMemoryCache } from 'apollo-client-preset'
-import VueApollo from 'vue-apollo'
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
@@ -33,24 +27,13 @@ db.once('open', () => {
 
 const app = express();
 
-// Create the apollo client
-const apolloClient = new ApolloClient({
-    link: new HttpLink({ uri: 'http://localhost:3000/graphql', fetch}),
-    cache: new InMemoryCache(),
-    connectToDevTools: true,
-});
-
-const apolloProvider = new VueApollo({
-    defaultClient: apolloClient,
-})
-
 // bodyParser is needed just for POST.
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: graphQLSchema }));
 app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html')
-})
+// app.get('/', (req, res) => {
+//     res.sendFile(__dirname + '/index.html')
+// })
 
 app.post('/addUser', (req, res) => {
     // Insert into USER Collection
