@@ -13,7 +13,7 @@ import Meeting from './Model/mongoose/meeting'
 import Implementation from './Model/mongoose/implementation'
 import Score from './Model/mongoose/score'
 import Weight from './Model/mongoose/weight'
-
+import cors from 'cors'
 const PORT = 3000;
 
 // Mongoose connect
@@ -28,6 +28,7 @@ db.once('open', () => {
 const app = express();
 
 // bodyParser is needed just for POST.
+app.use(cors());
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: graphQLSchema }));
 app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
 

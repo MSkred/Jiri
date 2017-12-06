@@ -1,24 +1,15 @@
 import Vue from 'vue'
 import {store} from './store'
-import App from './App.vue'
 import VueRouter from 'vue-router'
 import Routes from './routes'
-import fetch from 'node-fetch';
 import ApolloClient from 'apollo-client'
 import { HttpLink, InMemoryCache } from 'apollo-client-preset'
 import VueApollo from 'vue-apollo'
+import fetch from 'node-fetch'
 
-// Create the apollo client
-const apolloClient = new ApolloClient({
-    link: new HttpLink({ uri: 'http://localhost:3000/graphql', fetch }),
-    cache: new InMemoryCache(),
-    connectToDevTools: true,
-});
+import apolloProvider from './apollo'
 
-const apolloProvider = new VueApollo({
-    defaultClient: apolloClient,
-})
-
+import App from './App.vue'
 // Init router
 Vue.use(VueRouter)
 
