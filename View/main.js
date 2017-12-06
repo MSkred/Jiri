@@ -1,6 +1,8 @@
 import Vue from 'vue'
+import {store} from './store'
 import App from './App.vue'
 import VueRouter from 'vue-router'
+import Routes from './routes'
 import fetch from 'node-fetch';
 import ApolloClient from 'apollo-client'
 import { HttpLink, InMemoryCache } from 'apollo-client-preset'
@@ -17,8 +19,17 @@ const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
 })
 
+// Init router
+Vue.use(VueRouter)
+
+const router = new VueRouter({
+    routes: Routes
+})
+
 new Vue({
     el: '#app',
+    store,
     apolloProvider,
     render: h => h(App),
+    router,
 })
