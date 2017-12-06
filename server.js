@@ -2,7 +2,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import mongoose from 'mongoose'
-import nanoid from 'nanoid'
 
 import graphQLSchema from './Model/graphql/Schema'
 import User from './Model/mongoose/user'

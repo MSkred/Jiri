@@ -27,6 +27,7 @@
 <script>
 
 import VueApollo from 'vue-apollo'
+import nanoid from 'nanoid'
 
 // GraphQL Mutation with one parameter
 import { CREATE_USER_MUTATION } from './constants/UsersCreate.gql'
@@ -34,7 +35,7 @@ export default {
     name: 'add-user',
     data () {
       return {
-        id: '10',
+        id: nanoid(),
         is_admin: false,
         name: '',
         email: '',
