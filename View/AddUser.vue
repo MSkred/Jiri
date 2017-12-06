@@ -37,34 +37,33 @@ export default {
       return {
         id: nanoid(),
         is_admin: false,
-        name: '',
-        email: '',
-        password: '',
-        company: '',
+        name: null,
+        email: null,
+        password: null,
+        company: null,
         soft_delete: false,
       }
     },
-  methods: {
-      createUser(){
-          const { id, is_admin, name, email, password, company, soft_delete } = this;
-        console.log(this.$apollo)
-          this.$apollo.mutate({
-              mutation: CREATE_USER_MUTATION,
-              variables: {
-                id,
-                is_admin,
-                name,
-                email,
-                password,
-                company,
-                soft_delete
-              },
-          }).then(data => {
-              console.log('Done creation user.');
-          }).catch(error => {
-              console.log(error);
-          });
-      },
-  },
+    methods: {
+        createUser(){
+            const { id, is_admin, name, email, password, company, soft_delete } = this;
+            this.$apollo.mutate({
+                mutation: CREATE_USER_MUTATION,
+                variables: {
+                    id,
+                    is_admin,
+                    name,
+                    email,
+                    password,
+                    company,
+                    soft_delete
+                },
+            }).then(data => {
+                console.log('Done creation user.');
+            }).catch(error => {
+                console.log("---User creation failed " + error)
+            });
+        },
+    },
 };
 </script>
