@@ -98,8 +98,6 @@ export const typeDefs = `
     }
 
     type Mutation {
-        changeUserName(
-            user_id: String!
-        ): User
+        changeUserName(_id: String!): User
     }
 `;

@@ -40,13 +40,11 @@ export const resolvers = {
         },
     },
     Mutation:{
-        changeUserName: (_, { user_id }) => {
-            const user = find(users, { id: user_id });
-            if(!user){
-                throw new Error('Il n y  a pas de user');
-            }
-            user.name = 'Skuuuuuurt';
-            return user;
+        changeUserName: (root, { _id }, context, options ) => {
+            UserMongo.findByIdAndUpdate(_id, {$set: {name: 'bastien'}}, {new: true}, (err, user) => {
+                if (err) return console.log(err);
+                console.log(user);
+            })
         },
     },
     User: {
