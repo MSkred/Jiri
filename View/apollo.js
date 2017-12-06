@@ -4,11 +4,9 @@ import { HttpLink, InMemoryCache } from 'apollo-client-preset'
 import VueApollo from 'vue-apollo'
 import fetch from 'node-fetch';
 
-
-
 // Create the apollo client
 const apolloClient = new ApolloClient({
-    link: new HttpLink({ uri: 'http://127.0.0.1:3000/graphql' }),
+    link: new HttpLink({ uri: 'http://localhost:3000/graphql' }, fetch),
     cache: new InMemoryCache(),
     connectToDevTools: true,
 });
