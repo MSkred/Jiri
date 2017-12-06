@@ -99,5 +99,7 @@ export const typeDefs = `
 
     type Mutation {
         changeUserName(_id: String!): User
+        createUser(id: String!, is_admin: Boolean!, name: String!, email: String!, password: String!, company: String, soft_delete: Boolean!): User
     }
 `;
+

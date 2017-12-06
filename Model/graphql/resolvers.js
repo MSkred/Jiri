@@ -41,11 +41,19 @@ export const resolvers = {
     },
     Mutation:{
         changeUserName: (root, { _id }, context, options ) => {
-            UserMongo.findByIdAndUpdate(_id, {$set: {name: 'bastien'}}, {new: true}, (err, user) => {
+            UserMongo.findByIdAndUpdate(_id, {$set: {name: 'joe'}}, {new: true}, (err, user) => {
                 if (err) return console.log(err);
                 console.log(user);
             })
         },
+        createUser: (root, params, context, options) => {
+            var newUser = new UserMongo(params);
+
+            newUser.save((err, res) => {
+                if (err) { console.log("---User creation failed " + err) }
+                console.log("+++User creation successfully " + newUser.name)
+            })
+        },  
     },
     User: {
         events: (root, params, context, options) => {
