@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueRouter from 'vue-router'
 import fetch from 'node-fetch';
 import ApolloClient from 'apollo-client'
 import { HttpLink, InMemoryCache } from 'apollo-client-preset'

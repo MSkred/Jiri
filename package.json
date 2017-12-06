@@ -23,7 +23,8 @@
     "nanoid": "^1.0.1",
     "node-fetch": "^1.7.3",
     "vue": "^2.5.9",
-    "vue-apollo": "^3.0.0-alpha.2"
+    "vue-apollo": "^3.0.0-alpha.2",
+    "vue-router": "^3.0.1"
   },
   "browserslist": [
     "> 1%",
