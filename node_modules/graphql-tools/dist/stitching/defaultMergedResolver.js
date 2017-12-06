@@ -16,6 +16,10 @@ var defaultMergedResolver = function (parent, args, context, info) {
     }
     else if (parent) {
         var result = parent[responseKey];
+        // subscription result mapping
+        if (!result && parent.data && parent.data[responseKey]) {
+            result = parent.data[responseKey];
+        }
         if (errorResult.errors) {
             result = errors_1.annotateWithChildrenErrors(result, errorResult.errors);
         }

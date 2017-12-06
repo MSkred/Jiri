@@ -1,3 +1,7 @@
+import fetch from 'node-fetch';
+import ApolloClient from 'apollo-client'
+import { HttpLink, InMemoryCache } from 'apollo-client-preset'
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
@@ -26,6 +30,11 @@ db.once('open', () => {
 })
 
 const app = express();
+
+const client = new ApolloClient({
+    link: new HttpLink({ uri: 'http://localhost:3000/graphql', fetch}),
+    cache: new InMemoryCache()
+});
 
 // bodyParser is needed just for POST.
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: graphQLSchema }));
