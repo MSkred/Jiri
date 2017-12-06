@@ -18,6 +18,7 @@ export const typeDefs = `
         soft_delete: Boolean!
         implementations: [Implementation]
         meetings: [Meeting]
+        weights: [Weight]
     }
 
     type Event {
@@ -66,6 +67,7 @@ export const typeDefs = `
         value: Int
         project_id: [Project]
         event_id: [Event]
+        students: [Student]
     }
 
     type Implementation {
