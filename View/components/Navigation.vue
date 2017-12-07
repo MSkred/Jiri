@@ -3,6 +3,7 @@
       <router-link :to="{name :'home'}">Dashboard</router-link>
       <router-link :to="{name :'addUser'}">Ajouter un utilisateur</router-link>
       <router-link :to="{name :'addStudent'}">Ajouter un étudiant</router-link>
+      <router-link :to="{name :'login'}">Se connecter</router-link>
   </nav>
 </template>
 
