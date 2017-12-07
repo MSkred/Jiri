@@ -10,6 +10,9 @@
                 <label for="email">Email</label>
                 <input v-model="email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control">
             </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" @click="createStudent">Créer un étudiant</button>
+            </div>
       </div>
   </div>
 </template>
@@ -19,7 +22,16 @@
 import VueApollo from 'vue-apollo'
 import nanoid from 'nanoid'
 
+import { CREATE_STUDENT_MUTATION } from '../constants/StudentsCreate.gql'
 export default {
   name: 'add-student',
+  data(){
+      return{
+          id: nanoid(),
+          name: null,
+          email: null,
+          soft_delete: false,
+      }
+  }
 }
 </script>
