@@ -53,6 +53,14 @@ export const resolvers = {
                 if (err) { console.log("---User creation failed " + err) }
                 console.log("+++User creation successfully " + newUser.name)
             })
+        },
+        createStudent: (root, params, context, options) => {
+            var newStudent = new StudentMongo(params);
+
+            newStudent.save((err, res) => {
+                if (err) { console.log("---Student creation failed " + err) }
+                console.log("+++Student creation successfully " + newStudent.name)
+            })
         },  
     },
     User: {

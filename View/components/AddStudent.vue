@@ -32,6 +32,24 @@ export default {
           email: null,
           soft_delete: false,
       }
-  }
-}
+  },
+  methods: {
+      createStudent(){
+          const { id, name, email, soft_delete } = this;
+          this.$apollo.mutate({
+              mutation: CREATE_STUDENT_MUTATION,
+              variables: {
+                  id,
+                  name,
+                  email,
+                  soft_delete
+              },
+          }).then(data => {
+              console.log('Done student creation.');
+          }).catch(error => {
+              console.log('---Student creation failed' + error)
+          });
+      },
+  },
+};
 </script>
