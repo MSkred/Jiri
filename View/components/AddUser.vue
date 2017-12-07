@@ -30,7 +30,7 @@ import VueApollo from 'vue-apollo'
 import nanoid from 'nanoid'
 
 // GraphQL Mutation with one parameter
-import { CREATE_USER_MUTATION } from './constants/UsersCreate.gql'
+import { CREATE_USER_MUTATION } from '../constants/UsersCreate.gql'
 export default {
     name: 'add-user',
     data () {
