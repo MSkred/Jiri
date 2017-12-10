@@ -79,4 +79,3 @@ type Implementation @model {
     event: Event! @relation(name: "EventOnImplementation")
     scores: [Score!]! @relation(name: "ImplementationOnScore")
 }
-
