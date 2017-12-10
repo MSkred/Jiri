@@ -17,21 +17,35 @@
   </div>
 </template>
 <script>
-//import passport from 'passport';
-//let LocalStrategy = require('passport-local').Strategy;
-//import UserMongo from '../../Model/mongoose/user'
 
+import { LOGIN_USER_MUTATION } from '../constants/UsersLogin.gql'
 export default {
     name: 'login',
     data(){
         return{
-                email: null, 
-                password: null,
+            email: null, 
+            password: null,
         }
     },
     methods: {
         authentification(){
-            console.log('info')
+            const { email, password } = this;
+            this.$apollo.query({
+                query: LOGIN_USER_MUTATION,
+                variables: {
+                    email,
+                    password
+                },
+            }).then(data => {
+                console.log('Done recuperation user.');
+                if( data.data.User.password == this.password ){
+                    console.log('password good');
+                } else{
+                    console.log('password not good')
+                }
+            }).catch(error => {
+                console.log("---User recuperation failed " + error)
+            });
         }
     }
 }
