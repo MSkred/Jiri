@@ -28,17 +28,18 @@ export default {
       return{
           name: null,
           description: null, 
-          soft_delete: false,
+          softDelete: false,
       }
   },
   methods: {
       createProject(){
-          const { name, description } = this;
+          const { name, description, softDelete } = this;
           this.$apollo.mutate({
               mutation: CREATE_PROJECT_MUTATION,
               variables: {
                   name,
-                  description, 
+                  description,
+                  softDelete
               },
           }).then(data => {
               console.log('Done project creation.');
