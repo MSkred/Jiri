@@ -18,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label for="jury">Ajoutez des membres du jury</label>
-                <select v-model="jurys" name="jury" id="jury" >
+                <select v-model="currentJury" v-on:change="setJury" name="jury" id="jury">
                     <option v-for="user in allUsers" :value="user.id">{{user.name}}</option>
                 </select>
             </div>
@@ -41,6 +41,7 @@
 import VueApollo from 'vue-apollo'
 import nanoid from 'nanoid'
 
+import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
 import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 export default {
@@ -51,22 +52,24 @@ export default {
           academicYear: null,
           softDelete: false,
           authorId: "cjazgxq0mo64601002c9kc42z",
+          currentJury: null,
           allUsers: [],
           allStudents: [],
-          jurys: [],
+          jurysIds: [],
           students: [],
       }
   },
   methods: {
       createEvent(){
-          const { courseName, academicYear, softDelete, authorId } = this;
+          const { courseName, academicYear, softDelete, authorId, jurysIds } = this;
           this.$apollo.mutate({
               mutation: CREATE_EVENT_MUTATION,
               variables: {
                   courseName,
                   academicYear,
                   softDelete,
-                  authorId
+                  authorId,
+                  jurysIds,
               },
           }).then(data => {
               console.log('Done event creation.');
@@ -74,6 +77,9 @@ export default {
               console.log('---Event creation failed' + error)
           });
       },
+      setJury(){
+          this.jurysIds.push(this.currentJury);
+      }
   },
   created(){
       
@@ -88,8 +94,8 @@ export default {
 //      document.getElementById('academicYear').appendChild(opt);
 //     }
 
-        // Users query
         const { name, id } = this;
+        // Users query
         this.$apollo.query({
             query: ALL_USER_QUERY,
             variables: {
@@ -102,7 +108,6 @@ export default {
             console.log("---User recuperation failed " + error)
         });
         // Students query
-        //const { name, id } = this;
         this.$apollo.query({
             query: ALL_STUDENT_QUERY,
             variables: {
@@ -110,7 +115,6 @@ export default {
                 id
             }
         }).then(data => {
-            console.log(data.data.allStudents)
             this.allStudents = data.data.allStudents
         }).catch(error => {
             console.log("---User recuperation failed " + error)
