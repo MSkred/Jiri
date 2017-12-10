@@ -41,17 +41,19 @@ export default {
           courseName: null,
           academicYear: null,
           softDelete: false,
+          authorId: "cjazgxq0mo64601002c9kc42z",
       }
   },
   methods: {
       createEvent(){
-          const { name, email, softDelete } = this;
+          const { courseName, academicYear, softDelete, authorId } = this;
           this.$apollo.mutate({
-              mutation: CREATE_STUDENT_MUTATION,
+              mutation: CREATE_EVENT_MUTATION,
               variables: {
                   courseName,
                   academicYear,
-                  softDelete
+                  softDelete,
+                  authorId
               },
           }).then(data => {
               console.log('Done event creation.');
