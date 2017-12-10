@@ -1,0 +1,11 @@
+import gql from 'graphql-tag'
+
+export const LOGIN_USER_MUTATION = gql `
+    query User($email: String!){
+    User(email: $email) {
+        id
+        name
+        email
+        password
+    }}
+`;
