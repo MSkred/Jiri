@@ -27,22 +27,20 @@ export default {
   name: 'add-student',
   data(){
       return{
-          id: nanoid(),
           name: null,
           email: null,
-          soft_delete: false,
+          softDelete: false,
       }
   },
   methods: {
       createStudent(){
-          const { id, name, email, soft_delete } = this;
+          const { name, email, softDelete } = this;
           this.$apollo.mutate({
               mutation: CREATE_STUDENT_MUTATION,
               variables: {
-                  id,
                   name,
                   email,
-                  soft_delete
+                  softDelete
               },
           }).then(data => {
               console.log('Done student creation.');

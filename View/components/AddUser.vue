@@ -45,7 +45,7 @@ export default {
     },
     methods: {
         createUser(){
-            const { id, isAdmin, name, email, password, company, softDelete } = this;
+            const { isAdmin, name, email, password, company, softDelete } = this;
             this.$apollo.mutate({
                 mutation: CREATE_USER_MUTATION,
                 variables: {
