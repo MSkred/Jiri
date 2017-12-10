@@ -18,8 +18,14 @@
             </div>
             <div class="form-group">
                 <label for="jury">Ajoutez des membres du jury</label>
-                <select v-model="jury" name="jury" id="jury" >
+                <select v-model="jurys" name="jury" id="jury" >
                     <option v-for="user in allUsers" :value="user.id">{{user.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="jury">Ajoutez des étudiants</label>
+                <select v-model="students" name="student" id="student" >
+                    <option v-for="student in allStudents" :value="student.id">{{student.name}}</option>
                 </select>
             </div>
             <div class="form-group">
@@ -36,6 +42,7 @@ import VueApollo from 'vue-apollo'
 import nanoid from 'nanoid'
 
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
+import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 export default {
   name: 'add-event',
   data(){
@@ -45,7 +52,9 @@ export default {
           softDelete: false,
           authorId: "cjazgxq0mo64601002c9kc42z",
           allUsers: [],
-          jury: [],
+          allStudents: [],
+          jurys: [],
+          students: [],
       }
   },
   methods: {
@@ -78,19 +87,34 @@ export default {
 //     opt.innerHTML = (i-1) + ' - ' + (i);
 //      document.getElementById('academicYear').appendChild(opt);
 //     }
-    const { name, id } = this;
-  this.$apollo.query({
-      query: ALL_USER_QUERY,
-      variables: {
-          name,
-          id
-      }
-    }).then(data => {
-        console.log(data.data.allUsers)
-        this.allUsers = data.data.allUsers
-    }).catch(error => {
-        console.log("---User recuperation failed " + error)
-    });
-  }
+
+        // Users query
+        const { name, id } = this;
+        this.$apollo.query({
+            query: ALL_USER_QUERY,
+            variables: {
+                name,
+                id
+            }
+        }).then(data => {
+            this.allUsers = data.data.allUsers
+        }).catch(error => {
+            console.log("---User recuperation failed " + error)
+        });
+        // Students query
+        //const { name, id } = this;
+        this.$apollo.query({
+            query: ALL_STUDENT_QUERY,
+            variables: {
+                name,
+                id
+            }
+        }).then(data => {
+            console.log(data.data.allStudents)
+            this.allStudents = data.data.allStudents
+        }).catch(error => {
+            console.log("---User recuperation failed " + error)
+        });
+    }
 };
 </script>
