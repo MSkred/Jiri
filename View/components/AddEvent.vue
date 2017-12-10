@@ -17,6 +17,12 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="jury">Ajoutez des membres du jury</label>
+                <select v-model="jury" name="jury" id="jury" >
+                    <option v-for="user in allUsers" :value="user.id">{{user.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <button type="submit" class="btn btn-primary" @click="createEvent">Créer un événement</button>
             </div>
       </div>
@@ -25,21 +31,11 @@
 
 <script>
 
-// var min = new Date().getFullYear(),
-//     max = new Date().getFullYear()+10;
-
-// for (var i = min; i<=max; i++){
-//     var select = document.getElementById('academicYear');
-//     var opt = document.createElement('option');
-//     opt.value = i;
-//     opt.innerHTML = (i-1) + ' - ' + (i);
-//      document.getElementById('academicYear').appendChild(opt);
-//     }
 
 import VueApollo from 'vue-apollo'
 import nanoid from 'nanoid'
 
-import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
+import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
 export default {
   name: 'add-event',
   data(){
@@ -48,6 +44,8 @@ export default {
           academicYear: null,
           softDelete: false,
           authorId: "cjazgxq0mo64601002c9kc42z",
+          allUsers: [],
+          jury: [],
       }
   },
   methods: {
@@ -68,5 +66,31 @@ export default {
           });
       },
   },
+  created(){
+      
+// var min = new Date().getFullYear(),
+//     max = new Date().getFullYear()+10;
+
+// for (var i = min; i<=max; i++){
+//     var select = document.getElementById('academicYear');
+//     var opt = document.createElement('option');
+//     opt.value = i;
+//     opt.innerHTML = (i-1) + ' - ' + (i);
+//      document.getElementById('academicYear').appendChild(opt);
+//     }
+    const { name, id } = this;
+  this.$apollo.query({
+      query: ALL_USER_QUERY,
+      variables: {
+          name,
+          id
+      }
+    }).then(data => {
+        console.log(data.data.allUsers)
+        this.allUsers = data.data.allUsers
+    }).catch(error => {
+        console.log("---User recuperation failed " + error)
+    });
+  }
 };
 </script>

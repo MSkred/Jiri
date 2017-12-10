@@ -31,7 +31,7 @@ export default {
         authentification(){
             const { email, password } = this;
             this.$apollo.query({
-                query: LOGIN_USER_MUTATION,
+                query: LOGIN_USER_QUERY,
                 variables: {
                     email,
                     password
