@@ -17,17 +17,42 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="jury">Ajoutez des membres du jury</label>
-                <select v-model="currentJury" v-on:change="setJury" name="jury" id="jury">
-                    <option v-for="user in allUsers" :value="user.id">{{user.name}}</option>
-                </select>
-                <button type="submit" class="btn btn-primary">Ajouter un nouveau jury</button>
-            </div>
+                <div>
+                    <label for="jury">Ajoutez des membres du jury</label>
+                    <ul>
+                        <li v-for="(jury, key) in jurys" :value="jury.id" :id="key">
+                            {{jury.name}}
+                            <button type="submit" class="btn btn-primary" :id="key" v-on:click="addJury(key)">+</button>
+                        </li>
+                    </ul>
+                </div>
+                <div v-if="eventJurys">
+                    <label for="jury">Membres du jury</label>
+                    <ul>
+                        <li v-for="(jury, key) in eventJurys" :value="jury.id" :id="key">
+                            {{jury.name}}
+                            <button type="submit" class="btn btn-danger" :id="key">-</button>
+                        </li>
+                    </ul>
+                </div>
+            </div> 
             <div class="form-group">
-                <label for="jury">Ajoutez des étudiants</label>
-                <select v-model="students" name="student" id="student" >
-                    <option v-for="student in allStudents" :value="student.id">{{student.name}}</option>
-                </select>
+                <label for="jury">Membres du jury validé</label>
+                <ul>
+                    <li v-for="(user, key) in students" :id="key" :value="user.id">
+                        {{user.name}}
+                        <button type="submit" class="btn btn-primary" @click="addStudent(key)">+</button>
+                    </li>
+                </ul>
+            </div>
+            <div v-if="eventJurys">
+                <label for="jury">Etudiant du jury</label>
+                <ul>
+                    <li v-for="(jury, key) in eventStudents" :value="jury.id" :id="key">
+                        {{jury.name}}
+                        <button type="submit" class="btn btn-danger" :id="key" v-on:click="removeStudent(key)">-</button>
+                    </li>
+                </ul>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary" @click="createEvent">Créer un événement</button>
@@ -39,62 +64,56 @@
 <script>
 
 
-import VueApollo from 'vue-apollo'
 import nanoid from 'nanoid'
-
-import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
+import {mapGetters, mapMutations} from 'vuex'
+// import VueApollo from 'vue-apollo'
+ 
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
+import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
 import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 export default {
-  name: 'add-event',
-  data(){
-      return{
-          courseName: null,
-          academicYear: null,
-          softDelete: false,
-          authorId: "cjazgxq0mo64601002c9kc42z",
-          currentJury: null,
-          allUsers: [],
-          allStudents: [],
-          jurysIds: [],
-          students: [],
-      }
-  },
-  methods: {
-      createEvent(){
-          const { courseName, academicYear, softDelete, authorId, jurysIds } = this;
-          this.$apollo.mutate({
-              mutation: CREATE_EVENT_MUTATION,
-              variables: {
-                  courseName,
-                  academicYear,
-                  softDelete,
-                  authorId,
-                  jurysIds,
-              },
-          }).then(data => {
-              console.log('Done event creation.');
-          }).catch(error => {
-              console.log('---Event creation failed' + error)
-          });
-      },
-      setJury(){
-          this.jurysIds.push(this.currentJury);
-      }
-  },
-  created(){
-      
-// var min = new Date().getFullYear(),
-//     max = new Date().getFullYear()+10;
-
-// for (var i = min; i<=max; i++){
-//     var select = document.getElementById('academicYear');
-//     var opt = document.createElement('option');
-//     opt.value = i;
-//     opt.innerHTML = (i-1) + ' - ' + (i);
-//      document.getElementById('academicYear').appendChild(opt);
-//     }
-
+    name: 'add-event',
+    data(){
+        return{
+            courseName: null,
+            academicYear: null,
+            softDelete: false,
+        }
+    },
+    computed:{
+        ...mapGetters([
+            'jurys',
+            'students',
+            'eventJurys',
+            'eventStudents',
+        ]),
+    },
+    methods: {
+        createEvent(){
+            const { courseName, academicYear, softDelete, authorId, jurysIds } = this;
+            this.$apollo.mutate({
+                mutation: CREATE_EVENT_MUTATION,
+                variables: {
+                    courseName,
+                    academicYear,
+                    softDelete,
+                    authorId,
+                    jurysIds,
+                },
+            }).then(data => {
+                console.log('Done event creation.');
+            }).catch(error => {
+                console.log('---Event creation failed' + error)
+            });
+        },
+        ...mapMutations([
+            'addJury',
+            'addStudent',
+            'removeStudent'
+        ]),
+    },
+    created(){
+        
         const { name, id } = this;
         // Users query
         this.$apollo.query({
@@ -105,9 +124,11 @@ export default {
             }
         }).then(data => {
             this.allUsers = data.data.allUsers
+            this.$store.commit('jurys', this.allUsers, {root: true})
         }).catch(error => {
             console.log("---User recuperation failed " + error)
         });
+
         // Students query
         this.$apollo.query({
             query: ALL_STUDENT_QUERY,
@@ -117,9 +138,11 @@ export default {
             }
         }).then(data => {
             this.allStudents = data.data.allStudents
+            this.$store.commit('allStudents', this.allStudents, {root: true})
         }).catch(error => {
             console.log("---User recuperation failed " + error)
         });
+        
     }
 };
 </script>
