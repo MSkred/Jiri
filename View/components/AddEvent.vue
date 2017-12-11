@@ -33,7 +33,29 @@
                         <li v-for="(jury, key) in eventJurys" :value="jury.id" :key="jury.id">
                             {{jury.name}}
                             {{key}}
-                            <button type="submit" class="btn btn-danger" :id="key" v-on:click="removeJury(key)">-</button>
+                            <button type="submit" class="btn btn-danger" v-on:click="removeJury(key)">-</button>
+                        </li>
+                    </ul>
+                </div>
+            </div> 
+            <div class="form-group">
+                <div>
+                    <label for="jury">Ajoutez des étudiants</label>
+                    <ul>
+                        <li v-for="(jury, key) in students" :value="jury.id" :key="jury.id">
+                            {{jury.name}}
+                            {{key}}
+                            <button type="submit" class="btn btn-primary" v-on:click="addStudent(key)">+</button>
+                        </li>
+                    </ul>
+                </div>
+                <div v-if="eventJurys">
+                    <label for="jury">Étudiants</label>
+                    <ul>
+                        <li v-for="(jury, key) in eventStudents" :value="jury.id" :key="jury.id">
+                            {{jury.name}}
+                            {{key}}
+                            <button type="submit" class="btn btn-danger" :id="key" v-on:click="removeStudent(key)">-</button>
                         </li>
                     </ul>
                 </div>
@@ -123,7 +145,7 @@ export default {
             }
         }).then(data => {
             this.allStudents = data.data.allStudents
-            this.$store.commit('allStudents', this.allStudents, {root: true})
+            this.$store.commit('students', this.allStudents, {root: true})
         }).catch(error => {
             console.log("---User recuperation failed " + error)
         });
