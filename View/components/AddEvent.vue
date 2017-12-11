@@ -21,6 +21,7 @@
                 <select v-model="currentJury" v-on:change="setJury" name="jury" id="jury">
                     <option v-for="user in allUsers" :value="user.id">{{user.name}}</option>
                 </select>
+                <button type="submit" class="btn btn-primary">Ajouter un nouveau jury</button>
             </div>
             <div class="form-group">
                 <label for="jury">Ajoutez des étudiants</label>
