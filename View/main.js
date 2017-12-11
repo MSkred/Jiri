@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import {store} from './store'
 import VueRouter from 'vue-router'
 import Routes from './routes'
 import apolloProvider from './apollo'
@@ -13,7 +12,6 @@ const router = new VueRouter({
 
 new Vue({
     el: '#app',
-    store,
     apolloProvider,
     render: h => h(App),
     router,
