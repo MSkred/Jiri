@@ -20,40 +20,24 @@
                 <div>
                     <label for="jury">Ajoutez des membres du jury</label>
                     <ul>
-                        <li v-for="(jury, key) in jurys" :value="jury.id" :id="key">
+                        <li v-for="(jury, key) in jurys" :value="jury.id" :key="jury.id">
                             {{jury.name}}
-                            <button type="submit" class="btn btn-primary" :id="key" v-on:click="addJury(key)">+</button>
+                            {{key}}
+                            <button type="submit" class="btn btn-primary" v-on:click="addJury(key)">+</button>
                         </li>
                     </ul>
                 </div>
                 <div v-if="eventJurys">
                     <label for="jury">Membres du jury</label>
                     <ul>
-                        <li v-for="(jury, key) in eventJurys" :value="jury.id" :id="key">
+                        <li v-for="(jury, key) in eventJurys" :value="jury.id" :key="jury.id">
                             {{jury.name}}
-                            <button type="submit" class="btn btn-danger" :id="key">-</button>
+                            {{key}}
+                            <button type="submit" class="btn btn-danger" :id="key" v-on:click="removeJury(key)">-</button>
                         </li>
                     </ul>
                 </div>
             </div> 
-            <div class="form-group">
-                <label for="jury">Membres du jury validé</label>
-                <ul>
-                    <li v-for="(user, key) in students" :id="key" :value="user.id">
-                        {{user.name}}
-                        <button type="submit" class="btn btn-primary" @click="addStudent(key)">+</button>
-                    </li>
-                </ul>
-            </div>
-            <div v-if="eventJurys">
-                <label for="jury">Etudiant du jury</label>
-                <ul>
-                    <li v-for="(jury, key) in eventStudents" :value="jury.id" :id="key">
-                        {{jury.name}}
-                        <button type="submit" class="btn btn-danger" :id="key" v-on:click="removeStudent(key)">-</button>
-                    </li>
-                </ul>
-            </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary" @click="createEvent">Créer un événement</button>
             </div>
@@ -109,7 +93,8 @@ export default {
         ...mapMutations([
             'addJury',
             'addStudent',
-            'removeStudent'
+            'removeStudent',
+            'removeJury'
         ]),
     },
     created(){

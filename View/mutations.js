@@ -7,7 +7,7 @@ export const mutations = {
             newJury.push(eventJurys);
         });
         state.jurys = newJury;
-        //return state.jurys;
+        return state.jurys;
     },
     allStudents(state, key) {
         state.students = key;
@@ -16,10 +16,18 @@ export const mutations = {
         state.jurys[key].event = true;
 
         if (state.jurys[key].event == true) {
+            state.eventJurys.push(state.jurys[key])    
             state.jurys.splice(key, 1)
         }
-        state.eventJurys.push(state.jurys[key])    
         return state.eventJurys
+    },
+    removeJury(state, key) {
+        state.jurys[key].event = false;
+        if (state.jurys[key].event == false) {
+            state.jurys.push(state.eventJurys[key])
+            state.eventJurys.splice(key, 1)
+        }
+        return state.jurys
     },
     addStudent(state, key) {
         state.eventStudents.push(state.students[key])
