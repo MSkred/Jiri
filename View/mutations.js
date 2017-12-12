@@ -55,6 +55,28 @@ export const mutations = {
         }
         return state.eventStudents
     },
+    addProject(state, key){
+        if(!state.projects[key].event){
+            state.projects[key].event = true;
+            state.eventProjects.push(state.projects[key]);
+            return state.eventProjects
+        }
+
+    },
+    removeProject(state, key){
+           if (state.projects[key].event) {
+            state.projects[key].event = false;
+        }
+        var i = 0;
+        state.eventProjects.forEach(project => {
+            if(!project.event){
+                state.eventProjects.splice(i, 1)
+                console.log(i);
+            }
+            i++;
+        });
+        return state.eventProjects
+    },
     removeStudent(state, key) {
         state.eventStudents[key].event = false;
         if (state.eventStudents[key].event == false) {

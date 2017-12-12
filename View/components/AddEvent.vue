@@ -40,17 +40,17 @@
                 <div>
                     <label for="jury">Ajoutez des étudiants</label>
                     <ul>
-                        <li v-for="(jury, key) in students" :value="jury.id" :key="jury.id">
-                            {{jury.name}}
+                        <li v-for="(student, key) in students" :value="student.id" :key="student.id">
+                            {{student.name}}
                             <button type="submit" class="btn btn-primary" v-on:click="addStudent(key)">+</button>
                         </li>
                     </ul>
                 </div>
-                <div v-if="eventJurys">
-                    <label for="jury">Étudiants</label>
+                <div v-if="eventStudents >= [0]">
+                    <label for="jury">Étudiant(es) ajouté à l'événement</label>
                     <ul>
-                        <li v-for="(jury, key) in eventStudents" :value="jury.id" :key="jury.id">
-                            {{jury.name}}
+                        <li v-for="(student, key) in eventStudents" :value="student.id" :key="student.id">
+                            {{student.name}}
                             <button type="submit" class="btn btn-danger" v-on:click="removeStudent(key)">-</button>
                         </li>
                     </ul>
@@ -59,7 +59,11 @@
             <div class="form-group">
                 <label for="project">Sélectionnez les projets</label>
                 <label v-for="(project, key) in projects" :value="project.id" :key="project.id" class="form-check">
-                    <input type="checkbox" class="form-check-input"> {{project.name}}</input>
+                    <!--Add project -->
+                    <input v-if="!project.event" v-model="project.event" @click="addProject(key)" type="checkbox" class="form-check-input"></input>
+                    
+                    <!--Delete project -->
+                    <input v-if="project.event" v-model="project.event" @click="removeProject(key)" type="checkbox" class="form-check-input">{{project.name}}</input>
                 </label>
             </div>
             <div class="form-group">
@@ -120,8 +124,10 @@ export default {
         ...mapMutations([
             'addJury',
             'addStudent',
+            'addProject',
             'removeStudent',
-            'removeJury'
+            'removeJury',
+            'removeProject'
         ]),
     },
     created(){
