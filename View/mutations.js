@@ -64,7 +64,7 @@ export const mutations = {
 
     },
     removeProject(state, key){
-           if (state.projects[key].event) {
+        if (state.projects[key].event) {
             state.projects[key].event = false;
         }
         var i = 0;

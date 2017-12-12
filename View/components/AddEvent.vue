@@ -2,10 +2,13 @@
   <div>
       <div class="container">
       <h1>Ajouter un événement</h1>
+      
+            <!-- Name event -->
             <div class="form-group">
                 <label for="courseName">Nom de l'événement</label>
                 <input v-model="courseName" type="text" id="courseName" name="courseName" placeholder="Écrivez le nom" class="form-control">
             </div>
+            <!-- Year event -->
             <div class="form-group">
                 <label for="academicYear">Sélectionnez l'année académique</label>
                 <select v-model="academicYear" name="academicYear" id="academicYear" class="form-control">
@@ -16,6 +19,7 @@
                     <option value="2021">2021 - 2022</option>
                 </select>
             </div>
+            <!-- Add & remove jury event -->
             <div class="form-group">
                 <div>
                     <label for="jury">Ajoutez des membres du jury</label>
@@ -36,6 +40,7 @@
                     </ul>
                 </div>
             </div> 
+            <!-- Add & remove student event -->
             <div class="form-group">
                 <div>
                     <label for="jury">Ajoutez des étudiants</label>
@@ -56,6 +61,7 @@
                     </ul>
                 </div>
             </div> 
+            <!-- Add & remove project event -->
             <div class="form-group">
                 <label for="project">Sélectionnez les projets</label>
                 <label v-for="(project, key) in projects" :value="project.id" :key="project.id" class="form-check">
@@ -65,6 +71,27 @@
                     <!--Delete project -->
                     <input v-if="project.event" v-model="project.event" @click="removeProject(key)" type="checkbox" class="form-check-input">{{project.name}}</input>
                 </label>
+            </div>
+            <!-- Validate event -->
+            <div class="form-group">
+                <li>
+                    Nom: {{courseName}}
+                </li>
+                <li>
+                    Année: {{academicYear}}
+                </li>
+                <ul>Jurys:
+                    <li v-for="(jury, key) in eventJurys">
+                        {{jury.name}}
+                    </li>
+                    <li v-if="eventJurys <= [0]">Pas de jurys</li>
+                </ul>
+                <ul>Étudiants:
+                    <li v-for="(student, key) in eventStudents">
+                        {{student.name}}
+                    </li>
+                    <li v-if="eventStudents <= [0]">Pas d'étudiants</li>
+                </ul>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary" @click="createEvent">Créer un événement</button>
