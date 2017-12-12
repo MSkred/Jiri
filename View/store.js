@@ -7,7 +7,6 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        authorId: "cjazgxq0mo64601002c9kc42z",
         jurys: [],
         students: [],
         projects: [],

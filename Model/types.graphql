@@ -8,7 +8,8 @@ type User @model {
     softDelete: Boolean!
     events: [Event!]! @relation(name: "UserOnEvent")
     meetings: [Meeting!]! @relation(name: "UserOnMeeting")
-    juryEvent: [Event!]! @relation(name: "EventOnJury")
+
+    jurysEvent: [Event!]! @relation(name: "EventOnJury")
 }
 
 type Student @model {
@@ -18,6 +19,8 @@ type Student @model {
     softDelete: Boolean!
     implementations: [Implementation!]! @relation(name: "StudentOnImplementation")
     meetings: [Meeting!]! @relation(name: "StudentOnMeeting")
+    
+    studentsEvent: [Event!]! @relation(name: "EventOnStudent")
 }
 
 type Event @model {
@@ -25,11 +28,14 @@ type Event @model {
     courseName: String!
     academicYear: String!
     softDelete: Boolean!
-    author: User! @relation(name: "UserOnEvent")
-    jurys: [User!]! @relation(name: "EventOnJury")
     meetings: [Meeting!]! @relation(name: "EventOnMeeting")
     implementations: [Implementation!]! @relation(name: "EventOnImplementation")
     weights: [Weight!]! @relation(name: "EventOnWeight")
+
+    author: User! @relation(name: "UserOnEvent")
+    jurys: [User!]! @relation(name: "EventOnJury")
+    students: [Student!]! @relation(name: "EventOnStudent")
+    projects: [Project!]! @relation(name: "EventOnProject")
 }
 
 type Project @model {
@@ -39,6 +45,8 @@ type Project @model {
     softDelete: Boolean!
     implementations: [Implementation!]! @relation(name: "ProjectOnImplementation")
     weights: [Weight!]! @relation(name: "ProjectOnWeight")
+
+    projectsEvent: [Event!]! @relation(name: "EventOnProject")    
 }
 
 type Meeting @model {

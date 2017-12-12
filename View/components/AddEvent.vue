@@ -33,7 +33,7 @@
             <ul>
                 <li v-for="(jury, key) in jurys" :value="jury.id" :key="jury.id">
                     {{jury.name}}
-                    <button type="submit" class="btn btn-primary" v-on:click="addJury(key)">+</button>
+                    <button class="btn btn-primary" v-on:click.prevent="addJury(key)">+</button>
                 </li>
             </ul>
         </div>
@@ -42,7 +42,7 @@
             <ul>
                 <li v-for="(jury, key) in eventJurys" :value="jury.id" :key="jury.id">
                     {{jury.name}}
-                    <button type="submit" class="btn btn-danger" v-on:click="removeJury(key)">-</button>
+                    <button class="btn btn-danger" v-on:click.prevent="removeJury(key)">-</button>
                 </li>
             </ul>
         </div>
@@ -57,7 +57,7 @@
             <ul>
                 <li v-for="(student, key) in students" :value="student.id" :key="student.id">
                     {{student.name}}
-                    <button type="submit" class="btn btn-primary" v-on:click="addStudent(key)">+</button>
+                    <button type="submit" class="btn btn-primary" v-on:click.prevent="addStudent(key)">+</button>
                 </li>
             </ul>
         </div>
@@ -66,7 +66,7 @@
             <ul>
                 <li v-for="(student, key) in eventStudents" :value="student.id" :key="student.id">
                     {{student.name}}
-                    <button type="submit" class="btn btn-danger" v-on:click="removeStudent(key)">-</button>
+                    <button type="submit" class="btn btn-danger" v-on:click.prevent="removeStudent(key)">-</button>
                 </li>
             </ul>
         </div>
@@ -79,10 +79,10 @@
         <label for="project">Sélectionnez les projets</label>
         <label v-for="(project, key) in projects" :value="project.id" :key="project.id" class="form-check">
             <!--Add project -->
-            <input v-if="!project.event" v-model="project.event" @click="addProject(key)" type="checkbox" class="form-check-input"></input>
+            <input v-if="!project.event" v-model="project.event" @click.prevent="addProject(key)" type="checkbox" class="form-check-input"></input>
         
             <!--Delete project -->
-            <input v-if="project.event" v-model="project.event" @click="removeProject(key)" type="checkbox" class="form-check-input">{{project.name}}</input>
+            <input v-if="project.event" v-model="project.event" @click.prevent="removeProject(key)" type="checkbox" class="form-check-input">{{project.name}}</input>
         </label>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
         <input type="button" name="next" class="next action-button" value="Next" />
@@ -117,7 +117,7 @@
             </ul>
         </div>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
-        <input type="submit" name="submit" class="submit action-button" value="Submit" />
+        <input type="submit" name="submit" class="submit action-button" @click.prevent="createEvent" value="Créez l'événement" />
     </fieldset>
 </form>
       </div>
@@ -135,13 +135,18 @@ import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
 import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
 import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
+var _ = require('lodash');
 export default {
     name: 'add-event',
     data(){
         return{
             courseName: null,
             academicYear: null,
-            softDelete: false,
+            softDelete: false,       
+            authorId: "cjazgxq0mo64601002c9kc42z",
+            jurysIds: [],
+            studentsIds: [],
+            projectsIds: [],
         }
     },
     computed:{
@@ -156,7 +161,32 @@ export default {
     },
     methods: {
         createEvent(){
-            const { courseName, academicYear, softDelete, authorId, jurysIds } = this;
+            
+            // Push ID on project in new array
+            var iP = 0;
+            while (iP < this.$store.getters.eventProjects.length) {
+                var project =_.toArray(this.$store.getters.eventProjects[iP]);
+                var projectId = project[1];
+                this.projectsIds.push(projectId);
+                iP++;
+            }
+            // Push ID on student in new array
+            var iS = 0;
+            while (iS < this.$store.getters.eventStudents.length) {
+                var student =_.toArray(this.$store.getters.eventStudents[iS]);
+                var studentId = student[1];
+                this.studentsIds.push(studentId);
+                iS++;
+            }
+            // Push ID on project in new array
+            var iJ = 0;
+            while (iJ < this.$store.getters.eventJurys.length) {
+                var jury =_.toArray(this.$store.getters.eventJurys[iJ]);
+                var juryId = jury[1];
+                this.jurysIds.push(juryId);
+                iJ++;
+            }
+            const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
             this.$apollo.mutate({
                 mutation: CREATE_EVENT_MUTATION,
                 variables: {
@@ -165,6 +195,8 @@ export default {
                     softDelete,
                     authorId,
                     jurysIds,
+                    studentsIds,
+                    projectsIds,
                 },
             }).then(data => {
                 console.log('Done event creation.');
