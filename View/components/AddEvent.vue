@@ -71,8 +71,9 @@ import {mapGetters, mapMutations} from 'vuex'
 // import VueApollo from 'vue-apollo'
  
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
-import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
 import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
+import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
+import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
 export default {
     name: 'add-event',
     data(){
@@ -86,8 +87,10 @@ export default {
         ...mapGetters([
             'jurys',
             'students',
+            'projects',
             'eventJurys',
             'eventStudents',
+            'eventProjects',
         ]),
     },
     methods: {
@@ -142,6 +145,20 @@ export default {
         }).then(data => {
             this.allStudents = data.data.allStudents
             this.$store.commit('students', this.allStudents, {root: true})
+        }).catch(error => {
+            console.log("---User recuperation failed " + error)
+        });
+
+        // Projects query
+        this.$apollo.query({
+            query: ALL_PROJECT_QUERY,
+            variables: {
+                name,
+                id
+            }
+        }).then(data => {
+            this.allProjects = data.data.allProjects
+            this.$store.commit('projects', this.allProjects, {root: true})
         }).catch(error => {
             console.log("---User recuperation failed " + error)
         });

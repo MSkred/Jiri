@@ -19,6 +19,16 @@ export const mutations = {
         state.students = newStudent;
         return state.students;
     },
+    projects(state, key) {
+        state.projects = key;
+        var newProject = [];
+        state.projects.forEach((project) => {
+            var eventProject = Object.assign({ event: false }, project);
+            newProject.push(eventProject);
+        });
+        state.projects = newProject;
+        return state.projects;
+    },
     addJury(state, key){
         state.jurys[key].event = true;
 
