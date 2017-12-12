@@ -57,6 +57,12 @@
                 </div>
             </div> 
             <div class="form-group">
+                <label for="project">Sélectionnez les projets</label>
+                <label v-for="(project, key) in projects" :value="project.id" :key="project.id" class="form-check">
+                    <input type="checkbox" class="form-check-input"> {{project.name}}</input>
+                </label>
+            </div>
+            <div class="form-group">
                 <button type="submit" class="btn btn-primary" @click="createEvent">Créer un événement</button>
             </div>
       </div>
