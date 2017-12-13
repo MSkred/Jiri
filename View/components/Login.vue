@@ -11,28 +11,46 @@
                 <input v-model="password" type="password" id="password" name="password" placeholder="Écrivez le mot de passe" class="form-control">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" @click="authentification">Créer un utilisateur</button>
+                <button type="submit" class="btn btn-primary" @click="authentification">Se connecter</button>
             </div>
       </div>
   </div>
 </template>
 <script>
-//import passport from 'passport';
-//let LocalStrategy = require('passport-local').Strategy;
-//import UserMongo from '../../Model/mongoose/user'
 
+import VueApollo from 'vue-apollo'
+import { LOGIN_USER_MUTATION } from '../constants/UsersLogin.gql'
+import {mapGetters, mapMutations} from 'vuex'
 export default {
     name: 'login',
     data(){
         return{
-                email: null, 
-                password: null,
+            email: null, 
+            password: null,
         }
     },
     methods: {
         authentification(){
-            console.log('info')
+            const { email, password } = this;
+            this.$apollo.mutate({
+                mutation: LOGIN_USER_MUTATION,
+                variables: {
+                    email,
+                    password,
+                },
+            }).then(data => {
+              console.log('Authentification succes');
+              // Post user token and id in localStorage
+              localStorage.setItem('graphcoolToken', data.data.authenticateUser.token)
+              localStorage.setItem('graphcoolId', data.data.authenticateUser.id)
+              // Redirect to home
+              this.$router.push({ name: 'home'})
+              // Reload the page
+              window.location.reload()
+            }).catch(error => {
+                console.log('---Authentification failed' + error)
+            });
         }
-    }
+    },
 }
 </script>

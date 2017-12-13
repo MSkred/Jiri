@@ -5,8 +5,13 @@
 </template>
 
 
-<script>
+<script>  
+import VueApollo from 'vue-apollo'
+
 export default {
   name: 'home',
+  methods: {
+     
+  }
 }
 </script>

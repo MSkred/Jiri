@@ -6,7 +6,14 @@ import { mutations } from './mutations.js'
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
-    state: {},
+    state: {
+        jurys: [],
+        students: [],
+        projects: [],
+        eventJurys: [],
+        eventStudents: [],
+        eventProjects: [],
+    },
     getters,
     mutations,
 })
