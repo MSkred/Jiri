@@ -16,6 +16,7 @@
     "@types/validator": "^6.3.0",
     "apollo-client": "^2.1.0",
     "apollo-client-preset": "^1.0.4",
+    "apollo-link": "^1.0.6",
     "apollo-server-express": "^1.2.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.15.2",

@@ -1,0 +1,9 @@
+import gql from 'graphql-tag'
+
+export const LOGGEDIN_USER_QUERY  = gql`
+  query LoggedInUser {
+    loggedInUser {
+      id
+    }
+  }
+`

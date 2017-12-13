@@ -29,11 +29,6 @@ export default {
             password: null,
         }
     },
-    computed:{
-            ...mapGetters([
-                'userDatas',
-            ]),
-    },
     methods: {
         ...mapMutations([
             'setUserDatasInState',
@@ -48,21 +43,13 @@ export default {
                 },
             }).then(data => {
               console.log('Login succes');
-              this.$store.state.userDatas = [];
-              this.$store.state.userDatas.push(data.data.authenticateUser.id);
-              this.$store.state.userDatas.push(data.data.authenticateUser.token);
-              localStorage.setItem('datas', JSON.stringify(this.$store.state.userDatas))
+              localStorage.setItem('graphcoolToken', data.data.authenticateUser.token)
+              localStorage.setItem('graphcoolId', data.data.authenticateUser.id)
+              this.$router.push({ name: 'home'})
             }).catch(error => {
                 console.log('---Login failed' + error)
             });
         }
-    },
-    created () {
-        let userDatasFromStorage = JSON.parse(localStorage.getItem('datas')) || []    
-        this.setUserDatasInState(userDatasFromStorage)
-    },
-    updated () {
-        
     },
 }
 </script>
