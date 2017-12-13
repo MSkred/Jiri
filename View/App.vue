@@ -28,11 +28,11 @@ export default {
       if(data.data.loggedInUser){
         return this.userId = data.data.loggedInUser.id;
       }
-      console.log('created Is login');
       // Check if user isLoggedIn
-      var isLoggedIn = () => {
-        return data.data.loggedInUser && data.data.loggedInUser.id !== ''
-      }
+      // var isLoggedIn = () => {
+      //   return data.data.loggedInUser && data.data.loggedInUser.id !== ''
+      // }
+      console.log('created Is login');
     }).catch(error => {
       console.log('---created Is not loggin ' + error);
     });

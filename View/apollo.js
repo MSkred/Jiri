@@ -17,6 +17,8 @@ const middlewareLink = new ApolloLink((operation, forward) => {
     return forward(operation);
 });
 
+
+
 // Create the apollo client
 const apolloClient = new ApolloClient({
     link: middlewareLink.concat(httpLink),

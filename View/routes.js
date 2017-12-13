@@ -6,10 +6,10 @@ import AddEvent from './components/AddEvent.vue'
 import Login from './components/Login.vue'
 
 export default [
-    { path: '/', component: Home, name: 'home' },
-    { path: '/addUser', component: AddUser, name: 'addUser' },
-    { path: '/addStudent', component: AddStudent, name: 'addStudent' },
-    { path: '/addProject', component: AddProject, name: 'addProject' },
-    { path: '/addEvent', component: AddEvent, name: 'addEvent' },
+    { path: '/', component: Home, name: 'home', meta: { requiresAuth: true } },
+    { path: '/addUser', component: AddUser, name: 'addUser', meta: { requiresAuth: true }  },
+    { path: '/addStudent', component: AddStudent, name: 'addStudent', meta: { requiresAuth: true }  },
+    { path: '/addProject', component: AddProject, name: 'addProject', meta: { requiresAuth: true }  },
+    { path: '/addEvent', component: AddEvent, name: 'addEvent', meta: { requiresAuth: true }  },
     { path: '/login', component: Login, name: 'login' },
 ]
