@@ -42,12 +42,12 @@ export default {
                     password,
                 },
             }).then(data => {
-              console.log('Login succes');
+              console.log('Authentification succes');
               localStorage.setItem('graphcoolToken', data.data.authenticateUser.token)
               localStorage.setItem('graphcoolId', data.data.authenticateUser.id)
               this.$router.push({ name: 'home'})
             }).catch(error => {
-                console.log('---Login failed' + error)
+                console.log('---Authentification failed' + error)
             });
         }
     },

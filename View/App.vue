@@ -1,8 +1,8 @@
 <template>
-    <div id="app">
+    <div id="app" :user-id="userId">
         <navigation></navigation>
         <h1>JiriSkuuuurt</h1>
-        <router-view></router-view>
+        <router-view :user-id="userId"></router-view>
     </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   name: 'app',
   data(){
     return{
-      loggedInUserQuery: null,
+      userId: null,
     }
   },
   components: {
@@ -28,9 +28,12 @@ export default {
       var isLoggedIn = () => {
         return data.data.loggedInUser && data.data.loggedInUser.id !== ''
       }
-      console.log('Is login');
+      if(data.data.loggedInUser){
+        this.userId = data.data.loggedInUser.id;
+      }
+        console.log('Is login');
     }).catch(error => {
-      console.log('---Is not loggin' + error);
+      console.log('---Is not loggin ' + error);
     });
   }
 }
