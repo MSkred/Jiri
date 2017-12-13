@@ -1,20 +1,17 @@
 import gql from 'graphql-tag'
 
 export const CREATE_USER_MUTATION = gql`
-mutation CreateUser($company: String, $email: String!, $isAdmin: Boolean!, $name:String!, $password:String!, $softDelete: Boolean!){
-  createUser(
-        id: $id,
-        isAdmin: $is_admin,
+mutation signupUser($company: String, $email: String!, $isAdmin: Boolean!, $name:String!, $password:String!, $softDelete: Boolean!){
+  signupUser(
+        isAdmin: $isAdmin,
         name: $name,
         email: $email,
         password: $password, 
         company: $company,
-        softDelete: $soft_delete,
+        softDelete: $softDelete,
         ) {
-        name
-        email
-        password
-        company
+        id
+        token
     }
 }
 `

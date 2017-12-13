@@ -34,13 +34,12 @@ export default {
     name: 'add-user',
     data () {
       return {
-        id: nanoid(),
-        is_admin: false,
+        isAdmin: false,
         name: null,
         email: null,
         password: null,
         company: null,
-        soft_delete: false,
+        softDelete: false,
       }
     },
     methods: {
@@ -49,13 +48,12 @@ export default {
             this.$apollo.mutate({
                 mutation: CREATE_USER_MUTATION,
                 variables: {
-                    id,
-                    is_admin,
+                    isAdmin,
                     name,
                     email,
                     password,
                     company,
-                    soft_delete
+                    softDelete
                 },
             }).then(data => {
                 console.log('Done creation user.');
