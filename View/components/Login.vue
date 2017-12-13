@@ -46,6 +46,7 @@ export default {
               localStorage.setItem('graphcoolToken', data.data.authenticateUser.token)
               localStorage.setItem('graphcoolId', data.data.authenticateUser.id)
               this.$router.push({ name: 'home'})
+              window.location.reload()
             }).catch(error => {
                 console.log('---Authentification failed' + error)
             });
