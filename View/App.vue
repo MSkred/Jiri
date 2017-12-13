@@ -24,11 +24,12 @@ export default {
     this.$apollo.query({
       query: LOGGEDIN_USER_QUERY,
     }).then(data => {
-      console.log(data.data.loggedInUser.id);
+      // Check if have data and send it in state
       if(data.data.loggedInUser){
         return this.userId = data.data.loggedInUser.id;
       }
       console.log('created Is login');
+      // Check if user isLoggedIn
       var isLoggedIn = () => {
         return data.data.loggedInUser && data.data.loggedInUser.id !== ''
       }
@@ -40,14 +41,12 @@ export default {
     this.$apollo.query({
       query: LOGGEDIN_USER_QUERY,
     }).then(data => {      
-      console.log(data.data.loggedInUser.id);
+      // Check if have data and send it in state
       if(data.data.loggedInUser){
        this.userId = data.data.loggedInUser.id;
       }
-      // else{
-      //   return this.userId = null;
-      // }
       console.log('Updated Is login');
+      // Check if user isLoggedIn
       var isLoggedIn = () => {
         return data.data.loggedInUser && data.data.loggedInUser.id !== ''
       }

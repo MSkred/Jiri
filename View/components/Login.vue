@@ -30,9 +30,6 @@ export default {
         }
     },
     methods: {
-        ...mapMutations([
-            'setUserDatasInState',
-        ]),
         authentification(){
             const { email, password } = this;
             this.$apollo.mutate({
@@ -43,9 +40,12 @@ export default {
                 },
             }).then(data => {
               console.log('Authentification succes');
+              // Post user token and id in localStorage
               localStorage.setItem('graphcoolToken', data.data.authenticateUser.token)
               localStorage.setItem('graphcoolId', data.data.authenticateUser.id)
+              // Redirect to home
               this.$router.push({ name: 'home'})
+              // Reload the page
               window.location.reload()
             }).catch(error => {
                 console.log('---Authentification failed' + error)
