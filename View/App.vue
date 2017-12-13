@@ -20,18 +20,21 @@ export default {
   components: {
     Navigation,
   },
+  methods: {
+    loggedIn(data){
+      return data.data.loggedInUser && data.data.loggedInUser.id !== ''
+    }
+  },
   created(){
     this.$apollo.query({
       query: LOGGEDIN_USER_QUERY,
     }).then(data => {
-      // Check if have data and send it in state
-      if(data.data.loggedInUser){
+      // Check if user isn't login and redirect else add userId state
+      if(this.loggedIn(data) === null){
+        this.$router.push('login');
+      }else{
         return this.userId = data.data.loggedInUser.id;
       }
-      // Check if user isLoggedIn
-      // var isLoggedIn = () => {
-      //   return data.data.loggedInUser && data.data.loggedInUser.id !== ''
-      // }
       console.log('created Is login');
     }).catch(error => {
       console.log('---created Is not loggin ' + error);
@@ -41,15 +44,13 @@ export default {
     this.$apollo.query({
       query: LOGGEDIN_USER_QUERY,
     }).then(data => {      
-      // Check if have data and send it in state
-      if(data.data.loggedInUser){
-       this.userId = data.data.loggedInUser.id;
+      // Check if user isn't login and redirect else add userId state
+      if(this.loggedIn(data) === null){
+        this.$router.push('login');        
+      }else{
+        return this.userId = data.data.loggedInUser.id;
       }
       console.log('Updated Is login');
-      // Check if user isLoggedIn
-      var isLoggedIn = () => {
-        return data.data.loggedInUser && data.data.loggedInUser.id !== ''
-      }
     }).catch(error => {
       console.log('---Updated Is not loggin ' + error);
     });
