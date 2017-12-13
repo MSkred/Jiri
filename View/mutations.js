@@ -84,5 +84,9 @@ export const mutations = {
             state.eventStudents.splice(key, 1)
         }
         return state.students
+    },
+    // Set value of tasks in state
+    setUserDatasInState(state, payload) {
+        state.userDatas = payload
     }
 }
