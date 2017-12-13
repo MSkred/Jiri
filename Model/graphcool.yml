@@ -17,24 +17,29 @@
 # In the types.graphql you define your data schema
 types: ./types.graphql
 
-# functions:
-#   signup:
-#     type: resolver
-#     schema: email-password/signup.graphql
-#     handler:
-#       code: email-password/signup.ts
 
-#   authenticate:
-#     type: resolver
-#     schema: email-password/authenticate.graphql
-#     handler:
-#       code: email-password/authenticate.ts
 
-#   loggedInUser:
-#     type: resolver
-#     schema: email-password/loggedInUser.graphql
-#     handler:
-#       code: email-password/loggedInUser.ts
+# added by email-password template: (please uncomment)
+functions:
+  signup:
+    type: resolver
+    schema: ./email-password/signup.graphql
+    handler:
+      code: ./email-password/signup.ts
+
+  authenticate:
+    type: resolver
+    schema: ./email-password/authenticate.graphql
+    handler:
+      code: ./email-password/authenticate.ts
+
+  loggedInUser:
+    type: resolver
+    schema: ./email-password/loggedInUser.graphql
+    handler:
+      code: ./email-password/loggedInUser.ts
+
+
 
 # Model/Relation permissions are used to limit the API access
 # To take the burden of thinking about those while development, we
@@ -50,4 +55,3 @@ permissions:
 # https://www.graph.cool/docs/reference/auth/authentication/authentication-tokens-eip7ahqu5o
 # rootTokens:
 #   - mytoken
-
