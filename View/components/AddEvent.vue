@@ -149,7 +149,7 @@ export default {
             courseName: null,
             academicYear: null,
             softDelete: false,       
-            authorId: null,
+            authorId: "cjazgxq0mo64601002c9kc42z",
             jurysIds: [],
             studentsIds: [],
             projectsIds: [],
@@ -192,7 +192,6 @@ export default {
                 this.jurysIds.push(juryId);
                 iJ++;
             }
-            this.authorId = this.userId;
             const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
             this.$apollo.mutate({
                 mutation: CREATE_EVENT_MUTATION,
