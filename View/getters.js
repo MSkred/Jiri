@@ -1,7 +1,4 @@
 export const getters = {
-    userDatas(state) {
-        return state.userDatas;
-    },
     jurys(state){
         return state.jurys;
     },

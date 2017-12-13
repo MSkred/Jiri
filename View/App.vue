@@ -8,8 +8,6 @@
 
 <script>
 import Navigation from './components/Navigation.vue';
-  
-import VueApollo from 'vue-apollo'
 import { LOGGEDIN_USER_QUERY } from './constants/UsersLoggedIn.gql'
 
 export default {
@@ -22,15 +20,12 @@ export default {
   components: {
     Navigation,
   },
-  methods: {
-
-  },
-  created(){
+  updated(){
     this.$apollo.query({
       query: LOGGEDIN_USER_QUERY,
     }).then(data => {
-      console.log(data);
-      _isLoggedIn = () => {
+      console.log(data.data.loggedInUser.id);
+      var isLoggedIn = () => {
         return data.data.loggedInUser && data.data.loggedInUser.id !== ''
       }
       console.log('Is login');
