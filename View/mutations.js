@@ -77,4 +77,8 @@ export const mutations = {
             state.eventStudents.splice(key, 1)
         }
     },
+    getUserId(state, id){
+        state.userId = id;
+    }
+    
 }

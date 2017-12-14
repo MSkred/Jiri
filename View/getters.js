@@ -17,4 +17,7 @@ export const getters = {
     eventProjects(state) {
         return state.eventProjects;
     },
+    userId(state) {
+        return state.userId;
+    },
 }

@@ -9,6 +9,7 @@
 <script>
 import Navigation from './components/Navigation.vue';
 import { LOGGEDIN_USER_QUERY } from './constants/UsersLoggedIn.gql'
+import {mapGetters, mapMutations} from 'vuex'
 
 export default {
   name: 'app',
@@ -16,9 +17,17 @@ export default {
     Navigation,
   },
   methods: {
+    ...mapMutations([
+        'getUserId',
+    ]),
     loggedIn(data){
       return data.data.loggedInUser && data.data.loggedInUser.id !== ''
     }
+  },
+  computed: {
+    ...mapGetters([
+        'userId',
+    ])
   },
   created(){
     this.$apollo.query({
@@ -28,7 +37,7 @@ export default {
       if(this.loggedIn(data) === null){
         this.$router.push('login');
       }else{
-        return this.userId = data.data.loggedInUser.id;
+        return this.getUserId(data.data.loggedInUser.id);
       }
       console.log('created Is login');
     }).catch(error => {
