@@ -1,104 +1,85 @@
-type User @model {
-    id: ID! @isUnique
-    isAdmin: Boolean!
-    name: String!
-    email: String! @isUnique
-    password: String!
-    company: String
-    softDelete: Boolean!
-    events: [Event!]! @relation(name: "UserOnEvent")
-    meetings: [Meeting!]! @relation(name: "UserOnMeeting")
 
-    jurysEvent: [Event!]! @relation(name: "EventOnJury")
+type User @model{
+  id: ID! @isUnique
+  softDelete: Boolean!
+  isAdmin: Boolean!
+  name: String!
+  password: String!
+  email: String! @isUnique
+  company: String
+  meetings: [Meeting!]! @relation(name: "MeetingsForUser")
+  events:[Event!]! @relation(name: "EventsForUser")
+  juryEvents:[Event!]! @relation(name: "JurysForUser")
 }
 
-type Student @model {
-    id: ID! @isUnique
-    name: String!
-    email: String! @isUnique
-    softDelete: Boolean!
-    implementations: [Implementation!]! @relation(name: "StudentOnImplementation")
-    meetings: [Meeting!]! @relation(name: "StudentOnMeeting")
-    
-    studentsEvent: [Event!]! @relation(name: "EventOnStudent")
+type Student @model{
+  id: ID! @isUnique
+  name: String!
+  email: String! @isUnique
+  softDelete: Boolean!
+  implementations: [Implementation!]! @relation(name: "ImplementationsForStudent")
+  meetings: [Meeting!]! @relation(name: "MeetingsForStudent")
+  studentEvents: [Event!]! @relation(name: "EventsForStudent")
+  performances: [Performance!]! @relation(name: "PerformancesForStudent")
 }
 
-type Event @model {
-    id: ID! @isUnique
-    courseName: String!
-    academicYear: String!
-    softDelete: Boolean!
-    meetings: [Meeting!]! @relation(name: "EventOnMeeting")
-    implementations: [Implementation!]! @relation(name: "EventOnImplementation")
-    weights: [Weight!]! @relation(name: "EventOnWeight")
-
-    author: User! @relation(name: "UserOnEvent")
-    jurys: [User!]! @relation(name: "EventOnJury")
-    students: [Student!]! @relation(name: "EventOnStudent")
-    projects: [Project!]! @relation(name: "EventOnProject")
+type Event @model{
+  id: ID! @isUnique
+  softDelete: Boolean!
+  courseName: String!
+  academicYear: String!
+  author: User! @relation(name: "EventsForUser")
+  jurys: [User!]! @relation(name: "JurysForUser")
+  meetings: [Meeting!]! @relation(name: "MeetingsForEvent")
+  students:[Student!]! @relation(name: "EventsForStudent")
+  implementations: [Implementation!]! @relation(name: "ImplementationsForEvent")
+  performances: [Performance!]! @relation(name: "PerformancesForEvent")
 }
 
-type Project @model {
-    id: ID! @isUnique
-    name: String! @isUnique
-    description: String
-    softDelete: Boolean!
-    implementations: [Implementation!]! @relation(name: "ProjectOnImplementation")
-    weights: [Weight!]! @relation(name: "ProjectOnWeight")
-
-    projectsEvent: [Event!]! @relation(name: "EventOnProject")    
+type Meeting @model{
+  id: ID! @isUnique
+  softDelete: Boolean!
+  evaluation: Float
+  author: User! @relation(name: "MeetingsForUser")
+  student: Student! @relation(name: "MeetingsForStudent")
+  event: Event! @relation(name: "MeetingsForEvent")
+  scores: [Score!]! @relation(name: "ScoresForMeeting")
 }
 
-type Meeting @model {
-    id: ID! @isUnique
-    startTime: String
-    endTime: String
-    evaluation: Int
-    softDelete: Boolean!
-    author: User! @relation(name: "UserOnMeeting")
-    student: Student! @relation(name: "StudentOnMeeting")
-    event: Event! @relation(name: "EventOnMeeting")
-    scores: [Score!]! @relation(name: "MeetingOnScore")
+type Performance @model{
+  id: ID! @isUnique
+  softDelete: Boolean!
+  calculatedScore: Float
+  manualScore: Float
+  student: Student! @relation(name: "PerformancesForStudent")
+  event: Event! @relation(name: "PerformancesForEvent")
 }
 
-type Score @model {
-    id: ID! @isUnique
-    comment: String
-    score: Float
-    softDelete: Boolean
-    meeting: Meeting! @relation(name: "MeetingOnScore")
-    implementation: Implementation! @relation(name: "ImplementationOnScore")
+type Score @model{
+  id: ID! @isUnique
+  softDelete: Boolean!
+  comment: String
+  meeting: Meeting! @relation(name: "ScoresForMeeting")
+  implementation: Implementation! @relation(name: "ScoresForImplementation")
+  score: Float
 }
 
-type Weight @model {
-    id: ID! @isUnique
-    value: Float
-    project: Project! @relation(name: "ProjectOnWeight")
-    event: Event! @relation(name: "EventOnWeight")
+type Implementation @model{
+  id: ID! @isUnique
+  softDelete: Boolean!
+  project: Project! @relation(name: "ImplementationsForProject")
+  student: Student! @relation(name: "ImplementationsForStudent")
+  scores: [Score!]! @relation(name: "ScoresForImplementation")
+  urlProject: String
+  urlRepo: String
+  weight: Float!
+  event: Event! @relation(name: "ImplementationsForEvent")
 }
 
-type Implementation @model {
-    id: ID! @isUnique
-    urlProject: String
-    urlGithub: String
-    softDelete: Boolean!
-    project: Project! @relation(name: "ProjectOnImplementation")
-    student: Student! @relation(name: "StudentOnImplementation")
-    event: Event! @relation(name: "EventOnImplementation")
-    scores: [Score!]! @relation(name: "ImplementationOnScore")
+type Project @model{
+  id: ID! @isUnique
+  softDelete: Boolean!
+  name: String!
+  description: String!
+  implemantations: [Implementation!]! @relation(name: "ImplementationsForProject")
 }
-
-# added by email-password template: (please uncomment)
-# type User @model {
-#   # Required system field:
-#   id: ID! @isUnique # read-only (managed by Graphcool)
-# 
-#   # Optional system fields (remove if not needed):
-#   createdAt: DateTime! # read-only (managed by Graphcool)
-#   updatedAt: DateTime! # read-only (managed by Graphcool)
-# 
-#   email: String! @isUnique
-#   password: String!
-# }
-# 
-

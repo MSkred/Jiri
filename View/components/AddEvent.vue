@@ -146,7 +146,7 @@ export default {
             authorId: "cjazgxq0mo64601002c9kc42z",
             jurysIds: [],
             studentsIds: [],
-            projectsIds: [],
+            implementationsIds: [],
         }
     },
     computed:{
@@ -167,7 +167,7 @@ export default {
             while (iP < this.$store.getters.eventProjects.length) {
                 var project =_.toArray(this.$store.getters.eventProjects[iP]);
                 var projectId = project[1];
-                this.projectsIds.push(projectId);
+                this.implementationsIds.push(projectId);
                 iP++;
             }
             // Push ID on student in new array
