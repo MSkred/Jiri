@@ -13,12 +13,6 @@
 <script>
 export default {
   name: 'navigation',
-  props: {
-      userId: {
-      required: false,
-      type: String,
-      }
-  },
   methods:{
     logout(){
       localStorage.removeItem('graphcoolToken')

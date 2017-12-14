@@ -1,8 +1,8 @@
 <template>
-    <div id="app" :user-id="userId">
-        <navigation :user-id="userId"></navigation>
+    <div id="app">
+        <navigation></navigation>
         <h1>JiriSkuuuurt</h1>
-        <router-view :user-id="userId"></router-view>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -12,11 +12,6 @@ import { LOGGEDIN_USER_QUERY } from './constants/UsersLoggedIn.gql'
 
 export default {
   name: 'app',
-  data(){
-    return{
-      userId: null,
-    }
-  },
   components: {
     Navigation,
   },

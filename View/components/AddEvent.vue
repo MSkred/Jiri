@@ -137,13 +137,7 @@ import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
 import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
 var _ = require('lodash');
 export default {
-    name: 'add-event',  
-    props: {
-        userId: {
-        required: false,
-        type: String,
-        }
-    },
+    name: 'add-event',
     data(){
         return{
             courseName: null,
@@ -296,8 +290,6 @@ export default {
         }).catch(error => {
             console.log("---User recuperation failed " + error)
         });
-        console.log(this.userId);
-        
     }
 };
 </script>
