@@ -65,7 +65,6 @@ export const mutations = {
         state.eventProjects.forEach(project => {
             if(!project.event){
                 state.eventProjects.splice(i, 1)
-                console.log(i);
             }
             i++;
         });

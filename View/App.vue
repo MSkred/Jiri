@@ -52,7 +52,7 @@ export default {
       if(this.loggedIn(data) === null){
         this.$router.push('login');        
       }else{
-        return this.userId = data.data.loggedInUser.id;
+        return this.getUserId(data.data.loggedInUser.id);
       }
       console.log('Updated Is login');
     }).catch(error => {
