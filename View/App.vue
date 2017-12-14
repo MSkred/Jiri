@@ -24,11 +24,6 @@ export default {
       return data.data.loggedInUser && data.data.loggedInUser.id !== ''
     }
   },
-  computed: {
-    ...mapGetters([
-        'userId',
-    ])
-  },
   created(){
     this.$apollo.query({
       query: LOGGEDIN_USER_QUERY,

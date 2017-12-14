@@ -143,7 +143,7 @@ export default {
             courseName: null,
             academicYear: null,
             softDelete: false,       
-            authorId: "cjazgxq0mo64601002c9kc42z",
+            authorId: null,
             jurysIds: [],
             studentsIds: [],
             implementationsIds: [],
@@ -157,6 +157,7 @@ export default {
             'eventJurys',
             'eventStudents',
             'eventProjects',
+            'userId'
         ]),
     },
     methods: {
@@ -186,6 +187,9 @@ export default {
                 this.jurysIds.push(juryId);
                 iJ++;
             }
+            // Defined author id
+    console.log(this.userId)
+            this.authorId = this.userId;
             const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
             this.$apollo.mutate({
                 mutation: CREATE_EVENT_MUTATION,
@@ -215,7 +219,6 @@ export default {
     },
     created(){
         const { name, id } = this;
-
 //         const promise = new Promise( (res, rej) => {
 //             res(this.$apollo.query({
 //                 query: ALL_USER_QUERY,
@@ -290,6 +293,7 @@ export default {
         }).catch(error => {
             console.log("---User recuperation failed " + error)
         });
+        
     }
 };
 </script>
