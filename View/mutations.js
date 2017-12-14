@@ -7,7 +7,7 @@ export const mutations = {
             newJury.push(eventJurys);
         });
         state.jurys = newJury;
-        return state.jurys;
+//return state.jurys;
     },
     students(state, key) {
         state.students = key;
@@ -27,7 +27,6 @@ export const mutations = {
             newProject.push(eventProject);
         });
         state.projects = newProject;
-        return state.projects;
     },
     addJury(state, key){
         state.jurys[key].event = true;
@@ -36,7 +35,6 @@ export const mutations = {
             state.eventJurys.push(state.jurys[key])    
             state.jurys.splice(key, 1)
         }
-        return state.eventJurys
     },
     removeJury(state, key) {
         state.eventJurys[key].event = false;
@@ -44,7 +42,6 @@ export const mutations = {
             state.jurys.push(state.eventJurys[key])
             state.eventJurys.splice(key, 1)
         }
-        return state.jurys
     },
     addStudent(state, key) {
         state.students[key].event = true;
@@ -53,15 +50,12 @@ export const mutations = {
             state.eventStudents.push(state.students[key])
             state.students.splice(key, 1)
         }
-        return state.eventStudents
     },
     addProject(state, key){
         if(!state.projects[key].event){
             state.projects[key].event = true;
             state.eventProjects.push(state.projects[key]);
-            return state.eventProjects
         }
-
     },
     removeProject(state, key){
         if (state.projects[key].event) {
@@ -75,7 +69,6 @@ export const mutations = {
             }
             i++;
         });
-        return state.eventProjects
     },
     removeStudent(state, key) {
         state.eventStudents[key].event = false;
@@ -83,6 +76,5 @@ export const mutations = {
             state.students.push(state.eventStudents[key])
             state.eventStudents.splice(key, 1)
         }
-        return state.students
     },
 }

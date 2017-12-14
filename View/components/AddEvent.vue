@@ -220,8 +220,41 @@ export default {
         ]),
     },
     created(){
-        
         const { name, id } = this;
+
+//         const promise = new Promise( (res, rej) => {
+//             res(this.$apollo.query({
+//                 query: ALL_USER_QUERY,
+//                 variables: {
+//                     name,
+//                     id
+//                 }
+//             }))
+//         } )
+
+//         async function getUser() {
+//             const userData = [];
+//             const userObj = {};
+//             const res = await promise
+//             const data = await res.data
+//             const allUsers = await data.allUsers
+
+// const i = 0;
+//             allUsers.map(e => { 
+                
+//                 let user = [];
+//                 // user.push(e.id, e.name, e.email, e.company)
+//                 // userData.push(user)
+//                 let id = e.id;
+//                 let name = e.name;
+
+//                 userData.push({id: id, name: name, event: false})
+
+//             })
+//              console.log(userData)
+//         }
+//         getUser()
+
         // Users query
         this.$apollo.query({
             query: ALL_USER_QUERY,
@@ -263,6 +296,7 @@ export default {
         }).catch(error => {
             console.log("---User recuperation failed " + error)
         });
+        console.log(this.userId);
         
     }
 };

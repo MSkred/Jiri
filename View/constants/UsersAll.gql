@@ -5,6 +5,8 @@ export const ALL_USER_QUERY = gql `
         allUsers{
             id
             name
+            company
+            email
         }
     }
 `;
