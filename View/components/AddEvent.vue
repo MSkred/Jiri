@@ -128,13 +128,12 @@
 
 
 import nanoid from 'nanoid'
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 // import VueApollo from 'vue-apollo'
  
-import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
-import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
-import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
 import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
+import { CREATE_IMPLEMENTATIONS_MUTATION } from '../constants/ImplementationsCreate.gql'
+import { UPDATE_EVENT_MUTATION } from '../constants/EventsUpdate.gql'
 var _ = require('lodash');
 export default {
     name: 'add-event',
@@ -143,10 +142,13 @@ export default {
             courseName: null,
             academicYear: null,
             softDelete: false,       
-            authorId: "cjazgxq0mo64601002c9kc42z",
+            authorId: null,
+            currentEvent:  null,
+            eventDatas: [],
             jurysIds: [],
             studentsIds: [],
             projectsIds: [],
+            implementationsIds: [],
         }
     },
     computed:{
@@ -157,35 +159,31 @@ export default {
             'eventJurys',
             'eventStudents',
             'eventProjects',
+            'userId'
         ]),
     },
     methods: {
         createEvent(){
             
             // Push ID on project in new array
-            var iP = 0;
-            while (iP < this.$store.getters.eventProjects.length) {
-                var project =_.toArray(this.$store.getters.eventProjects[iP]);
-                var projectId = project[1];
-                this.projectsIds.push(projectId);
-                iP++;
-            }
+            this.eventProjects.map( project => {
+                let projectId = project.id;
+                this.projectsIds.push(projectId)
+            } )
             // Push ID on student in new array
-            var iS = 0;
-            while (iS < this.$store.getters.eventStudents.length) {
-                var student =_.toArray(this.$store.getters.eventStudents[iS]);
-                var studentId = student[1];
-                this.studentsIds.push(studentId);
-                iS++;
-            }
+            this.eventStudents.map( student => {
+                let studentId = student.id;
+                this.studentsIds.push(studentId)
+            } )
             // Push ID on project in new array
-            var iJ = 0;
-            while (iJ < this.$store.getters.eventJurys.length) {
-                var jury =_.toArray(this.$store.getters.eventJurys[iJ]);
-                var juryId = jury[1];
-                this.jurysIds.push(juryId);
-                iJ++;
-            }
+            this.eventJurys.map( jury => {
+                let juryId = jury.id;
+                this.jurysIds.push(juryId)
+            } )
+            // Defined author id
+            this.authorId = this.userId;
+
+            // Create event
             const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
             this.$apollo.mutate({
                 mutation: CREATE_EVENT_MUTATION,
@@ -196,13 +194,57 @@ export default {
                     authorId,
                     jurysIds,
                     studentsIds,
-                    projectsIds,
                 },
             }).then(data => {
+                this.currentEvent = data.data.createEvent.id
                 console.log('Done event creation.');
-            }).catch(error => {
+            }).then(data => {
+                // Create all implementations
+                this.studentsIds.forEach(student => {
+                    this.projectsIds.forEach(project => {
+                        let studentId = student;
+                        let projectId = project
+                        let eventId = this.currentEvent;
+                        let weight = 1/(projectsIds.length)
+                        let softDelete = this.softDelete
+                        console.log(studentId, projectId, eventId, weight, softDelete);
+                        this.$apollo.mutate({
+                            mutation: CREATE_IMPLEMENTATIONS_MUTATION,
+                            variables: {
+                                softDelete,
+                                eventId,
+                                projectId,
+                                studentId,
+                                weight,
+                            }
+                        }).then(data => {
+                            this.implementationsIds.push(data.data.createImplementation.id);
+                            console.log('Done implementation creation')
+                        }).catch(error => {
+                            console.log('---implementation creation failed'  + error)
+                        });
+
+                    });
+                });
+                this.studentsIds = [];
+                this.projectsIds = [];
+            }).then(data => {
+                let id = this.currentEvent;
+                let implementationsIds = this.implementationsIds;
+                this.$apollo.mutate({
+                    mutation: UPDATE_EVENT_MUTATION,
+                    variables: {
+                        id,
+                        implementationsIds
+                    }
+                })
+                console.log('Done event update')
+            })
+            .catch(error => {
                 console.log('---Event creation failed' + error)
             });
+
+
         },
         ...mapMutations([
             'addJury',
@@ -212,84 +254,23 @@ export default {
             'removeJury',
             'removeProject'
         ]),
+        ...mapActions([
+            'setAllUsers',
+            'setAllStudents',
+            'setAllProjects',
+        ])
     },
     created(){
-        const { name, id } = this;
 
-//         const promise = new Promise( (res, rej) => {
-//             res(this.$apollo.query({
-//                 query: ALL_USER_QUERY,
-//                 variables: {
-//                     name,
-//                     id
-//                 }
-//             }))
-//         } )
+        // Users recuperation
+        this.$store.dispatch('setAllUsers')
 
-//         async function getUser() {
-//             const userData = [];
-//             const userObj = {};
-//             const res = await promise
-//             const data = await res.data
-//             const allUsers = await data.allUsers
+        // Students recuperation
+        this.$store.dispatch('setAllStudents')
 
-// const i = 0;
-//             allUsers.map(e => { 
-                
-//                 let user = [];
-//                 // user.push(e.id, e.name, e.email, e.company)
-//                 // userData.push(user)
-//                 let id = e.id;
-//                 let name = e.name;
-
-//                 userData.push({id: id, name: name, event: false})
-
-//             })
-//              console.log(userData)
-//         }
-//         getUser()
-
-        // Users query
-        this.$apollo.query({
-            query: ALL_USER_QUERY,
-            variables: {
-                name,
-                id
-            }
-        }).then(data => {
-            this.allUsers = data.data.allUsers
-            this.$store.commit('jurys', this.allUsers, {root: true})
-        }).catch(error => {
-            console.log("---User recuperation failed " + error)
-        });
-
-        // Students query
-        this.$apollo.query({
-            query: ALL_STUDENT_QUERY,
-            variables: {
-                name,
-                id
-            }
-        }).then(data => {
-            this.allStudents = data.data.allStudents
-            this.$store.commit('students', this.allStudents, {root: true})
-        }).catch(error => {
-            console.log("---User recuperation failed " + error)
-        });
-
-        // Projects query
-        this.$apollo.query({
-            query: ALL_PROJECT_QUERY,
-            variables: {
-                name,
-                id
-            }
-        }).then(data => {
-            this.allProjects = data.data.allProjects
-            this.$store.commit('projects', this.allProjects, {root: true})
-        }).catch(error => {
-            console.log("---User recuperation failed " + error)
-        });
+        // Projects recuperation
+        this.$store.dispatch('setAllProjects')
+        
     }
 };
 </script>

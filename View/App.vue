@@ -8,56 +8,11 @@
 
 <script>
 import Navigation from './components/Navigation.vue';
-import { LOGGEDIN_USER_QUERY } from './constants/UsersLoggedIn.gql'
-import {mapGetters, mapMutations} from 'vuex'
 
 export default {
   name: 'app',
   components: {
     Navigation,
   },
-  methods: {
-    ...mapMutations([
-        'getUserId',
-    ]),
-    loggedIn(data){
-      return data.data.loggedInUser && data.data.loggedInUser.id !== ''
-    }
-  },
-  computed: {
-    ...mapGetters([
-        'userId',
-    ])
-  },
-  created(){
-    this.$apollo.query({
-      query: LOGGEDIN_USER_QUERY,
-    }).then(data => {
-      // Check if user isn't login and redirect else add userId state
-      if(this.loggedIn(data) === null){
-        this.$router.push('login');
-      }else{
-        return this.getUserId(data.data.loggedInUser.id);
-      }
-      console.log('created Is login');
-    }).catch(error => {
-      console.log('---created Is not loggin ' + error);
-    });
-  },
-  updated(){
-    this.$apollo.query({
-      query: LOGGEDIN_USER_QUERY,
-    }).then(data => {      
-      // Check if user isn't login and redirect else add userId state
-      if(this.loggedIn(data) === null){
-        this.$router.push('login');        
-      }else{
-        return this.getUserId(data.data.loggedInUser.id);
-      }
-      console.log('Updated Is login');
-    }).catch(error => {
-      console.log('---Updated Is not loggin ' + error);
-    });
-  }
 }
 </script>

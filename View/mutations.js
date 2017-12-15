@@ -1,31 +1,32 @@
 export const mutations = {
-    jurys(state, key){
-        state.jurys = key;
+    jurys(state, payload){
+        state.jurys = payload;
         var newJury = [];
-        state.jurys.forEach((jury) => {
-            var eventJurys = Object.assign({event: false}, jury);
-            newJury.push(eventJurys);
-        });
+        state.jurys.map( jury => {
+            let id = jury.id
+            let name = jury.name
+            newJury.push( {id: id, name: name, event: false} )
+        } )
         state.jurys = newJury;
-//return state.jurys;
     },
-    students(state, key) {
-        state.students = key;
+    students(state, payload) {
+        state.students = payload;
         var newStudent = [];
-        state.students.forEach((student) => {
-            var eventStudent = Object.assign({ event: false }, student);
-            newStudent.push(eventStudent);
-        });
+        state.students.map(student => {
+            let id = student.id
+            let name = student.name
+            newStudent.push({ id: id, name: name, event: false })
+        })
         state.students = newStudent;
-        return state.students;
     },
-    projects(state, key) {
-        state.projects = key;
+    projects(state, payload) {
+        state.projects = payload;
         var newProject = [];
-        state.projects.forEach((project) => {
-            var eventProject = Object.assign({ event: false }, project);
-            newProject.push(eventProject);
-        });
+        state.projects.map(project => {
+            let id = project.id
+            let name = project.name
+            newProject.push({ id: id, name: name, event: false })
+        })
         state.projects = newProject;
     },
     addJury(state, key){
@@ -78,6 +79,9 @@ export const mutations = {
     },
     getUserId(state, id){
         state.userId = id;
-    }
+    },
+    getUserData(state, payload){
+        state.userData = payload
+    },
     
 }
