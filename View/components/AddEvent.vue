@@ -132,6 +132,7 @@ import {mapGetters, mapMutations, mapActions} from 'vuex'
 // import VueApollo from 'vue-apollo'
  
 import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
+import { CREATE_IMPLEMENTATIONS_MUTATION } from '../constants/ImplementationsCreate.gql'
 var _ = require('lodash');
 export default {
     name: 'add-event',
@@ -141,6 +142,7 @@ export default {
             academicYear: null,
             softDelete: false,       
             authorId: null,
+            currentEvent:  null,
             eventDatas: [],
             jurysIds: [],
             studentsIds: [],
@@ -179,6 +181,8 @@ export default {
             } )
             // Defined author id
             this.authorId = this.userId;
+
+            // Create event
             const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
             this.$apollo.mutate({
                 mutation: CREATE_EVENT_MUTATION,
@@ -189,13 +193,45 @@ export default {
                     authorId,
                     jurysIds,
                     studentsIds,
-                    projectsIds,
                 },
             }).then(data => {
+                this.currentEvent = data.data.createEvent.id
                 console.log('Done event creation.');
-            }).catch(error => {
+            }).then(data => {
+                // Create all implementations
+                this.studentsIds.forEach(student => {
+                    this.projectsIds.forEach(project => {
+                        let studentId = student;
+                        let projectId = project
+                        let eventId = this.currentEvent;
+                        let weight = 1/(projectsIds.length)
+                        let softDelete = this.softDelete
+                        console.log(studentId, projectId, eventId, weight, softDelete);
+                        this.$apollo.mutate({
+                            mutation: CREATE_IMPLEMENTATIONS_MUTATION,
+                            variables: {
+                                softDelete,
+                                eventId,
+                                projectId,
+                                studentId,
+                                weight,
+                            }
+                        }).then(data => {
+                            console.log('Done implementation creation')
+                        }).catch(error => {
+                            console.log('---implementation creation failed'  + error)
+                        });
+
+                    });
+                });
+            }).then(data => {
+                console.log('Done event update')
+            })
+            .catch(error => {
                 console.log('---Event creation failed' + error)
             });
+
+
         },
         ...mapMutations([
             'addJury',
