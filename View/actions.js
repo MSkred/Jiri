@@ -1,5 +1,6 @@
 import { USER_QUERY } from './constants/user.gql'
 import { ALL_STUDENT_QUERY } from './constants/StudentsAll.gql'
+import { ALL_USER_QUERY } from './constants/UsersAll.gql'
 
 import {apolloClient} from './apollo'
 
@@ -19,6 +20,16 @@ export const actions = {
           console.log(e)
         })
     },
+    setAllUsers({ state, commit, mutations }) {
+        apolloClient.query({
+            query: ALL_USER_QUERY,
+        }).then(data => {
+            let allUsers = data.data.allUsers
+            commit('jurys', allUsers)
+        }).catch(error => {
+            console.log("---Users recuperation failed " + error)
+        });
+    },
     setAllStudents({state, commit, mutations}){
         apolloClient.query({
             query: ALL_STUDENT_QUERY,
@@ -28,5 +39,5 @@ export const actions = {
         }).catch(error => {
             console.log("---Students recuperation failed " + error)
         });
-    }
+    },
 }
