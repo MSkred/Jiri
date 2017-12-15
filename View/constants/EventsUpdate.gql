@@ -1,0 +1,10 @@
+import gql from 'graphql-tag'
+
+export const UPDATE_EVENT_MUTATION = gql `
+    mutation updateEvent($id: ID!, $implementationsIds: [ID!]) {
+        updateEvent(id: $id, implementationsIds: $implementationsIds) {
+            id
+            courseName
+        }
+    }
+`;

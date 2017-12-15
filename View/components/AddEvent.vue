@@ -133,6 +133,7 @@ import {mapGetters, mapMutations, mapActions} from 'vuex'
  
 import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
 import { CREATE_IMPLEMENTATIONS_MUTATION } from '../constants/ImplementationsCreate.gql'
+import { UPDATE_EVENT_MUTATION } from '../constants/EventsUpdate.gql'
 var _ = require('lodash');
 export default {
     name: 'add-event',
@@ -217,6 +218,7 @@ export default {
                                 weight,
                             }
                         }).then(data => {
+                            this.implementationsIds.push(data.data.createImplementation.id);
                             console.log('Done implementation creation')
                         }).catch(error => {
                             console.log('---implementation creation failed'  + error)
@@ -227,6 +229,15 @@ export default {
                 this.studentsIds = [];
                 this.projectsIds = [];
             }).then(data => {
+                let id = this.currentEvent;
+                let implementationsIds = this.implementationsIds;
+                this.$apollo.mutate({
+                    mutation: UPDATE_EVENT_MUTATION,
+                    variables: {
+                        id,
+                        implementationsIds
+                    }
+                })
                 console.log('Done event update')
             })
             .catch(error => {
