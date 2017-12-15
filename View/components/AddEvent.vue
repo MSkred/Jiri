@@ -125,174 +125,200 @@
 </template>
 
 <script>
-
-
-import nanoid from 'nanoid'
-import {mapGetters, mapMutations} from 'vuex'
-// import VueApollo from 'vue-apollo'
- 
-import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
-import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
-import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
-import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
-var _ = require('lodash');
-export default {
-    name: 'add-event',
-    data(){
-        return{
-            courseName: null,
-            academicYear: null,
-            softDelete: false,       
-            authorId: null,
-            jurysIds: [],
-            studentsIds: [],
-            implementationsIds: [],
-        }
-    },
-    computed:{
-        ...mapGetters([
-            'jurys',
-            'students',
-            'projects',
-            'eventJurys',
-            'eventStudents',
-            'eventProjects',
-            'userId'
-        ]),
-    },
-    methods: {
-        createEvent(){
-            
-            // Push ID on project in new array
-            var iP = 0;
-            while (iP < this.$store.getters.eventProjects.length) {
-                var project =_.toArray(this.$store.getters.eventProjects[iP]);
-                var projectId = project[1];
-                this.implementationsIds.push(projectId);
-                iP++;
+    import nanoid from 'nanoid'
+    import {mapGetters, mapMutations} from 'vuex'
+    // import VueApollo from 'vue-apollo'
+    
+    import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
+    import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
+    import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
+    import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
+    import { CREATE_IMPLEMENTATION_MUTATION } from '../constants/ImplementationsCreate.gql'
+    var _ = require('lodash');
+    export default {
+        name: 'add-event',
+        data(){
+            return{
+                courseName: null,
+                academicYear: null,
+                softDelete: false,       
+                authorId: null,
+                jurysIds: [],
+                studentsIds: [],
+                implementationsIds: [],
+                eventId: 'cjb7wsptzu2ex01240v7gj70k',
+                weight: 0.2,
             }
-            // Push ID on student in new array
-            var iS = 0;
-            while (iS < this.$store.getters.eventStudents.length) {
-                var student =_.toArray(this.$store.getters.eventStudents[iS]);
-                var studentId = student[1];
-                this.studentsIds.push(studentId);
-                iS++;
-            }
-            // Push ID on project in new array
-            var iJ = 0;
-            while (iJ < this.$store.getters.eventJurys.length) {
-                var jury =_.toArray(this.$store.getters.eventJurys[iJ]);
-                var juryId = jury[1];
-                this.jurysIds.push(juryId);
-                iJ++;
-            }
-            // Defined author id
-            this.authorId = this.userId;
-            const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
-            this.$apollo.mutate({
-                mutation: CREATE_EVENT_MUTATION,
-                variables: {
-                    courseName,
-                    academicYear,
-                    softDelete,
-                    authorId,
-                    jurysIds,
-                    studentsIds,
-                    projectsIds,
-                },
-            }).then(data => {
-                console.log('Done event creation.');
-            }).catch(error => {
-                console.log('---Event creation failed' + error)
-            });
         },
-        ...mapMutations([
-            'addJury',
-            'addStudent',
-            'addProject',
-            'removeStudent',
-            'removeJury',
-            'removeProject'
-        ]),
-    },
-    created(){
-        const { name, id } = this;
-//         const promise = new Promise( (res, rej) => {
-//             res(this.$apollo.query({
-//                 query: ALL_USER_QUERY,
-//                 variables: {
-//                     name,
-//                     id
-//                 }
-//             }))
-//         } )
-
-//         async function getUser() {
-//             const userData = [];
-//             const userObj = {};
-//             const res = await promise
-//             const data = await res.data
-//             const allUsers = await data.allUsers
-
-// const i = 0;
-//             allUsers.map(e => { 
+        computed:{
+            ...mapGetters([
+                'jurys',
+                'students',
+                'projects',
+                'eventJurys',
+                'eventStudents',
+                'eventProjects',
+                'userId'
+            ]),
+        },
+        methods: {
+            createEvent(){
                 
-//                 let user = [];
-//                 // user.push(e.id, e.name, e.email, e.company)
-//                 // userData.push(user)
-//                 let id = e.id;
-//                 let name = e.name;
+                // Push ID on project in new array
+                var iP = 0;
+                while (iP < this.$store.getters.eventProjects.length) {
+                    var project =_.toArray(this.$store.getters.eventProjects[iP]);
+                    var projectIdd = project[1];
+                    this.implementationsIds.push(projectIdd);
+                    iP++;
+                }
+                // Push ID on student in new array
+                var iS = 0;
+                while (iS < this.$store.getters.eventStudents.length) {
+                    var student =_.toArray(this.$store.getters.eventStudents[iS]);
+                    var studentIdd = student[1];
+                    this.studentsIds.push(studentIdd);
+                    iS++;
+                }
 
-//                 userData.push({id: id, name: name, event: false})
+                // Push ID on project in new array
+                var iJ = 0;
+                while (iJ < this.$store.getters.eventJurys.length) {
+                    var jury =_.toArray(this.$store.getters.eventJurys[iJ]);
+                    var juryId = jury[1];
+                    this.jurysIds.push(juryId);
+                    iJ++;
+                }
+                // Defined author id
+                this.authorId = this.userId;
 
-//             })
-//              console.log(userData)
-//         }
-//         getUser()
+                // Created event with params
+                // courseName, academicYear, sofDelete, authorId, jurysIds, studentsIds,
+                const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds, projectId, studentId, weight, eventId } = this;
+                this.$apollo.mutate({
+                    mutation: CREATE_EVENT_MUTATION,
+                    variables: {
+                        courseName,
+                        academicYear,
+                        softDelete,
+                        authorId,
+                        jurysIds,
+                        studentsIds,
+                        projectsIds,
+                    },
+                }).then(data => {
+                   //this.eventId = data.data.createEvent.id
+                    console.log('Done event creation.');
+                }).catch(error => {
+                    console.log('---Event creation failed' + error)
+                });
 
-        // Users query
-        this.$apollo.query({
-            query: ALL_USER_QUERY,
-            variables: {
-                name,
-                id
-            }
-        }).then(data => {
-            this.allUsers = data.data.allUsers
-            this.$store.commit('jurys', this.allUsers, {root: true})
-        }).catch(error => {
-            console.log("---User recuperation failed " + error)
-        });
+                // Created all implementations for this event
+                this.studentsIds.forEach(studentId => {
+                    this.implementationsIds.forEach(projectId => {
+                        this.$apollo.mutate({
+                            mutation: CREATE_IMPLEMENTATION_MUTATION,
+                            variables: {
+                                softDelete,
+                                projectId,
+                                studentId,
+                                weight,
+                                eventId,
+                            }
+                        }).then(data => {
+                            console.log('Done implementation creation');
+                        }).catch(error => {
+                            console.log('---Implementation cretion failed ' + error)
+                        })
+                    });
+                });
+            },
+            ...mapMutations([
+                'addJury',
+                'addStudent',
+                'addProject',
+                'removeStudent',
+                'removeJury',
+                'removeProject'
+            ]),
+        },
+        created(){
+            const { name, id } = this;
+    //         const promise = new Promise( (res, rej) => {
+    //             res(this.$apollo.query({
+    //                 query: ALL_USER_QUERY,
+    //                 variables: {
+    //                     name,
+    //                     id
+    //                 }
+    //             }))
+    //         } )
 
-        // Students query
-        this.$apollo.query({
-            query: ALL_STUDENT_QUERY,
-            variables: {
-                name,
-                id
-            }
-        }).then(data => {
-            this.allStudents = data.data.allStudents
-            this.$store.commit('students', this.allStudents, {root: true})
-        }).catch(error => {
-            console.log("---User recuperation failed " + error)
-        });
+    //         async function getUser() {
+    //             const userData = [];
+    //             const userObj = {};
+    //             const res = await promise
+    //             const data = await res.data
+    //             const allUsers = await data.allUsers
 
-        // Projects query
-        this.$apollo.query({
-            query: ALL_PROJECT_QUERY,
-            variables: {
-                name,
-                id
-            }
-        }).then(data => {
-            this.allProjects = data.data.allProjects
-            this.$store.commit('projects', this.allProjects, {root: true})
-        }).catch(error => {
-            console.log("---User recuperation failed " + error)
-        });
-        
-    }
-};
+    // const i = 0;
+    //             allUsers.map(e => { 
+                    
+    //                 let user = [];
+    //                 // user.push(e.id, e.name, e.email, e.company)
+    //                 // userData.push(user)
+    //                 let id = e.id;
+    //                 let name = e.name;
+
+    //                 userData.push({id: id, name: name, event: false})
+
+    //             })
+    //              console.log(userData)
+    //         }
+    //         getUser()
+
+            // Users query
+            this.$apollo.query({
+                query: ALL_USER_QUERY,
+                variables: {
+                    name,
+                    id
+                }
+            }).then(data => {
+                this.allUsers = data.data.allUsers
+                this.$store.commit('jurys', this.allUsers, {root: true})
+            }).catch(error => {
+                console.log("---User recuperation failed " + error)
+            });
+
+            // Students query
+            this.$apollo.query({
+                query: ALL_STUDENT_QUERY,
+                variables: {
+                    name,
+                    id
+                }
+            }).then(data => {
+                this.allStudents = data.data.allStudents
+                this.$store.commit('students', this.allStudents, {root: true})
+            }).catch(error => {
+                console.log("---User recuperation failed " + error)
+            });
+
+            // Projects query
+            this.$apollo.query({
+                query: ALL_PROJECT_QUERY,
+                variables: {
+                    name,
+                    id
+                }
+            }).then(data => {
+                this.allProjects = data.data.allProjects
+                this.$store.commit('projects', this.allProjects, {root: true})
+            }).catch(error => {
+                console.log("---User recuperation failed " + error)
+            });
+            
+        }
+    };
 </script>
