@@ -1,6 +1,8 @@
 import { USER_QUERY } from './constants/user.gql'
 import { ALL_STUDENT_QUERY } from './constants/StudentsAll.gql'
 import { ALL_USER_QUERY } from './constants/UsersAll.gql'
+import { ALL_PROJECT_QUERY } from './constants/ProjectsAll.gql'
+
 
 import {apolloClient} from './apollo'
 
@@ -38,6 +40,16 @@ export const actions = {
             commit('students', allStudents)
         }).catch(error => {
             console.log("---Students recuperation failed " + error)
+        });
+    },
+    setAllProjects({ state, commit, mutations }) {
+        apolloClient.query({
+            query: ALL_PROJECT_QUERY,
+        }).then(data => {
+            let allProjects = data.data.allProjects
+            commit('projects', allProjects)
+        }).catch(error => {
+            console.log("---Projects recuperation failed " + error)
         });
     },
 }

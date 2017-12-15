@@ -131,7 +131,6 @@ import nanoid from 'nanoid'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 // import VueApollo from 'vue-apollo'
  
-import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
 import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
 var _ = require('lodash');
 export default {
@@ -214,33 +213,21 @@ export default {
             'removeProject'
         ]),
         ...mapActions([
-            'setAllStudents'
+            'setAllUsers',
+            'setAllStudents',
+            'setAllProjects',
         ])
     },
     created(){
-        const { name, id } = this;
 
-        // Users query
-
+        // Users recuperation
         this.$store.dispatch('setAllUsers')
 
-        // Students query
-
+        // Students recuperation
         this.$store.dispatch('setAllStudents')
 
-        // Projects query
-        this.$apollo.query({
-            query: ALL_PROJECT_QUERY,
-            variables: {
-                name,
-                id
-            }
-        }).then(data => {
-            this.allProjects = data.data.allProjects
-            this.$store.commit('projects', this.allProjects, {root: true})
-        }).catch(error => {
-            console.log("---User recuperation failed " + error)
-        });
+        // Projects recuperation
+        this.$store.dispatch('setAllProjects')
         
     }
 };
