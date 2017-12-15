@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 export default {
   name: 'navigation',
   methods:{
@@ -22,12 +22,18 @@ export default {
       
       // Redirect to login
       location.assign('/login')
-    }
+    },
+    ...mapActions([
+        'setCurrentUser'
+    ])
   },
   computed: {
     ...mapGetters([
       'userId',
     ])
+  },
+  updated() {
+      this.$store.dispatch('setCurrentUser')
   }
 }
 </script>

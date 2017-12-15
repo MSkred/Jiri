@@ -128,11 +128,10 @@
 
 
 import nanoid from 'nanoid'
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 // import VueApollo from 'vue-apollo'
  
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
-import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
 import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
 var _ = require('lodash');
@@ -215,41 +214,12 @@ export default {
             'removeJury',
             'removeProject'
         ]),
+        ...mapActions([
+            'setAllStudents'
+        ])
     },
     created(){
         const { name, id } = this;
-//         const promise = new Promise( (res, rej) => {
-//             res(this.$apollo.query({
-//                 query: ALL_USER_QUERY,
-//                 variables: {
-//                     name,
-//                     id
-//                 }
-//             }))
-//         } )
-
-//         async function getUser() {
-//             const userData = [];
-//             const userObj = {};
-//             const res = await promise
-//             const data = await res.data
-//             const allUsers = await data.allUsers
-
-// const i = 0;
-//             allUsers.map(e => { 
-                
-//                 let user = [];
-//                 // user.push(e.id, e.name, e.email, e.company)
-//                 // userData.push(user)
-//                 let id = e.id;
-//                 let name = e.name;
-
-//                 userData.push({id: id, name: name, event: false})
-
-//             })
-//              console.log(userData)
-//         }
-//         getUser()
 
         // Users query
         this.$apollo.query({
@@ -266,18 +236,8 @@ export default {
         });
 
         // Students query
-        this.$apollo.query({
-            query: ALL_STUDENT_QUERY,
-            variables: {
-                name,
-                id
-            }
-        }).then(data => {
-            this.allStudents = data.data.allStudents
-            this.$store.commit('students', this.allStudents, {root: true})
-        }).catch(error => {
-            console.log("---User recuperation failed " + error)
-        });
+
+        this.$store.dispatch('setAllStudents')
 
         // Projects query
         this.$apollo.query({

@@ -8,20 +8,11 @@
 
 <script>
 import Navigation from './components/Navigation.vue';
-import {mapActions} from 'vuex'
 
 export default {
   name: 'app',
   components: {
     Navigation,
   },
-  // methods: {
-  //     ...mapActions([
-  //         'setCurrentUser'
-  //     ])
-  // },
-  // created() {
-  //     this.$store.dispatch('setCurrentUser')
-  // }
 }
 </script>

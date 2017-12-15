@@ -79,7 +79,7 @@ export const mutations = {
         state.userId = id;
     },
     getUserData(state, payload){
-        state.currentUser = payload
+        state.userData = payload
     },
     
 }
