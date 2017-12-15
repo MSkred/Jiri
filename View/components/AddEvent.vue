@@ -141,8 +141,10 @@ export default {
             academicYear: null,
             softDelete: false,       
             authorId: null,
+            eventDatas: [],
             jurysIds: [],
             studentsIds: [],
+            projectsIds: [],
             implementationsIds: [],
         }
     },
@@ -161,29 +163,20 @@ export default {
         createEvent(){
             
             // Push ID on project in new array
-            var iP = 0;
-            while (iP < this.$store.getters.eventProjects.length) {
-                var project =_.toArray(this.$store.getters.eventProjects[iP]);
-                var projectId = project[1];
-                this.implementationsIds.push(projectId);
-                iP++;
-            }
+            this.eventProjects.map( project => {
+                let projectId = project.id;
+                this.projectsIds.push(projectId)
+            } )
             // Push ID on student in new array
-            var iS = 0;
-            while (iS < this.$store.getters.eventStudents.length) {
-                var student =_.toArray(this.$store.getters.eventStudents[iS]);
-                var studentId = student[1];
-                this.studentsIds.push(studentId);
-                iS++;
-            }
+            this.eventStudents.map( student => {
+                let studentId = student.id;
+                this.studentsIds.push(studentId)
+            } )
             // Push ID on project in new array
-            var iJ = 0;
-            while (iJ < this.$store.getters.eventJurys.length) {
-                var jury =_.toArray(this.$store.getters.eventJurys[iJ]);
-                var juryId = jury[1];
-                this.jurysIds.push(juryId);
-                iJ++;
-            }
+            this.eventJurys.map( jury => {
+                let juryId = jury.id;
+                this.jurysIds.push(juryId)
+            } )
             // Defined author id
             this.authorId = this.userId;
             const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
