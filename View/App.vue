@@ -15,13 +15,13 @@ export default {
   components: {
     Navigation,
   },
-  methods: {
-      ...mapActions([
-          'setCurrentUser'
-      ])
-  },
-  created() {
-      this.$store.dispatch('setCurrentUser')
-  }
+  // methods: {
+  //     ...mapActions([
+  //         'setCurrentUser'
+  //     ])
+  // },
+  // created() {
+  //     this.$store.dispatch('setCurrentUser')
+  // }
 }
 </script>
