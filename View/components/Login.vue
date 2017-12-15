@@ -46,8 +46,8 @@ export default {
               localStorage.setItem('graphcoolId', data.data.authenticateUser.id)
 
               // Redirect to home
-              this.$router.push({ name: 'home'})
               location.assign('/')
+              
             }).catch(error => {
                 console.log('---Authentification failed' + error)
             });

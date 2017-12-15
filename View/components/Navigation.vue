@@ -16,8 +16,9 @@ export default {
   methods:{
     logout(){
       localStorage.removeItem('graphcoolToken')
-      this.$router.push({ name: 'login'})
-      window.location.reload()
+      
+      // Redirect to login
+      location.assign('/login')
     }
   }
 }
