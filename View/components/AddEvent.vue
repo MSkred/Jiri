@@ -224,6 +224,8 @@ export default {
 
                     });
                 });
+                this.studentsIds = [];
+                this.projectsIds = [];
             }).then(data => {
                 console.log('Done event update')
             })
