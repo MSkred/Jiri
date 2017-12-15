@@ -45,14 +45,14 @@ router.beforeEach((to, from, next) => {
             next({ name: 'login' });
             console.log('Vous n etes pas connecter')
         } else if (loggedIn(data) !== null) {
-            store.commit('currentUser', data.data.loggedInUser.id);
+            store.commit('getUserId', data.data.loggedInUser.id);
             next();
             console.log('Vous etes connecter')
         } else {
             next();
         }
         if (loggedIn(data) !== null && to.name === 'login') {
-            store.commit('currentUser', data.data.loggedInUser.id);
+            store.commit('getUserId', data.data.loggedInUser.id);
             next({ name: 'home' });
         }
     }).catch(error => {
