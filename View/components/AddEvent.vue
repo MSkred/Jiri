@@ -188,7 +188,6 @@ export default {
                 iJ++;
             }
             // Defined author id
-    console.log(this.userId)
             this.authorId = this.userId;
             const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
             this.$apollo.mutate({

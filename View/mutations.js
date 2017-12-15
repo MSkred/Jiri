@@ -7,7 +7,6 @@ export const mutations = {
             newJury.push(eventJurys);
         });
         state.jurys = newJury;
-//return state.jurys;
     },
     students(state, key) {
         state.students = key;

@@ -1,15 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Routes from './routes'
-import apolloProvider from './apollo'
+import router from './router'
+import {apolloProvider} from './apollo'
 import App from './App.vue'
 import { store } from './store'
 
-Vue.use(VueRouter)
-
-const router = new VueRouter({
-    routes: Routes
-})
 
 
 new Vue({
