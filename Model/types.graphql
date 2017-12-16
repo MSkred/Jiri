@@ -29,6 +29,7 @@ type Event @model{
   courseName: String!
   academicYear: String!
   author: User! @relation(name: "EventsForUser")
+  projects: [Project!]! @relation(name: "ProjectsForEvent")
   jurys: [User!]! @relation(name: "JurysForUser")
   meetings: [Meeting!]! @relation(name: "MeetingsForEvent")
   students:[Student!]! @relation(name: "EventsForStudent")
@@ -81,5 +82,6 @@ type Project @model{
   softDelete: Boolean!
   name: String!
   description: String!
+  events: [Event!]! @relation(name: "ProjectsForEvent")
   implemantations: [Implementation!]! @relation(name: "ImplementationsForProject")
 }
