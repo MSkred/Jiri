@@ -11,6 +11,9 @@ export const getters = {
     events(state){
         return state.events;
     },
+    event(state) {
+        return state.event;
+    },
     eventJurys(state) {
         return state.eventJurys;
     },

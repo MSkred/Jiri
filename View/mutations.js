@@ -32,6 +32,9 @@ export const mutations = {
     events(state, payload){
         state.events = payload;
     },
+    event(state, payload){
+        state.event = payload;
+    },
     addJury(state, key){
         state.jurys[key].event = true;
 

@@ -1,0 +1,20 @@
+import gql from 'graphql-tag'
+
+export const SINGLE_EVENT_QUERY = gql `
+    query allEvents($id: ID) {
+        allEvents(filter: {id: $id}){
+            id
+            courseName
+            academicYear
+            students{
+                name
+                email
+            }
+            jurys{
+                name
+                company
+                email
+            }
+        }
+    }
+`;

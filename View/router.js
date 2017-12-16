@@ -8,6 +8,7 @@ import AddStudent from './components/AddStudent.vue'
 import AddProject from './components/AddProject.vue'
 import AddEvent from './components/AddEvent.vue'
 import Events from './components/Events.vue'
+import SingleEvent from './components/Event.vue'
 import Login from './components/Login.vue'
 
 
@@ -23,7 +24,7 @@ const routes = [
     { path: '/addProject', component: AddProject, name: 'addProject' },
     { path: '/addEvent', component: AddEvent, name: 'addEvent' },
     { path: '/events', component: Events, name: 'events' },
-    { path: '/event/:id', component: Event, name: 'event', props: true },
+    { path: '/event/:id', component: SingleEvent, name: 'event', props: true },
     { path: '/login', component: Login, name: 'login' },
 ]
 
