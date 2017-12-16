@@ -7,10 +7,12 @@ export const SINGLE_EVENT_QUERY = gql `
             courseName
             academicYear
             students{
+                id
                 name
                 email
             }
             jurys{
+                id
                 name
                 company
                 email

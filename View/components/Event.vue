@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters} from 'vuex'
 export default {
     name: 'SingleEvent',
     props: ['id'],
@@ -33,11 +33,6 @@ export default {
             'event',
         ])
     },
-    // methods: {
-    //     ...mapMutations([
-    //         'createMeeting'
-    //     ])
-    // },
     created(){
         // Event recupeartion
         this.$store.dispatch('setEvent', this.id);

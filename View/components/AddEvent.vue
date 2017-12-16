@@ -3,7 +3,7 @@
       <div class="container">
       <h1>Ajouter un événement</h1>
       
-           <form id="msform">
+<form id="msform">
     <ul id="progressbar">
         <li class="active">Nom & année</li>
         <li>Ajout du jury</li>
