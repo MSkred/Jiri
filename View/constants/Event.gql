@@ -15,6 +15,11 @@ export const SINGLE_EVENT_QUERY = gql `
                 company
                 email
             }
+            projects{
+                id
+                name
+                description
+            }
         }
     }
 `;
