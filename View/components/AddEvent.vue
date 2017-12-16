@@ -194,6 +194,7 @@ export default {
                     authorId,
                     jurysIds,
                     studentsIds,
+                    projectsIds,
                 },
             }).then(data => {
                 this.currentEvent = data.data.createEvent.id
