@@ -8,6 +8,9 @@ export const getters = {
     projects(state) {
         return state.projects;
     },
+    events(state){
+        return state.events;
+    },
     eventJurys(state) {
         return state.eventJurys;
     },

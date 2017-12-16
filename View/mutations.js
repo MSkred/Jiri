@@ -29,6 +29,9 @@ export const mutations = {
         })
         state.projects = newProject;
     },
+    events(state, payload){
+        state.projects = payload;
+    },
     addJury(state, key){
         state.jurys[key].event = true;
 

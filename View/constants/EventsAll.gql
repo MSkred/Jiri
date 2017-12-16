@@ -1,0 +1,20 @@
+import gql from 'graphql-tag'
+
+export const ALL_EVENT_QUERY = gql `
+    query allEvents {
+        allEvents{
+            id
+            courseName
+            academicYear
+            jurys{
+                id
+            }
+            students{
+                id
+            }
+            projects{
+                id
+            }
+        }
+    }
+`;
