@@ -12,9 +12,6 @@ export const ALL_EVENT_QUERY = gql `
             students{
                 id
             }
-            projects{
-                id
-            }
         }
     }
 `;

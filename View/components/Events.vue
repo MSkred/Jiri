@@ -2,13 +2,14 @@
   <div class="container">
       <h1>Tous les événements</h1>
       <div class="container__event event">
-          <a v-for="(event, key) in events" :value="event.id" :key="event.id" class="event__item">
-              <h2 class="title">{{event.courseName}}</h2>
-              <span class="year">{{event.academicYear}}</span>
-              <span class="jurys"></span>
-              <span class="students"></span>
-              <span class="projects"></span>
-          </a>
+          <router-link v-for="(event, key) in events" :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`">
+            <div class="event__item">
+                <h2 class="title">{{event.courseName}}</h2>
+                <p class="year">{{event.academicYear}}</p>
+                <p class="jurys">{{event.jurys.length}} jurys</p>
+                <p class="students">{{event.students.length}} étudiants</p>
+            </div>
+          </router-link>
       </div>
   </div>
 </template>

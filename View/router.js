@@ -22,7 +22,8 @@ const routes = [
     { path: '/addStudent', component: AddStudent, name: 'addStudent' },
     { path: '/addProject', component: AddProject, name: 'addProject' },
     { path: '/addEvent', component: AddEvent, name: 'addEvent' },
-    { path: '/events', component: events, name: 'events' },
+    { path: '/events', component: Events, name: 'events' },
+    { path: '/event/:id', component: Event, name: 'event', props: true },
     { path: '/login', component: Login, name: 'login' },
 ]
 
