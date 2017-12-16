@@ -68,8 +68,11 @@ export const actions = {
         const id = payload;
         apolloClient.query({
             query: SINGLE_EVENT_QUERY,
+            variables: {
+                id
+            }
         }).then(data => {
-            let singleEvent = data.data.allEvents[0]
+            let singleEvent = data.data.allEvents[0];
             commit('event', singleEvent)
         }).catch(error => {
             console.log("---Event recuperation failed " + error)
