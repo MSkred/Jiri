@@ -17,11 +17,14 @@
                 <p>{{student.email}}</p>
             </div>
         </div>
+        <router-link :to="{name: 'addMeeting', params: {id: id}}" :href="`/event/${id}/addMeeting`">
+            Commencer un meeting
+        </router-link>
     </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 export default {
     name: 'SingleEvent',
     props: ['id'],
@@ -30,6 +33,11 @@ export default {
             'event',
         ])
     },
+    // methods: {
+    //     ...mapMutations([
+    //         'createMeeting'
+    //     ])
+    // },
     created(){
         // Event recupeartion
         this.$store.dispatch('setEvent', this.id);
