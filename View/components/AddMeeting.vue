@@ -82,6 +82,8 @@ export default {
             }).then(data => {
                 this.currentMeeting = data.data.createMeeting.id
                 this.$store.commit('meeting', data.data.createMeeting)
+                
+                location.assign(`/event/${this.event.id}/meeting/${this.currentMeeting}`)
                 console.log('Done meeting creation')
             }).catch(error => {
                 console.log('---meeting creation failed'  + error)
