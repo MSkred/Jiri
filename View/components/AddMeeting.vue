@@ -11,20 +11,20 @@
                     <option v-for="(student, key) in event.students" :value="student.id">{{student.name}}</option>
                 </select>
             </fieldset>
-            <fieldset>
+            <!-- <fieldset>
                 <h2 class="fs-title">Ajoutez les projets</h2>
                 <h3 class="fs-subtitle">Ceci est l'étape 2</h3>
                 <label for="project">Sélectionnez les projets</label>
                 <label v-for="(project, key) in event.projects" :key="project.id" class="form-check">
-                    <!-- Add project -->
+                    Add project
                     <input v-if="!project.meeting" @click.prevent="addProjectToMeeting(key)" v-model="project.meeting" type="checkbox" class="form-check-input"></input>
                     
-                    <!--Delete project -->
+                   Delete project
                     <input v-if="project.meeting" @click.prevent="removeProjectToMeeting(key)" v-model="project.meeting" type="checkbox" class="form-check-input">{{project.name}}</input>
                 </label>
                 <input type="button" name="previous" class="previous action-button" value="Previous" />
                 <input type="button" name="next" class="next action-button" value="Next" />
-            </fieldset>
+            </fieldset> -->
             <button @click.prevent="startMeeting">Commencez le meeting</button>
         </form>
     </div>
@@ -40,7 +40,6 @@ export default {
         return{
             softDelete: false,
             studentId: null,
-            projectsIds: [],
             authorId: null,
             currentMeeting: null,
             currentStudent: null,
@@ -51,20 +50,19 @@ export default {
             'userId',
             'event',
             'meeting',
-            'meetingProjects'
         ])
     },
     methods: {
-        ...mapMutations([
-            'addProjectToMeeting',
-            'removeProjectToMeeting',
-        ]),
+        // ...mapMutations([
+        //     'addProjectToMeeting',
+        //     'removeProjectToMeeting',
+        // ]),
         startMeeting(){
             // Push project ID in new array
-            this.meetingProjects.map( project => {
-                let projectId = project.id
-                this.projectsIds.push(projectId)
-            })
+            // this.meetingProjects.map( project => {
+            //     let projectId = project.id
+            //     this.projectsIds.push(projectId)
+            // })
 
             // Get user & event ID and assign it
             this.authorId = this.userId

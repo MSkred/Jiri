@@ -1,16 +1,20 @@
 <template>
     <div class="container">
         <h1>Meeting avec {{meeting.student.name}} </h1>
-        <!-- <p>{{event.academicYear}}</p>
-        <div class="container__jurys jurys">
-            <h2>Sélectionner les meeting</h2>
-            <div v-for="(implementation, key) in event.implementations" class="jurys__item">
-                <p>{{implementation.project.name}}</p>
-            </div>
-        </div>
-        <router-link :to="{name: 'addMeeting', params: {id: id}}" :href="`/event/${id}/addMeeting`">
-            Commencer un meeting
-        </router-link> -->
+         <fieldset>
+            <h2 class="fs-title">Ajoutez les projets</h2>
+            <h3 class="fs-subtitle">Ceci est l'étape 2</h3>
+            <label for="project">Sélectionnez les projets</label>
+            <label v-for="(implementation, key) in meeting.event.implementations" :key="implementation.id" class="form-check">
+                <!-- Add project -->
+                <input v-if="!implementation.meeting" v-model="implementation.meeting" @click.prevent="addProjectToMeeting(key)" type="checkbox" class="form-check-input"></input>
+                
+                <!--Delete project -->
+                <input v-if="implementation.meeting" v-model="implementation.meeting" @click.prevent="removeProjectToMeeting(key)" type="checkbox" class="form-check-input">{{implementation.project.name}}</input>
+            </label>
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="button" name="next" class="next action-button" value="Next" />
+        </fieldset>
     </div>
 </template>
 
@@ -23,9 +27,21 @@ export default {
         'eventId',
         'studentId'
     ],
+    data(){
+        return{
+            projectsIds: [],
+        }
+    },
     computed: {
         ...mapGetters([
             'meeting',
+            'meetingProjects'
+        ])
+    },
+    methods: {
+        ...mapMutations([
+            'addProjectToMeeting',
+            'removeProjectToMeeting'
         ])
     },
     created(){

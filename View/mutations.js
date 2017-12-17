@@ -37,29 +37,28 @@ export const mutations = {
     event(state, payload){
         // Fill state event with payload
         state.event = payload;
-        // Create projects & newEvent array
-        var projects = [];
-        var newEvent = [];
-        // Get all data in var
-        var academicYear = state.event.academicYear
-        var courseName = state.event.courseName
-        var id = state.event.id
-        var jurys = state.event.jurys
-        var students = state.event.students
-        // Adding meeting key in my object
-        state.event.projects.map( project => {
-            let id = project.id
-            let name = project.name
-            let description = project.description
-            projects.push({ id: id, name: name, description: description, meeting: false })
-        } )
-        // Reset state
-        state.event = new Object();
-        // Create new state with projects meeting key
-        state.event = ({ academicYear, courseName, id, jurys, students, projects})
     },
     meeting(state, payload){
         state.meeting = payload;
+        // Create projects & newEvent array
+        var implementations = [];
+        var newMeeting = [];
+        var newEvent = new Object();
+        // Get all data in var
+        var id = state.meeting.id
+        var student = state.meeting.student
+        var event = state.meeting.event
+        // Adding meeting key in my object
+        event.implementations.map( implementation => {
+            let id = implementation.id
+            let project = implementation.project
+            implementations.push({ id: id, project: project, meeting: false })
+        } )
+        newEvent = ({ id: id, implementations: implementations})
+        // Reset state
+        state.meeting = new Object();
+        // Create new state with projects meeting key
+        state.meeting = ({ id, student, event: newEvent })
     },
     meetingStudent(state, payload) {
         state.meetingStudent = payload;
@@ -94,18 +93,18 @@ export const mutations = {
         }
     },
     addProjectToMeeting(state, key) {
-        if (!state.event.projects[key].meeting) {
-            state.event.projects[key].meeting = true;
-            state.meetingProjects.push(state.event.projects[key]);
+        if (!state.meeting.event.implementations[key].meeting) {
+            state.meeting.event.implementations[key].meeting = true;
+            state.meetingProjects.push(state.meeting.event.implementations[key]);
         }
     },
     removeProjectToMeeting(state, key) {
-        if (state.event.projects[key].meeting) {
-            state.event.projects[key].meeting = false;
+        if (state.meeting.event.implementations[key].meeting) {
+            state.meeting.event.implementations[key].meeting = false;
         }
         var i = 0;
-        state.meetingProjects.forEach(project => {
-            if (!project.meeting) {
+        state.meeting.event.implementations.forEach(implementation => {
+            if (!implementation.meeting) {
                 state.meetingProjects.splice(i, 1)
             }
             i++;
