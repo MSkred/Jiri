@@ -42,12 +42,14 @@ export default {
             studentId: null,
             projectsIds: [],
             authorId: null,
+            currentMeeting: null,
         }
     },
     computed: {
         ...mapGetters([
             'userId',
             'event',
+            'meeting',
             'meetingProjects'
         ])
     },
@@ -78,7 +80,8 @@ export default {
                     eventId
                 }
             }).then(data => {
-                console.log(data)
+                this.currentMeeting = data.data.createMeeting.id
+                this.$store.commit('meeting', data.data.createMeeting)
                 console.log('Done meeting creation')
             }).catch(error => {
                 console.log('---meeting creation failed'  + error)

@@ -58,6 +58,9 @@ export const mutations = {
         // Create new state with projects meeting key
         state.event = ({ academicYear, courseName, id, jurys, students, projects})
     },
+    meeting(state, payload){
+        state.meeting = payload;
+    },
     addJury(state, key){
         state.jurys[key].event = true;
 

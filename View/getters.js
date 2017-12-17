@@ -26,6 +26,9 @@ export const getters = {
     meetingProjects(state){
         return state.meetingProjects;
     },
+    meeting(state){
+        return state.meeting
+    },
     userId(state) {
         return state.userId;
     },
