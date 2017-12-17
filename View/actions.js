@@ -4,6 +4,8 @@ import { ALL_USER_QUERY } from './constants/UsersAll.gql'
 import { ALL_PROJECT_QUERY } from './constants/ProjectsAll.gql'
 import { ALL_EVENT_QUERY } from './constants/EventsAll.gql'
 import { SINGLE_EVENT_QUERY } from './constants/Event.gql'
+import { SINGLE_MEETING_QUERY } from './constants/Meeting.gql'
+import { SINGLE_MEETING_DATA_QUERY } from './constants/MeetingData.gql'
 
 
 import {apolloClient} from './apollo'
@@ -76,6 +78,22 @@ export const actions = {
             commit('event', singleEvent)
         }).catch(error => {
             console.log("---Event recuperation failed " + error)
+        })
+    },
+    setMeeting({ commit }, payload){
+        const id = payload.id;
+        const studentId = payload.studentId;
+        apolloClient.query({
+            query: SINGLE_MEETING_QUERY,
+            variables: {
+                id,
+                studentId
+            }
+        }).then(data => {
+            let singleMeeting = data.data.allMeetings[0]
+            commit('meeting', singleMeeting)
+        }).catch(error => {
+            console.log("---Meeting recuperation failed " + error)
         })
     }
 }

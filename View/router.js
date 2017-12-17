@@ -10,6 +10,7 @@ import AddEvent from './components/AddEvent.vue'
 import Events from './components/Events.vue'
 import SingleEvent from './components/Event.vue'
 import AddMeeting from './components/AddMeeting.vue'
+import Meeting from './components/Meeting.vue'
 import Login from './components/Login.vue'
 
 
@@ -27,6 +28,7 @@ const routes = [
     { path: '/events', component: Events, name: 'events' },
     { path: '/event/:id', component: SingleEvent, name: 'event', props: true },
     { path: '/event/:id/addMeeting', component: AddMeeting, name: 'addMeeting', props: true },
+    { path: '/event/:eventId/meeting/:id/student/:studentId', component: Meeting, name: 'meeting', props: true },
     { path: '/login', component: Login, name: 'login' },
 ]
 

@@ -61,6 +61,9 @@ export const mutations = {
     meeting(state, payload){
         state.meeting = payload;
     },
+    meetingStudent(state, payload) {
+        state.meetingStudent = payload;
+    },
     addJury(state, key){
         state.jurys[key].event = true;
 
@@ -133,5 +136,6 @@ export const mutations = {
     getUserData(state, payload){
         state.userData = payload
     },
+
     
 }

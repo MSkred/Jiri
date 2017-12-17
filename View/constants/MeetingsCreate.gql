@@ -4,6 +4,10 @@ export const CREATE_MEETING_MUTATION = gql `
     mutation CreateMeeting($softDelete: Boolean!, $eventId: ID!, $studentId: ID!, $authorId: ID!) {
         createMeeting(softDelete: $softDelete, eventId: $eventId, studentId: $studentId, authorId: $authorId) {
             id
+            student{
+                id
+                name
+            }
             event{
                 id
                 implementations(filter: { students_every: {id: $studentId} }){
@@ -13,9 +17,6 @@ export const CREATE_MEETING_MUTATION = gql `
                         description
                     }
                 }
-            }
-            student{
-                name
             }
         }
     }

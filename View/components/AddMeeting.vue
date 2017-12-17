@@ -43,6 +43,7 @@ export default {
             projectsIds: [],
             authorId: null,
             currentMeeting: null,
+            currentStudent: null,
         }
     },
     computed: {
@@ -80,11 +81,13 @@ export default {
                     eventId
                 }
             }).then(data => {
+                //console.log(data.data.createMeeting)
                 this.currentMeeting = data.data.createMeeting.id
                 this.$store.commit('meeting', data.data.createMeeting)
-                
-                location.assign(`/event/${this.event.id}/meeting/${this.currentMeeting}`)
+                //this.$store.commit('meetingStudent', data.data.createMeeting.student)
+                location.assign(`/event/${this.event.id}/meeting/${this.currentMeeting}/student/${this.studentId}`)
                 console.log('Done meeting creation')
+            }).then(data => {
             }).catch(error => {
                 console.log('---meeting creation failed'  + error)
             });
