@@ -15,9 +15,9 @@
                 <h2 class="fs-title">Ajoutez les projets</h2>
                 <h3 class="fs-subtitle">Ceci est l'étape 2</h3>
                 <label for="project">Sélectionnez les projets</label>
-                <label v-for="(project, key) in event.projects" :value="project.id" :key="project.id" class="form-check">
+                <label v-for="(project, key) in event.projects" :key="project.id" class="form-check">
                     <!-- Add project -->
-                    <input @click.prevent="addProject(key)" v-model="projects" :value="project.id" type="checkbox" class="form-check-input">{{project.name}}</input>
+                    <input @click.prevent="addProject(key)" :value="project.id" type="checkbox" class="form-check-input">{{project.name}}</input>
                 </label>
                 <input type="button" name="previous" class="previous action-button" value="Previous" />
                 <input type="button" name="next" class="next action-button" value="Next" />
@@ -27,27 +27,27 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 export default {
     name: 'add-meeting',
     props: ['id'], 
     data(){
         return{
             studentId: null,
-            projects: [],
+            projectsIds: [],
         }
     },
     computed: {
         ...mapGetters([
             'event',
+            'meetingProjects'
         ])
     },
     methods: {
-        addProject(key){
-            this.projects.push( this.event.projects[key].id );
-        },
-        removeProject(key){
-        }
+        ...mapMutations([
+            'addProjectToMeeting',
+            'removeProjectToMeeting',
+        ])
     },
     created(){
         // Event recupeartion
