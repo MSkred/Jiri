@@ -25,23 +25,28 @@
                 <input type="button" name="previous" class="previous action-button" value="Previous" />
                 <input type="button" name="next" class="next action-button" value="Next" />
             </fieldset>
+            <button @click.prevent="startMeeting">Commencez le meeting</button>
         </form>
     </div>
 </template>
 
 <script>
 import {mapGetters, mapMutations} from 'vuex'
+import { CREATE_MEETING_MUTATION } from '../constants/MeetingsCreate.gql'
 export default {
     name: 'add-meeting',
     props: ['id'], 
     data(){
         return{
+            softDelete: false,
             studentId: null,
             projectsIds: [],
+            authorId: null,
         }
     },
     computed: {
         ...mapGetters([
+            'userId',
             'event',
             'meetingProjects'
         ])
@@ -50,7 +55,35 @@ export default {
         ...mapMutations([
             'addProjectToMeeting',
             'removeProjectToMeeting',
-        ])
+        ]),
+        startMeeting(){
+            // Push project ID in new array
+            this.meetingProjects.map( project => {
+                let projectId = project.id
+                this.projectsIds.push(projectId)
+            })
+
+            // Get user & event ID and assign it
+            this.authorId = this.userId
+            this.eventId = this.event.id
+
+            //Create meeting
+            const { studentId, softDelete, authorId, eventId } = this;
+            this.$apollo.mutate({
+                mutation: CREATE_MEETING_MUTATION,
+                variables: {
+                    softDelete,
+                    studentId,
+                    authorId,
+                    eventId
+                }
+            }).then(data => {
+                console.log(data)
+                console.log('Done meeting creation')
+            }).catch(error => {
+                console.log('---meeting creation failed'  + error)
+            });
+        }
     },
     created(){
         // Event recupeartion

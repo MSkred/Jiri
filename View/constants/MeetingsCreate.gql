@@ -1,0 +1,15 @@
+import gql from 'graphql-tag'
+
+export const CREATE_MEETING_MUTATION = gql `
+    mutation CreateMeeting($softDelete: Boolean!, $eventId: ID!, $studentId: ID!, $authorId: ID!) {
+        createMeeting(softDelete: $softDelete, eventId: $eventId, studentId: $studentId, authorId: $authorId) {
+            id
+            event{
+                id
+                implementations(filter: { students_every: {id: $studentId} }){
+                    id
+                }
+            }
+        }
+    }
+`;

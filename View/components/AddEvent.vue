@@ -203,19 +203,19 @@ export default {
                 // Create all implementations
                 this.studentsIds.forEach(student => {
                     this.projectsIds.forEach(project => {
-                        let studentId = student;
+                        let studentsIds = student;
                         let projectId = project
                         let eventId = this.currentEvent;
                         let weight = 1/(projectsIds.length)
                         let softDelete = this.softDelete
-                        console.log(studentId, projectId, eventId, weight, softDelete);
+                        console.log(studentsIds, projectId, eventId, weight, softDelete);
                         this.$apollo.mutate({
                             mutation: CREATE_IMPLEMENTATIONS_MUTATION,
                             variables: {
                                 softDelete,
                                 eventId,
                                 projectId,
-                                studentId,
+                                studentsIds,
                                 weight,
                             }
                         }).then(data => {
