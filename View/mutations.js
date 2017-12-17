@@ -1,3 +1,5 @@
+import { concat } from "async";
+
 export const mutations = {
     jurys(state, payload){
         state.jurys = payload;
@@ -33,7 +35,28 @@ export const mutations = {
         state.events = payload;
     },
     event(state, payload){
+        // Fill state event with payload
         state.event = payload;
+        // Create projects & newEvent array
+        var projects = [];
+        var newEvent = [];
+        // Get all data in var
+        var academicYear = state.event.academicYear
+        var courseName = state.event.courseName
+        var id = state.event.id
+        var jurys = state.event.jurys
+        var students = state.event.students
+        // Adding meeting key in my object
+        state.event.projects.map( project => {
+            let id = project.id
+            let name = project.name
+            let description = project.description
+            projects.push({ id: id, name: name, description: description, meeting: false })
+        } )
+        // Reset state
+        state.event = new Object();
+        // Create new state with projects meeting key
+        state.event = ({ academicYear, courseName, id, jurys, students, projects})
     },
     addJury(state, key){
         state.jurys[key].event = true;
