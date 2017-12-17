@@ -93,6 +93,18 @@ export const mutations = {
             state.meetingProjects.push(state.event.projects[key]);
         }
     },
+    removeProjectToMeeting(state, key) {
+        if (state.event.projects[key].meeting) {
+            state.event.projects[key].meeting = false;
+        }
+        var i = 0;
+        state.meetingProjects.forEach(project => {
+            if (!project.meeting) {
+                state.meetingProjects.splice(i, 1)
+            }
+            i++;
+        });
+    },
     removeProject(state, key){
         if (state.projects[key].event) {
             state.projects[key].event = false;
