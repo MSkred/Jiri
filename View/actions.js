@@ -5,7 +5,6 @@ import { ALL_PROJECT_QUERY } from './constants/ProjectsAll.gql'
 import { ALL_EVENT_QUERY } from './constants/EventsAll.gql'
 import { SINGLE_EVENT_QUERY } from './constants/Event.gql'
 import { SINGLE_MEETING_QUERY } from './constants/Meeting.gql'
-import { SINGLE_MEETING_DATA_QUERY } from './constants/MeetingData.gql'
 
 
 import {apolloClient} from './apollo'
