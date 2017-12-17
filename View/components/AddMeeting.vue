@@ -17,7 +17,7 @@
                 <label for="project">Sélectionnez les projets</label>
                 <label v-for="(project, key) in event.projects" :key="project.id" class="form-check">
                     <!-- Add project -->
-                    <input @click.prevent="addProject(key)" :value="project.id" type="checkbox" class="form-check-input">{{project.name}}</input>
+                    <input @click.prevent="addProjectToMeeting(key)" :value="project.id" type="checkbox" class="form-check-input">{{project.name}}</input>
                 </label>
                 <input type="button" name="previous" class="previous action-button" value="Previous" />
                 <input type="button" name="next" class="next action-button" value="Next" />
