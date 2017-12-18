@@ -15,6 +15,25 @@
             <input type="button" name="previous" class="previous action-button" value="Previous" />
             <input type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
+        <!-- Display choosed project -->
+        <div v-for="(implementation, key) in meetingProjects" :key="implementation.id">
+            <h1>{{implementation.project.name}}</h1>
+            <p>{{implementation.project.description}}</p>
+            <form action="">
+                <label for="comment">Commentaire</label>
+                <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+                <label for="score">Côte</label>
+                <input type="number" name="score" id="score">
+            </form>
+        </div>
+        <!-- Global comment -->
+        <form action="">
+            <label for="comment">Commentaire global</label>
+            <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+            <label for="score">Côte général</label>
+            <input type="number" name="score" id="score">
+        </form>
+        
     </div>
 </template>
 
