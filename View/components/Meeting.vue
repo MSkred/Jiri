@@ -21,23 +21,25 @@
             <p>{{implementation.project.description}}</p>
             <form action="">
                 <label for="comment">Commentaire</label>
-                <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+                <textarea v-model="meetingProjects[key].score.comment" name="comment" id="comment" cols="30" rows="10"></textarea>
                 <label for="score">Côte</label>
-                <input type="number" name="score" id="score">
+                <input v-model="meetingProjects[key].score.score" type="number" name="score" id="score">
             </form>
         </div>
         <!-- Global comment -->
         <form action="">
             <label for="comment">Commentaire global</label>
-            <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+            <textarea v-model="global.comment" name="comment" id="comment" cols="30" rows="10"></textarea>
             <label for="score">Côte général</label>
-            <input type="number" name="score" id="score">
+            <input v-model="global.score" type="number" name="score" id="score">
         </form>
-        
+        <button @click.prevent="validateMeeting">Valider le meeting</button>
     </div>
 </template>
 
 <script>
+
+import { CREATE_SCORE_MUTATION } from '../constants/ScoresCreate.gql'
 import {mapGetters, mapMutations} from 'vuex'
 export default {
     name: 'Meeting',
@@ -48,7 +50,13 @@ export default {
     ],
     data(){
         return{
-            projectsIds: [],
+            scores: [],
+            softDelete: false,
+            implementations: [],
+            global: {
+                comment: null,
+                score: null,
+            },
         }
     },
     computed: {
@@ -61,7 +69,37 @@ export default {
         ...mapMutations([
             'addProjectToMeeting',
             'removeProjectToMeeting'
-        ])
+        ]),
+        validateMeeting(){
+            // Puse ID on implementation in new array
+            this.meetingProjects.map( project => {
+                let implementationId = project.id;
+                let comment = project.score.comment;
+                let score = project.score.score
+                this.scores.push({implementationId: implementationId, comment: comment, score: score})
+            } )
+            this.scores.forEach(scoore => {
+                let meetingId = this.id;
+                let softDelete = this.softDelete;
+                let implementationId = scoore.implementationId;
+                let comment = scoore.comment;
+                let score = parseFloat(scoore.score);
+                this.$apollo.mutate({
+                    mutation: CREATE_SCORE_MUTATION,
+                    variables:{
+                        meetingId,
+                        softDelete,
+                        implementationId,
+                        comment,
+                        score,
+                    },
+                }).then(data => {
+                    console.log('Done score creation.');
+                }).catch(error => {
+                    console.log('---Score creation failed ' + error)
+                });
+            });
+        }
     },
     created(){
         // Meeting datas recupeartion

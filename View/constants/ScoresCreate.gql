@@ -1,0 +1,9 @@
+import gql from 'graphql-tag'
+
+export const CREATE_SCORE_MUTATION = gql `
+    mutation CreateScore($meetingId: ID!, $implementationId: ID!, $comment: String, $score: Float!, $softDelete: Boolean!) {
+        createScore(meetingId: $meetingId, implementationId: $implementationId, comment: $comment, score: $score,softDelete: $softDelete) {
+            id
+        }
+    }
+`;

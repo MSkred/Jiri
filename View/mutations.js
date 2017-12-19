@@ -52,7 +52,7 @@ export const mutations = {
         event.implementations.map( implementation => {
             let id = implementation.id
             let project = implementation.project
-            implementations.push({ id: id, project: project, meeting: false })
+            implementations.push({ id: id, project: project, meeting: false, score: { comment: null, score: null } })
         } )
         newEvent = ({ id: id, implementations: implementations})
         // Reset state
