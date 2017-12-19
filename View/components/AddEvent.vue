@@ -229,19 +229,7 @@ export default {
                 });
                 this.studentsIds = [];
                 this.projectsIds = [];
-            }).then(data => {
-                let id = this.currentEvent;
-                let implementationsIds = this.implementationsIds;
-                this.$apollo.mutate({
-                    mutation: UPDATE_EVENT_MUTATION,
-                    variables: {
-                        id,
-                        implementationsIds
-                    }
-                })
-                console.log('Done event update')
-            })
-            .catch(error => {
+            }).catch(error => {
                 console.log('---Event creation failed' + error)
             });
 
