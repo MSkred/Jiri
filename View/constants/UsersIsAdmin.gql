@@ -1,0 +1,14 @@
+import gql from 'graphql-tag'
+
+export const ISADMIN_USER_QUERY  = gql`
+    query allUsers($id: ID!){
+        allUsers(filter: {
+            AND : [
+                { id: $id },
+                { isAdmin: true },
+            ]
+        }) {
+            isAdmin
+        }
+    }
+`

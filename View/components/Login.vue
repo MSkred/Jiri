@@ -40,7 +40,7 @@ export default {
                 },
             }).then(data => {
               console.log('Authentification succes');
-
+        
               // Post user token and id in localStorage
               localStorage.setItem('graphcoolToken', data.data.authenticateUser.token)
               localStorage.setItem('graphcoolId', data.data.authenticateUser.id)
