@@ -2,12 +2,12 @@
   <div class="container">
       <h1>Tous les utilisateurs</h1>
       <div class="container__user user">
-          <router-link v-for="(user, key) in jurys" :to="{name: 'user', params: {id: user.id}}" :href="`/user/${user.id}`">
+          <router-link v-for="(user, key) in users" :to="{name: 'user', params: {id: user.id}}" :href="`/user/${user.id}`">
             <div class="user__item">
                 <h2 class="title">{{user.name}}</h2>
                 <p class="year">{{user.company}}</p>
-                <p class="event"> jurys</p>
-                <p class="meeting"> étudiants</p>
+                <p class="event">{{user.juryEvents.length}} événements</p>
+                <p class="meeting">{{user.meetings.length}} meetings</p>
             </div>
           </router-link>
       </div>
@@ -20,7 +20,7 @@ export default {
     name: 'users',
     computed: {
         ...mapGetters([
-            'jurys',
+            'users',
         ])
     },
     actions: {
