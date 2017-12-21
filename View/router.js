@@ -5,6 +5,7 @@ import Vue from 'vue'
 import Home from './components/Home.vue'
 import AddUser from './components/AddUser.vue'
 import Users from './components/Users.vue'
+import User from './components/User.vue'
 import AddStudent from './components/AddStudent.vue'
 import AddProject from './components/AddProject.vue'
 import AddEvent from './components/AddEvent.vue'
@@ -25,6 +26,7 @@ const routes = [
     { path: '/', component: Home, name: 'home' },
     { path: '/addUser', component: AddUser, name: 'addUser' },
     { path: '/users', component: Users, name: 'users' },
+    { path: '/user/:id', component: User, name: 'user', props: true },
     { path: '/addStudent', component: AddStudent, name: 'addStudent' },
     { path: '/addProject', component: AddProject, name: 'addProject' },
     { path: '/addEvent', component: AddEvent, name: 'addEvent' },

@@ -1,7 +1,6 @@
 import { USER_QUERY } from './constants/user.gql'
 import { ALL_STUDENT_QUERY } from './constants/StudentsAll.gql'
 import { ALL_USER_QUERY } from './constants/UsersAll.gql'
-import { USER_QUERY } from './constants/User.gql'
 import { ALL_PROJECT_QUERY } from './constants/ProjectsAll.gql'
 import { ALL_EVENT_QUERY } from './constants/EventsAll.gql'
 import { SINGLE_EVENT_QUERY } from './constants/Event.gql'
@@ -54,7 +53,7 @@ export const actions = {
                 id
             }
         }).then(data => {
-            let singleUser = data.data.allUsers[0];
+            let singleUser = data.data.User;
             commit('user', singleUser)
         }).catch(error => {
             console.log("---User recuperation failed " + error)
