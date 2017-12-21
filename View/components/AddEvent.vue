@@ -244,7 +244,7 @@ export default {
             'removeProject'
         ]),
         ...mapActions([
-            'setAllUsers',
+            'setAllJurys',
             'setAllStudents',
             'setAllProjects',
         ])
@@ -252,7 +252,7 @@ export default {
     created(){
 
         // Users recuperation
-        this.$store.dispatch('setAllUsers')
+        this.$store.dispatch('setAllJurys')
 
         // Students recuperation
         this.$store.dispatch('setAllStudents')

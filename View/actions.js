@@ -25,7 +25,7 @@ export const actions = {
           console.log(e)
         })
     },
-    setAllUsers({ state, commit, mutations }) {
+    setAllJurys({ state, commit, mutations }) {
         apolloClient.query({
             query: ALL_USER_QUERY,
         }).then(data => {
