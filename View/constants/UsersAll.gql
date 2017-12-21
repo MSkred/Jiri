@@ -9,6 +9,7 @@ export const ALL_USER_QUERY = gql `
             name
             company
             email
+            softDelete
             juryEvents{
                 id
             }

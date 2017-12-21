@@ -1,4 +1,5 @@
 import { USER_QUERY } from './constants/User.gql'
+import { UPDATE_USER_MUTATION } from './constants/UserDesactivate.gql'
 import { ALL_STUDENT_QUERY } from './constants/StudentsAll.gql'
 import { STUDENT_QUERY } from './constants/Student.gql'
 import { ALL_USER_QUERY } from './constants/UsersAll.gql'
@@ -24,6 +25,22 @@ export const actions = {
           commit('getUserData', data.data.User)
         }).catch(e => {
           console.log(e)
+        })
+    },
+    setDesactivate({ commit }, payload) {
+        let id = payload;
+        let softDelete = true;
+        apolloClient.mutate({
+            mutation: UPDATE_USER_MUTATION,
+            variables: {
+                id,
+                softDelete,
+            },
+        }).then(data => {
+            location.reload()
+            console.log('User is desactivate with softDelete')
+        }).catch(error => {
+            console.log('User desactivation failed ' + error)
         })
     },
     setAllJurys({ state, commit, mutations }) {
