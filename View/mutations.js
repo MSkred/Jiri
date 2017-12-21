@@ -11,6 +11,9 @@ export const mutations = {
         } )
         state.jurys = newJury;
     },
+    users(state, payload) {
+        state.users = payload;
+    },
     students(state, payload) {
         state.students = payload;
         var newStudent = [];

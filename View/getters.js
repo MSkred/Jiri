@@ -2,6 +2,9 @@ export const getters = {
     jurys(state){
         return state.jurys;
     },
+    users(state) {
+        return state.users;
+    },
     students(state) {
         return state.students;
     },
