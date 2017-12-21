@@ -59,11 +59,13 @@ export const actions = {
             console.log("---User recuperation failed " + error)
         })
     },
-    setAllStudents({state, commit, mutations}){
+    setAllStudents({context, state, commit, mutations}){
         apolloClient.query({
             query: ALL_STUDENT_QUERY,
         }).then(data => {
+            console.log(data)
             let allStudents = data.data.allStudents
+            commit('allStudents', allStudents)
             commit('students', allStudents)
         }).catch(error => {
             console.log("---Students recuperation failed " + error)

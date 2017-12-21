@@ -5,6 +5,17 @@ export const ALL_STUDENT_QUERY = gql `
         allStudents{
             id
             name
+            email
+            implementations{
+                id
+                project{
+                    name
+                    description
+                }
+            }
+            studentEvents{
+                id
+            }
         }
     }
 `;

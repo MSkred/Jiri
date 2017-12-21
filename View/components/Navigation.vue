@@ -5,6 +5,7 @@
         <router-link :to="{name :'addUser'}">Ajouter un utilisateur</router-link>
         <router-link :to="{name :'users'}">Tous les utilisateurs</router-link>
         <router-link :to="{name :'addStudent'}">Ajouter un étudiant</router-link>
+        <router-link :to="{name :'students'}">Tous les étudiants</router-link>
         <router-link :to="{name :'addProject'}">Ajouter un projet</router-link>
         <router-link :to="{name :'addEvent'}">Ajouter un événement</router-link>
         <router-link :to="{name :'events'}">Tous les événements</router-link>
