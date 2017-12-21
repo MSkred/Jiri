@@ -11,6 +11,9 @@ export const getters = {
     students(state) {
         return state.students;
     },
+    student(state) {
+        return state.student;
+    },
     allStudents(state) {
         return state.allStudents;
     },

@@ -27,6 +27,9 @@ export const mutations = {
         })
         state.students = newStudent;
     },
+    student(state, payload) {
+        state.student = payload;
+    },
     allStudents(state, payload) {
         state.allStudents = payload;
     },
