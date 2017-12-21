@@ -2,7 +2,9 @@ import gql from 'graphql-tag'
 
 export const ALL_USER_QUERY = gql `
     query allUsers {
-        allUsers{
+        allUsers(filter: {
+            softDelete: false
+        }){
             id
             name
             company
