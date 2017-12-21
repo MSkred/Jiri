@@ -31,10 +31,12 @@ export default {
   computed: {
     ...mapGetters([
       'userId',
+      'userData'
     ])
   },
   updated() {
-      this.$store.dispatch('setCurrentUser')
+    this.$store.dispatch('setCurrentUser')
+    console.log(this.userData.name)
   }
 }
 </script>
