@@ -22,6 +22,15 @@ export const SINGLE_EVENT_QUERY = gql `
                 name
                 description
             }
+            meetings{
+                id
+                author{
+                    name
+                }
+                student{
+                    name
+                }
+            }
         }
     }
 `;
