@@ -5,6 +5,9 @@ export const getters = {
     users(state) {
         return state.users;
     },
+    user(state) {
+        return state.user;
+    },
     students(state) {
         return state.students;
     },

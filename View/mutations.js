@@ -14,6 +14,9 @@ export const mutations = {
     users(state, payload) {
         state.users = payload;
     },
+    user(state, payload) {
+        state.user = payload;
+    },
     students(state, payload) {
         state.students = payload;
         var newStudent = [];

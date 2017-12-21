@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
         userId: null,
         userData: {},
         users: [],
+        user: [],
         jurys: [],
         students: [],
         projects: [],
