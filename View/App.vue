@@ -1,7 +1,6 @@
 <template>
     <div id="app">
         <navigation></navigation>
-        <h1>JiriSkuuuurt</h1>
         <router-view></router-view>
     </div>
 </template>

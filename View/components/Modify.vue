@@ -1,17 +1,21 @@
 <template>
-  <transition name="modal">
+    <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-
           <div class="modal-header">
             <slot name="header">
-              Êtes vous sur de vouloir désactiver cet élément ?
+              Êtes vous sur de vouloir modifier cet élément ?
+            </slot>
+          </div>
+          <div class="modal-body">
+            <slot name="body">
+              Formulaire
             </slot>
           </div>
           <div class="modal-footer">
             <slot name="footer">
-              <button class="modal-default-button">Desactiver</button>
+              <button class="modal-default-button">Sauvegarder</button>
               <button class="modal-default-button">Annuler</button>
             </slot>
           </div>
@@ -91,6 +95,6 @@
 
 <script>
 export default {
-  name: 'desactivate'
+  name: 'modify'
 }
 </script>

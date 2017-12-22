@@ -47,6 +47,7 @@ export const actions = {
         apolloClient.query({
             query: ALL_USER_QUERY,
         }).then(data => {
+            console.log(data)
             let allUsers = data.data.allUsers
             commit('jurys', allUsers)
         }).catch(error => {
@@ -81,6 +82,7 @@ export const actions = {
         apolloClient.query({
             query: ALL_STUDENT_QUERY,
         }).then(data => {
+            console.log(data)
             let allStudents = data.data.allStudents
             commit('allStudents', allStudents)
             commit('students', allStudents)
@@ -106,6 +108,7 @@ export const actions = {
         apolloClient.query({
             query: ALL_PROJECT_QUERY,
         }).then(data => {
+            console.log(data)
             let allProjects = data.data.allProjects
             commit('projects', allProjects)
         }).catch(error => {
