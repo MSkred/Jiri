@@ -1,6 +1,7 @@
 import { USER_QUERY } from './constants/User.gql'
-import { UPDATE_USER_MUTATION } from './constants/UserDesactivate.gql'
+import { DESACTIVATE_USER_MUTATION } from './constants/UserDesactivate.gql'
 import { ALL_STUDENT_QUERY } from './constants/StudentsAll.gql'
+import { DESACTIVATE_STUDENT_MUTATION } from './constants/StudentDesactivate.gql'
 import { STUDENT_QUERY } from './constants/Student.gql'
 import { ALL_USER_QUERY } from './constants/UsersAll.gql'
 import { ALL_PROJECT_QUERY } from './constants/ProjectsAll.gql'
@@ -31,7 +32,7 @@ export const actions = {
         let id = payload;
         let softDelete = true;
         apolloClient.mutate({
-            mutation: UPDATE_USER_MUTATION,
+            mutation: DESACTIVATE_USER_MUTATION,
             variables: {
                 id,
                 softDelete,
@@ -41,6 +42,22 @@ export const actions = {
             console.log('User is desactivate with softDelete')
         }).catch(error => {
             console.log('User desactivation failed ' + error)
+        })
+    },
+    setDesactivateStudent({ commit }, payload) {
+        let id = payload;
+        let softDelete = true;
+        apolloClient.mutate({
+            mutation: DESACTIVATE_STUDENT_MUTATION,
+            variables: {
+                id,
+                softDelete,
+            },
+        }).then(data => {
+            location.reload()
+            console.log('Student is desactivate with softDelete')
+        }).catch(error => {
+            console.log('Student desactivation failed ' + error)
         })
     },
     setAllJurys({ state, commit, mutations }) {
@@ -78,11 +95,10 @@ export const actions = {
             console.log("---User recuperation failed " + error)
         })
     },
-    setAllStudents({context, state, commit, mutations}){
+    setAllStudents({commit}, payload){
         apolloClient.query({
             query: ALL_STUDENT_QUERY,
         }).then(data => {
-            console.log(data)
             let allStudents = data.data.allStudents
             commit('allStudents', allStudents)
             commit('students', allStudents)

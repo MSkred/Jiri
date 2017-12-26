@@ -2,7 +2,9 @@ import gql from 'graphql-tag'
 
 export const ALL_STUDENT_QUERY = gql `
     query allStudents {
-        allStudents{
+        allStudents(filter: {
+            softDelete: false
+        }){
             id
             name
             email
