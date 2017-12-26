@@ -32,34 +32,34 @@
                 </router-link>
              </div>
             <desactivate v-if="showDesactivateModal" >
-                <h3 slot="header">Voullez-vous vraiment désactiver {{desactivateItem.name}}</h3>
+                <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.name}}</h3>
                 <div slot="footer">
-                    <button @click.prevent="setDesactivate(desactivateItem.id)">Désactiver</button>
+                    <button @click.prevent="setDesactivateUser(modalItem.id)">Désactiver</button>
                     <button @click.prevent="showDesactivateModal = false">Annuler</button>
                 </div>
             </desactivate>
             <modify v-if="showModifyModal" >
-                <h3 slot="header">Modification de {{desactivateItem.name}}</h3>
+                <h3 slot="header">Modification de {{modalItem.name}}</h3>
                 <form slot="body">
                     <div class="form-group">
                         <label for="name">Prénom et nom</label>
-                        <input v-model="desactivateItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
+                        <input v-model="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input v-model="desactivateItem.email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control">
+                        <input v-model="modalItem.email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="password">Mot de passe</label>
-                        <input v-model="desactivateItem.password" type="password" id="password" name="password" placeholder="Écrivez le mot de passe" class="form-control">
+                        <input v-model="modalItem.password" type="password" id="password" name="password" placeholder="Écrivez le mot de passe" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="company">Entreprise</label>
-                        <input v-model="desactivateItem.company" type="text" id="company" name="company" placeholder="Écrivez l'entreprise" class="form-control">
+                        <input v-model="modalItem.company" type="text" id="company" name="company" placeholder="Écrivez l'entreprise" class="form-control">
                     </div>
                 </form>
                 <div slot="footer">
-                    <button @click.prevent="setModifyData(desactivateItem.id)">Modify</button>
+                    <button @click.prevent="setModifyData(modalItem.id)">Sauvegarder les modifications</button>
                     <button @click.prevent="showModifyModal = false">Annuler</button>
                 </div>
             </modify>
@@ -125,7 +125,7 @@
 </style>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapActions, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
 import Modify from './Modify.vue';
 export default {
@@ -138,35 +138,22 @@ export default {
         return{
             showDesactivateModal: false,
             showModifyModal: false,
-            desactivateItem: {
-                name: null,
-                id: null,
-                email: null,
-                password: null,
-                company: null,
-            }
         }
     },
     computed: {
         ...mapGetters([
             'users',
+            'modalItem'
         ])
     },
     methods: {
         ...mapActions([
-            'setDesactivate',
-        ]),
-        setDesactivateData(user){
-            this.desactivateItem.id = user.id;
-            this.desactivateItem.name = user.name;
-        },
-        setModifyData(user){
-            this.desactivateItem.id = user.id;
-            this.desactivateItem.name = user.name;
-            this.desactivateItem.email = user.email;
-            this.desactivateItem.password = user.password;
-            this.desactivateItem.company = user.company;
-        }
+            'setDesactivateUser',
+        ]), 
+        ...mapMutations([
+            'setDesactivateData',
+            'setModifyData'
+        ])
     },
     actions: {
         ...mapActions([

@@ -47,4 +47,7 @@ export const getters = {
     userData(state) {
         return state.userData;
     },
+    modalItem(state) {
+        return state.modalItem;
+    },
 }

@@ -24,6 +24,7 @@ export const store = new Vuex.Store({
         eventProjects: [],
         meeting: {},
         meetingProjects: [],
+        modalItem: {},
     },
     getters,
     mutations,

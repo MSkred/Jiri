@@ -147,6 +147,11 @@ export const mutations = {
     getUserData(state, payload){
         state.userData = payload
     },
-
+    setDesactivateData(state, payload) {
+        state.modalItem = payload;
+    },
+    setModifyData(state, payload) {
+        state.modalItem = payload;
+    }
     
 }

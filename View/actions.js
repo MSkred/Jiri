@@ -27,7 +27,7 @@ export const actions = {
           console.log(e)
         })
     },
-    setDesactivate({ commit }, payload) {
+    setDesactivateUser({ commit }, payload) {
         let id = payload;
         let softDelete = true;
         apolloClient.mutate({
