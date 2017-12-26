@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="navbar-item has-dropdown is-hoverable">
-              <router-link :to="{name :'addProject'}" class="navbar-link">Tous les projets</router-link>
+              <router-link :to="{name :'projects'}" class="navbar-link">Tous les projets</router-link>
             <div class="navbar-dropdown">
               <router-link :to="{name :'addProject'}" class="navbar-item">Ajouter un projet</router-link>
             </div>

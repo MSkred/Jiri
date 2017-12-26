@@ -43,6 +43,9 @@ export const mutations = {
         })
         state.projects = newProject;
     },
+    allProjects(state, payload) {
+        state.allProjects = payload;
+    },
     events(state, payload){
         state.events = payload;
     },

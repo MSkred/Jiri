@@ -24,6 +24,7 @@ export const actions = {
                 }
             }
         ).then(data => {
+            console.log('userdata')
           commit('getUserData', data.data.User)
         }).catch(e => {
           console.log(e)
@@ -144,6 +145,7 @@ export const actions = {
             console.log(data)
             let allProjects = data.data.allProjects
             commit('projects', allProjects)
+            commit('allProjects', allProjects)
         }).catch(error => {
             console.log("---Projects recuperation failed " + error)
         });

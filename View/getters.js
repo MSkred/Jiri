@@ -20,6 +20,9 @@ export const getters = {
     projects(state) {
         return state.projects;
     },
+    allProjects(state) {
+        return state.allProjects;
+    },
     events(state){
         return state.events;
     },
