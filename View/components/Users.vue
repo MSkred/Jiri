@@ -43,23 +43,23 @@
                 <form slot="body">
                     <div class="form-group">
                         <label for="name">Prénom et nom</label>
-                        <input v-model="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
+                        <input :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input v-model="modalItem.email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control">
+                        <input :value="modalItem.email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="password">Mot de passe</label>
-                        <input v-model="modalItem.password" type="password" id="password" name="password" placeholder="Écrivez le mot de passe" class="form-control">
+                        <input :value="modalItem.password" type="password" id="password" name="password" placeholder="Écrivez le mot de passe" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="company">Entreprise</label>
-                        <input v-model="modalItem.company" type="text" id="company" name="company" placeholder="Écrivez l'entreprise" class="form-control">
+                        <input :value="modalItem.company" type="text" id="company" name="company" placeholder="Écrivez l'entreprise" class="form-control">
                     </div>
                 </form>
                 <div slot="footer">
-                    <button @click.prevent="setModifyData(modalItem.id)">Sauvegarder les modifications</button>
+                    <button @click.prevent="modifyUser(modalItem.id)">Sauvegarder les modifications</button>
                     <button @click.prevent="showModifyModal = false">Annuler</button>
                 </div>
             </modify>
@@ -128,6 +128,7 @@
 import {mapGetters, mapActions, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
 import Modify from './Modify.vue';
+import {UPDATE_USER_MUTATION} from '../constants/UsersUpdate.gql';
 export default {
     name: 'users',
     components: {
@@ -153,7 +154,29 @@ export default {
         ...mapMutations([
             'setDesactivateData',
             'setModifyData'
-        ])
+        ]),
+        modifyUser(userId){
+            let id = userId;
+            let name = document.getElementById("name").value;
+            let company = document.getElementById("company").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            this.$apollo.mutate({
+                mutation: UPDATE_USER_MUTATION,
+                variables: {
+                    id,
+                    name,
+                    company,
+                    email, 
+                    password,
+                },
+            }).then(data => {
+                location.reload()
+                console.log('Done user modification')
+            }).catch(error => {
+                console.log('---user modification failed'  + error)
+            });
+        }
     },
     actions: {
         ...mapActions([
@@ -163,6 +186,6 @@ export default {
     created(){
         //Users recuperation
         this.$store.dispatch('setAllUsers')
-    }
+    },
 }
 </script>
