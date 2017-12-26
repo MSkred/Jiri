@@ -31,18 +31,45 @@
                 </div>
             </router-link>
           </div>
+            <desactivate v-if="showDesactivateModal" >
+                    <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.courseName}} de {{modalItem.academicYear}}</h3>
+                    <div slot="footer">
+                        <button @click.prevent="setDesactivateEvent(modalItem.id)">Désactiver</button>
+                        <button @click.prevent="showDesactivateModal = false">Annuler</button>
+                    </div>
+            </desactivate>  
       </div>
   </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
+import Desactivate from './Desactivate.vue';
 export default {
     name: 'events',
+    components: {
+        Desactivate,
+    },
+    data(){
+        return{
+            showDesactivateModal: false,
+            showModifyModal: false,
+        }
+    },
     computed: {
         ...mapGetters([
             'events',
+            'modalItem',
         ])
+    },  
+    methods: {
+        ...mapActions([
+           'setDesactivateEvent',
+        ]),
+        ...mapMutations([
+            'setDesactivateData',
+            'setModifyData'
+        ]),
     },
     created(){
         // Events recupeartion

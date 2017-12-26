@@ -6,6 +6,7 @@ import { STUDENT_QUERY } from './constants/Student.gql'
 import { ALL_USER_QUERY } from './constants/UsersAll.gql'
 import { ALL_PROJECT_QUERY } from './constants/ProjectsAll.gql'
 import { ALL_EVENT_QUERY } from './constants/EventsAll.gql'
+import { DESACTIVATE_EVENT_MUTATION } from './constants/EventDesactivate.gql'
 import { SINGLE_EVENT_QUERY } from './constants/Event.gql'
 import { SINGLE_MEETING_QUERY } from './constants/Meeting.gql'
 
@@ -58,6 +59,22 @@ export const actions = {
             console.log('Student is desactivate with softDelete')
         }).catch(error => {
             console.log('Student desactivation failed ' + error)
+        })
+    },
+    setDesactivateEvent({ commit }, payload) {
+        let id = payload;
+        let softDelete = true;
+        apolloClient.mutate({
+            mutation: DESACTIVATE_EVENT_MUTATION,
+            variables: {
+                id,
+                softDelete,
+            },
+        }).then(data => {
+            location.reload()
+            console.log('Event is desactivate with softDelete')
+        }).catch(error => {
+            console.log('Event desactivation failed ' + error)
         })
     },
     setAllJurys({ state, commit, mutations }) {

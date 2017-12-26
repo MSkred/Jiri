@@ -1,0 +1,9 @@
+import gql from 'graphql-tag'
+
+export const DESACTIVATE_EVENT_MUTATION = gql `
+    mutation UpdateEvent($id: ID!, $softDelete: Boolean!){
+        updateEvent(id: $id, softDelete: $softDelete){
+            id
+        }
+    }
+`;

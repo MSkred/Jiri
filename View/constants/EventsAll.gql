@@ -2,7 +2,9 @@ import gql from 'graphql-tag'
 
 export const ALL_EVENT_QUERY = gql `
     query allEvents {
-        allEvents{
+        allEvents(filter: {
+            softDelete: false
+        }){
             id
             courseName
             academicYear
