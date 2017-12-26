@@ -38,6 +38,23 @@
                         <button @click.prevent="showDesactivateModal = false">Annuler</button>
                     </div>
             </desactivate>  
+            <modify v-if="showModifyModal" >
+                <h3 slot="header">Modification de {{modalItem.name}}</h3>
+                <form slot="body">
+                    <div class="form-group">
+                        <label for="name">Prénom et nom</label>
+                        <input :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input :value="modalItem.email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control">
+                    </div>
+                </form>
+                <div slot="footer">
+                    <button @click.prevent="modifyStudent(modalItem.id)">Sauvegarder les modifications</button>
+                    <button @click.prevent="showModifyModal = false">Annuler</button>
+                </div>
+            </modify>
       </div>
   </div>
 </template>
@@ -45,10 +62,13 @@
 <script>
 import {mapGetters, mapActions, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
+import Modify from './Modify.vue';
+import {UPDATE_STUDENT_MUTATION} from '../constants/StuentsUpdate.gql';
 export default {
     name: 'students',
     components: {
         Desactivate,
+        Modify
     },
     data(){
         return{
@@ -68,7 +88,26 @@ export default {
         ]),
         ...mapMutations([
             'setDesactivateData',
-        ])
+            'setModifyData'
+        ]),
+        modifyStudent(studentId){
+            let id = studentId;
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            this.$apollo.mutate({
+                mutation: UPDATE_STUDENT_MUTATION,
+                variables: {
+                    id,
+                    name,
+                    email, 
+                },
+            }).then(data => {
+                location.reload()
+                console.log('Done student modification')
+            }).catch(error => {
+                console.log('---Student modification failed'  + error)
+            });
+        }
     },
     actions: {
         ...mapActions([

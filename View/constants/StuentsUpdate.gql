@@ -1,0 +1,11 @@
+import gql from 'graphql-tag'
+
+export const UPDATE_STUDENT_MUTATION = gql `
+    mutation updateStudent($id: ID!, $name: String!, $email: String!) {
+        updateStudent(id: $id, name: $name, email: $email) {
+            id
+            name
+            email
+        }
+    }
+`;
