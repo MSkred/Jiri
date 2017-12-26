@@ -36,7 +36,24 @@
                     <button @click.prevent="setDesactivateProject(modalItem.id)">Désactiver</button>
                     <button @click.prevent="showDesactivateModal = false">Annuler</button>
                 </div>
-            </desactivate>  
+            </desactivate>
+            <modify v-if="showModifyModal" >
+                <h3 slot="header">Modification de {{modalItem.name}}</h3>
+                <form slot="body">
+                    <div class="form-group">
+                        <label for="name">Nom</label>
+                        <input :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Description</label>
+                        <textarea :value="modalItem.description" name="decription" id="description" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+                </form>
+                <div slot="footer">
+                    <button @click.prevent="modifyProject(modalItem.id)">Sauvegarder les modifications</button>
+                    <button @click.prevent="showModifyModal = false">Annuler</button>
+                </div>
+            </modify>  
         </div>
     </div>
 </template>
@@ -45,6 +62,7 @@
 import {mapGetters, mapActions, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
 import Modify from './Modify.vue';
+import { UPDATE_PROJECT_MUTATION } from '../constants/ProjectUpdate.gql';
 
 export default {
     name: 'projects',
@@ -72,6 +90,24 @@ export default {
             'setDesactivateData',
             'setModifyData'
         ]),
+        modifyProject(projectId){
+            let id = projectId;
+            let name = document.getElementById("name").value;
+            let description = document.getElementById("description").value;
+            this.$apollo.mutate({
+                mutation: UPDATE_PROJECT_MUTATION,
+                variables: {
+                    id,
+                    name,
+                    description, 
+                },
+            }).then(data => {
+                location.reload()
+                console.log('Done project modification')
+            }).catch(error => {
+                console.log('---Project modification failed'  + error)
+            });
+        }
     },
     actions: {
         ...mapActions([
