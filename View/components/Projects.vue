@@ -30,6 +30,13 @@
                     </div>
                 </router-link>
             </div>
+            <desactivate v-if="showDesactivateModal" >
+                <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.name}}</h3>
+                <div slot="footer">
+                    <button @click.prevent="setDesactivateProject(modalItem.id)">Désactiver</button>
+                    <button @click.prevent="showDesactivateModal = false">Annuler</button>
+                </div>
+            </desactivate>  
         </div>
     </div>
 </template>
@@ -58,6 +65,9 @@ export default {
         ])
     }, 
     methods: {
+        ...mapActions([
+            'setDesactivateProject',
+        ]),
         ...mapMutations([
             'setDesactivateData',
             'setModifyData'

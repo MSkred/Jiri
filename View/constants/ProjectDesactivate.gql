@@ -1,0 +1,9 @@
+import gql from 'graphql-tag'
+
+export const DESACTIVATE_PROJECT_MUTATION = gql `
+    mutation UpdateProject($id: ID!, $softDelete: Boolean!){
+        updateProject(id: $id, softDelete: $softDelete){
+            id
+        }
+    }
+`;

@@ -2,7 +2,9 @@ import gql from 'graphql-tag'
 
 export const ALL_PROJECT_QUERY = gql `
     query allProjects {
-        allProjects{
+        allProjects(filter: {
+            softDelete: false
+        }){
             id
             name
             description
