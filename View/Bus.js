@@ -12,7 +12,7 @@ import gql from 'graphql-tag'
 import { CREATE_USER_MUTATION } from './constants/UsersCreate.gql'
 import { ALL_USER_QUERY } from './constants/UsersAll.gql'
 import { UPDATE_USER_MUTATION } from './constants/UsersUpdate.gql';
-
+import { DESACTIVATE_USER_MUTATION } from './constants/UserDesactivate.gql'
 
 // Students query
 import { CREATE_STUDENT_MUTATION } from './constants/StudentsCreate.gql'
@@ -282,6 +282,35 @@ export const Bus = new Vue();
             refetchQueries: [
                 {
                     query: ALL_PROJECT_QUERY,
+                }
+            ]
+        })
+    })
+
+/*******************
+ *   Desactivate
+*******************/
+
+    /*******************
+     *  Desactivate User
+    *******************/
+    Bus.$on('desactivateUser', payload => {
+        let id = payload,
+            softDelete = true;
+
+        apolloClient.mutate({
+            mutation: DESACTIVATE_USER_MUTATION,
+            variables: {
+                id,
+                softDelete
+            },
+            update: (cache, { data: { updateUser } }) => {
+                console.log(updateUser)
+                console.log('User desactivation done')
+            },
+            refetchQueries: [
+                {
+                    query: ALL_USER_QUERY,
                 }
             ]
         })

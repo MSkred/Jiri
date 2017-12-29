@@ -31,22 +31,6 @@ export const actions = {
           console.log(e)
         })
     },
-    setDesactivateUser({ commit }, payload) {
-        let id = payload;
-        let softDelete = true;
-        apolloClient.mutate({
-            mutation: DESACTIVATE_USER_MUTATION,
-            variables: {
-                id,
-                softDelete,
-            },
-        }).then(data => {
-            location.reload()
-            console.log('User is desactivate with softDelete')
-        }).catch(error => {
-            console.log('User desactivation failed ' + error)
-        })
-    },
     setDesactivateStudent({ commit }, payload) {
         let id = payload;
         let softDelete = true;
