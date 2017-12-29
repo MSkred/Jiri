@@ -9,15 +9,7 @@ export const getters = {
     eventProjects(state) {
         return state.eventProjects;
     },
-
-    // Display meeting project
-    meetingProjects(state){
-        return state.meetingProjects;
-    },
-    meeting(state){
-        return state.meeting
-    },
-
+    
     // Get user data
     userId(state) {
         return state.userId;
