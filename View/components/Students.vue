@@ -34,7 +34,7 @@
             <desactivate v-if="showDesactivateModal" >
                     <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.name}}</h3>
                     <div slot="footer">
-                        <button @click.prevent="setDesactivateStudent(modalItem.id)">Désactiver</button>
+                        <button @click.prevent="desactivateStudent(modalItem.id)">Désactiver</button>
                         <button @click.prevent="showDesactivateModal = false">Annuler</button>
                     </div>
             </desactivate>  
@@ -93,9 +93,6 @@ export default {
         ])
     },
     methods: {
-        ...mapActions([
-            'setDesactivateStudent',
-        ]),
         ...mapMutations([
             'setDesactivateData',
             'setModifyData'
@@ -109,6 +106,12 @@ export default {
 
             // Close the modify modal
             this.showModifyModal = false;
+        },
+        desactivateStudent(studentId){
+            Bus.$emit('desactivateStudent', studentId);
+
+            // Close the modify modal
+            this.showDesactivateModal = false;
         }
     },
 }

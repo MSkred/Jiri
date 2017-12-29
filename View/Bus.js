@@ -18,6 +18,7 @@ import { DESACTIVATE_USER_MUTATION } from './constants/UserDesactivate.gql'
 import { CREATE_STUDENT_MUTATION } from './constants/StudentsCreate.gql'
 import { ALL_STUDENT_QUERY } from './constants/StudentsAll.gql'
 import { UPDATE_STUDENT_MUTATION } from './constants/StudentsUpdate.gql';
+import { DESACTIVATE_STUDENT_MUTATION } from './constants/StudentDesactivate.gql'
 
 // Projects query
 import { CREATE_PROJECT_MUTATION } from './constants/ProjectsCreate.gql'
@@ -315,3 +316,78 @@ export const Bus = new Vue();
             ]
         })
     })
+
+    /*******************
+     *  Desactivate Student
+    *******************/
+    Bus.$on('desactivateStudent', payload => {
+        let id = payload,
+            softDelete = true;
+
+        apolloClient.mutate({
+            mutation: DESACTIVATE_STUDENT_MUTATION,
+            variables: {
+                id,
+                softDelete
+            },
+            update: (cache, { data: { updateStudent } }) => {
+                console.log(updateStudent)
+                console.log('Student desactivation done')
+            },
+            refetchQueries: [
+                {
+                    query: ALL_STUDENT_QUERY,
+                }
+            ]
+        })
+    })
+
+    /*******************
+     *  Desactivate Event
+    *******************/
+    Bus.$on('desactivateUser', payload => {
+        let id = payload,
+            softDelete = true;
+
+        apolloClient.mutate({
+            mutation: DESACTIVATE_USER_MUTATION,
+            variables: {
+                id,
+                softDelete
+            },
+            update: (cache, { data: { updateUser } }) => {
+                console.log(updateUser)
+                console.log('User desactivation done')
+            },
+            refetchQueries: [
+                {
+                    query: ALL_USER_QUERY,
+                }
+            ]
+        })
+    })
+
+    /*******************
+     *  Desactivate Project
+    *******************/
+    Bus.$on('desactivateUser', payload => {
+        let id = payload,
+            softDelete = true;
+
+        apolloClient.mutate({
+            mutation: DESACTIVATE_USER_MUTATION,
+            variables: {
+                id,
+                softDelete
+            },
+            update: (cache, { data: { updateUser } }) => {
+                console.log(updateUser)
+                console.log('User desactivation done')
+            },
+            refetchQueries: [
+                {
+                    query: ALL_USER_QUERY,
+                }
+            ]
+        })
+})
