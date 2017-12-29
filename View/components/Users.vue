@@ -72,7 +72,10 @@
 import {mapGetters, mapActions, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
 import Modify from './Modify.vue';
-import {UPDATE_USER_MUTATION} from '../constants/UsersUpdate.gql';
+import {Bus} from '../Bus'
+
+
+import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
 export default {
     name: 'users',
     components: {
@@ -83,11 +86,19 @@ export default {
         return{
             showDesactivateModal: false,
             showModifyModal: false,
+            users: [],
         }
+    },
+    apollo: {
+        users: {
+            query: ALL_USER_QUERY,
+            update(data){
+                return data.allUsers
+            }
+        },
     },
     computed: {
         ...mapGetters([
-            'users',
             'modalItem'
         ])
     },
@@ -105,31 +116,12 @@ export default {
             let company = document.getElementById("company").value;
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
-            this.$apollo.mutate({
-                mutation: UPDATE_USER_MUTATION,
-                variables: {
-                    id,
-                    name,
-                    company,
-                    email, 
-                    password,
-                },
-            }).then(data => {
-                location.reload()
-                console.log('Done user modification')
-            }).catch(error => {
-                console.log('---user modification failed'  + error)
-            });
+            
+            Bus.$emit('modifyUser', { id, name, company, email, password });
+
+            // Close the modify modal
+            this.showModifyModal = false;
         }
-    },
-    actions: {
-        ...mapActions([
-            'setAllUsers',
-        ])
-    },
-    created(){
-        //Users recuperation
-        this.$store.dispatch('setAllUsers')
     },
 }
 </script>
