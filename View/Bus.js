@@ -28,6 +28,7 @@ import { UPDATE_PROJECT_MUTATION } from './constants/ProjectUpdate.gql';
 // Events query
 import { CREATE_EVENT_MUTATION } from './constants/EventsCreate.gql'
 import { ALL_EVENT_QUERY } from './constants/EventsAll.gql'
+import { DESACTIVATE_EVENT_MUTATION } from './constants/EventDesactivate.gql'
 
 // Implementations query
 import { CREATE_IMPLEMENTATIONS_MUTATION } from './constants/ImplementationsCreate.gql'
@@ -345,23 +346,23 @@ export const Bus = new Vue();
     /*******************
      *  Desactivate Event
     *******************/
-    Bus.$on('desactivateUser', payload => {
+    Bus.$on('desactivateEvent', payload => {
         let id = payload,
             softDelete = true;
 
         apolloClient.mutate({
-            mutation: DESACTIVATE_USER_MUTATION,
+            mutation: DESACTIVATE_EVENT_MUTATION,
             variables: {
                 id,
                 softDelete
             },
-            update: (cache, { data: { updateUser } }) => {
-                console.log(updateUser)
-                console.log('User desactivation done')
+            update: (cache, { data: { updateEvent } }) => {
+                console.log(updateEvent)
+                console.log('Event desactivation done')
             },
             refetchQueries: [
                 {
-                    query: ALL_USER_QUERY,
+                    query: ALL_EVENT_QUERY,
                 }
             ]
         })

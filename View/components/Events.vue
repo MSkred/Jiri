@@ -34,7 +34,7 @@
             <desactivate v-if="showDesactivateModal" >
                     <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.courseName}} de {{modalItem.academicYear}}</h3>
                     <div slot="footer">
-                        <button @click.prevent="setDesactivateEvent(modalItem.id)">Désactiver</button>
+                        <button @click.prevent="desactivateEvent(modalItem.id)">Désactiver</button>
                         <button @click.prevent="showDesactivateModal = false">Annuler</button>
                     </div>
             </desactivate>  
@@ -43,8 +43,9 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
+import {Bus} from '../Bus'
 
 import { ALL_EVENT_QUERY } from '../constants/EventsAll.gql'
 export default {
@@ -73,13 +74,16 @@ export default {
         ])
     },  
     methods: {
-        ...mapActions([
-           'setDesactivateEvent',
-        ]),
         ...mapMutations([
             'setDesactivateData',
             'setModifyData'
         ]),
+        desactivateEvent(eventId){
+            Bus.$emit('desactivateEvent', eventId);
+
+            // Close the modify modal
+            this.showDesactivateModal = false;
+        }
     },
 }
 </script>
