@@ -73,14 +73,17 @@ export default {
                 }
             },
             update(data){
-                console.log(data)
+
+                // Added meeting boolean
                 var implementations = [];
                 var newMeeting = [];
                 var newEvent = new Object();
+
                 // Get all data in var
                 var id = data.allMeetings[0].id
                 var student = data.allMeetings[0].student
                 var event = data.allMeetings[0].event
+
                 // Adding meeting key in my object
                 event.implementations.map( implementation => {
                     let id = implementation.id
@@ -88,6 +91,7 @@ export default {
                     implementations.push({ id: id, project: project, meeting: false, score: { comment: null, score: null } })
                 } )
                 newEvent = ({ id: id, implementations: implementations})
+                
                 // Create new meeting with projects meeting key
                 newMeeting = ({ id, student, event: newEvent })
 
