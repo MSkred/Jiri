@@ -13,17 +13,28 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import { USER_QUERY } from '../constants/User.gql'
 export default {
     name: 'user',
     props: ['id'],
-    computed: {
-        ...mapGetters([
-            'user',
-        ])
+    data(){
+        return{
+            user: [],
+        }
     },
-    created(){
-        // user recupeartion
-        this.$store.dispatch('setUser', this.id);
-    }
+    apollo: {
+        user: {
+            query: USER_QUERY,
+            variables() {
+                // Use vue reactive properties
+                return {
+                    id: this.id,
+                }
+            },
+            update(data){
+                return data.User
+            }
+        },
+    },
 }
 </script>
