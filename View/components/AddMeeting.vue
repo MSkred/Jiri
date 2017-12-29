@@ -32,6 +32,8 @@
 
 <script>
 import {mapGetters, mapMutations} from 'vuex'
+
+import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
 import {Bus} from '../Bus'
 export default {
     name: 'add-meeting',
@@ -43,19 +45,30 @@ export default {
             authorId: null,
             currentMeeting: null,
             currentStudent: null,
+            event: [],
         }
+    },
+    apollo: {
+        event: {
+            query: SINGLE_EVENT_QUERY,
+            variables() {
+                // Use vue reactive properties
+                return {
+                    id: this.id,
+                }
+            },
+            update(data){
+                return data.allEvents[0]
+            }
+        },
     },
     computed: {
         ...mapGetters([
             'userId',
-            'event',
-            'meeting',
-            'lastAddedId'
         ])
     },
     methods: {
         startMeeting(){
-
             // Defined author and event ID
             this.authorId = this.userId
             this.eventId = this.event.id
@@ -65,15 +78,8 @@ export default {
             
             let { studentId, softDelete, authorId, eventId } = this; 
             Bus.$emit('startMeeting', { studentId, softDelete, authorId, eventId });    
-            
-            // Redirection on create meeting view
-            location.assign(`/event/${this.event.id}/meeting/${this.currentMeeting}/student/${this.studentId}`);
         }
     },
-    created(){
-        // Event recupeartion
-        this.$store.dispatch('setEvent', this.id);
-    }
 }
 </script>
 

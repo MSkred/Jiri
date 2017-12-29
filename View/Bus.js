@@ -191,14 +191,17 @@ export const Bus = new Vue();
                 eventId
             },
             update: (cache, { data: { createMeeting } }) => {
+                // Get the lastAddedId for meeting creation
+                store.commit('lastAddedId', createMeeting.id)
+
                 console.log(createMeeting)
                 console.log('Meeting creation done')
 
                 // Put meeting data in store
                 store.commit('meeting', createMeeting)
-
-                // Get the lastAddedId for meeting creation
-                store.commit('lastAddedId', createMeeting.id)
+            
+                // Redirection on create meeting view
+                location.assign(`/event/${eventId}/meeting/${store.getters.lastAddedId}/student/${studentId}`);
             }
         });
     })

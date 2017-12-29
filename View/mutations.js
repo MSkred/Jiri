@@ -1,16 +1,6 @@
 import { concat } from "async";
 
 export const mutations = {
-    user(state, payload) {
-        state.user = payload;
-    },
-    events(state, payload){
-        state.events = payload;
-    },
-    event(state, payload){
-        // Fill state event with payload
-        state.event = payload;
-    },
     meeting(state, payload){
         state.meeting = payload;
         // Create projects & newEvent array
@@ -35,24 +25,6 @@ export const mutations = {
     },
     meetingStudent(state, payload) {
         state.meetingStudent = payload;
-    },
-    addProjectToMeeting(state, key) {
-        if (!state.meeting.event.implementations[key].meeting) {
-            state.meeting.event.implementations[key].meeting = true;
-            state.meetingProjects.push(state.meeting.event.implementations[key]);
-        }
-    },
-    removeProjectToMeeting(state, key) {
-        if (state.meeting.event.implementations[key].meeting) {
-            state.meeting.event.implementations[key].meeting = false;
-        }
-        var i = 0;
-        state.meeting.event.implementations.forEach(implementation => {
-            if (!implementation.meeting) {
-                state.meetingProjects.splice(i, 1)
-            }
-            i++;
-        });
     },
     getUserId(state, id){
         state.userId = id;

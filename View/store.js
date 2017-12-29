@@ -13,19 +13,15 @@ export const store = new Vuex.Store({
         // For user 
         userId: null,
         userData: {},
-        
-        user: [],
-        student: [],
-        event: {},
 
         // For event creation
         eventJurys: [],
         eventStudents: [],
         eventProjects: [],
 
-
-        meeting: {},
+        // For meeting creation
         meetingProjects: [],
+
         modalItem: null,
     },
     getters,

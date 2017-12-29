@@ -1,34 +1,5 @@
 export const getters = {
-    jurys(state){
-        return state.jurys;
-    },
-    users(state) {
-        return state.users;
-    },
-    user(state) {
-        return state.user;
-    },
-    students(state) {
-        return state.students;
-    },
-    student(state) {
-        return state.student;
-    },
-    allStudents(state) {
-        return state.allStudents;
-    },
-    projects(state) {
-        return state.projects;
-    },
-    allProjects(state) {
-        return state.allProjects;
-    },
-    events(state){
-        return state.events;
-    },
-    event(state) {
-        return state.event;
-    },
+    // For event creation
     eventJurys(state) {
         return state.eventJurys;
     },
@@ -38,21 +9,29 @@ export const getters = {
     eventProjects(state) {
         return state.eventProjects;
     },
+
+    // Display meeting project
     meetingProjects(state){
         return state.meetingProjects;
     },
     meeting(state){
         return state.meeting
     },
+
+    // Get user data
     userId(state) {
         return state.userId;
     },
     userData(state) {
         return state.userData;
     },
+
+    // ModalItem
     modalItem(state) {
         return state.modalItem;
     },
+
+    // Last added ID
     lastAddedId(state) {
         return state.lastAddedId
     },

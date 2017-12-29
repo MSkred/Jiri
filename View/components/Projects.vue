@@ -14,7 +14,7 @@
         </section>
         <div class="papa">
             <div v-for="(project, key) in allProjects" class="enfant">
-                <router-link class="contenu" :to="{name: 'project', params: {id: project.id}}" :href="`/project/${project.id}`">
+                <div class="contenu">
                     <div class="flex" v-if="!project.softDelete">
                         <div class="flex__header">
                             <h2 class="title">{{project.name}}</h2>
@@ -28,7 +28,7 @@
                             <button id="show-modal" @click.prevent="showDesactivateModal = true; setDesactivateData(project)">Désactiver</button>
                         </div>
                     </div>
-                </router-link>
+                </div>
             </div>
             <desactivate v-if="showDesactivateModal" >
                 <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.name}}</h3>

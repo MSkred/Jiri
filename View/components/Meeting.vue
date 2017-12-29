@@ -16,14 +16,14 @@
             <input type="button" name="next" class="next action-button" value="Next" />
         </fieldset>
         <!-- Display choosed project -->
-        <div v-for="(implementation, key) in meetingProjects" :key="implementation.id">
+        <div v-for="(implementation, key) in meeting.event.implementations" v-if="implementation.meeting" :key="implementation.id">
             <h1>{{implementation.project.name}}</h1>
             <p>{{implementation.project.description}}</p>
             <form action="">
                 <label for="comment">Commentaire</label>
-                <textarea v-model="meetingProjects[key].score.comment" name="comment" id="comment" cols="30" rows="10"></textarea>
+                <textarea v-model="implementation.score.comment" name="comment" id="comment" cols="30" rows="10"></textarea>
                 <label for="score">Côte</label>
-                <input v-model="meetingProjects[key].score.score" type="number" name="score" id="score">
+                <input v-model="implementation.score.score" type="number" name="score" id="score">
             </form>
         </div>
         <!-- Global comment -->
@@ -40,7 +40,9 @@
 <script>
 
 import { CREATE_SCORE_MUTATION } from '../constants/ScoresCreate.gql'
+import { SINGLE_MEETING_QUERY } from '../constants/Meeting.gql'
 import {mapGetters, mapMutations} from 'vuex'
+import { store } from '../store'
 export default {
     name: 'Meeting',
     props: [
@@ -57,19 +59,70 @@ export default {
                 comment: null,
                 score: null,
             },
+            meeting: [],
         }
+    },
+    apollo: {
+        meeting: {
+            query: SINGLE_MEETING_QUERY,
+            variables() {
+                // Use vue reactive properties
+                return {
+                    id: this.id,
+                    studentId: this.studentId
+                }
+            },
+            update(data){
+                console.log(data)
+                var implementations = [];
+                var newMeeting = [];
+                var newEvent = new Object();
+                // Get all data in var
+                var id = data.allMeetings[0].id
+                var student = data.allMeetings[0].student
+                var event = data.allMeetings[0].event
+                // Adding meeting key in my object
+                event.implementations.map( implementation => {
+                    let id = implementation.id
+                    let project = implementation.project
+                    implementations.push({ id: id, project: project, meeting: false, score: { comment: null, score: null } })
+                } )
+                newEvent = ({ id: id, implementations: implementations})
+                // Create new meeting with projects meeting key
+                newMeeting = ({ id, student, event: newEvent })
+
+                return newMeeting
+            }
+        },
     },
     computed: {
         ...mapGetters([
-            'meeting',
-            'meetingProjects'
+            'meetingProjects',
+            'lastAddedId',
+            'userId'
         ])
     },
     methods: {
-        ...mapMutations([
-            'addProjectToMeeting',
-            'removeProjectToMeeting'
-        ]),
+        addProjectToMeeting(key) {
+            let meetingProjects = store.state.meetingProjects;
+            if (!this.meeting.event.implementations[key].meeting) {
+                this.meeting.event.implementations[key].meeting = true;
+                //meetingProjects.push(this.meeting.event.implementations[key]);
+            }
+        },
+        removeProjectToMeeting(key) {
+            let meetingProjects = store.state.meetingProjects;
+            if (this.meeting.event.implementations[key].meeting) {
+                this.meeting.event.implementations[key].meeting = false;
+            }
+            // var i = 0;
+            // this.meeting.event.implementations.forEach(implementation => {
+            //     if (!implementation.meeting) {
+            //         meetingProjects.splice(i, 1)
+            //     }
+            //     i++;
+            // });
+        },
         validateMeeting(){
             // Puse ID on implementation in new array
             this.meetingProjects.map( project => {
@@ -100,10 +153,6 @@ export default {
                 });
             });
         }
-    },
-    created(){
-        // Meeting datas recupeartion
-        this.$store.dispatch('setMeeting', {id: this.id, studentId: this.studentId})
     },
     
 }
