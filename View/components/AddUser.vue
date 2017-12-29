@@ -25,13 +25,8 @@
   </div>
 </template>
 <script>
-
-import VueApollo from 'vue-apollo'
-import nanoid from 'nanoid'
-// GraphQL Mutation with one parameter
-import { CREATE_USER_MUTATION } from '../constants/UsersCreate.gql'
-
 import {Bus} from '../Bus'
+
 export default {
     name: 'add-user',
     data () {
@@ -45,24 +40,6 @@ export default {
       }
     },
     methods: {
-        // createUser(){
-        //     const { isAdmin, name, email, password, company, softDelete } = this;
-        //     this.$apollo.mutate({
-        //         mutation: CREATE_USER_MUTATION,
-        //         variables: {
-        //             isAdmin,
-        //             name,
-        //             email,
-        //             password,
-        //             company,
-        //             softDelete
-        //         },
-        //     }).then(data => {
-        //         console.log('Done creation user.');
-        //     }).catch(error => {
-        //         console.log("---User creation failed " + error)
-        //     });
-        // },
         createUser() {
             let {email, password, name, company, isAdmin, softDelete} = this;
             Bus.$emit('createUser', {email, password, name, company, isAdmin, softDelete});

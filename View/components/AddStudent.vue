@@ -18,36 +18,22 @@
 </template>
 
 <script>
+import {Bus} from '../Bus'
 
-import VueApollo from 'vue-apollo'
-import nanoid from 'nanoid'
-
-import { CREATE_STUDENT_MUTATION } from '../constants/StudentsCreate.gql'
 export default {
-  name: 'add-student',
-  data(){
-      return{
-          name: null,
-          email: null,
-          softDelete: false,
-      }
-  },
-  methods: {
-      createStudent(){
-          const { name, email, softDelete } = this;
-          this.$apollo.mutate({
-              mutation: CREATE_STUDENT_MUTATION,
-              variables: {
-                  name,
-                  email,
-                  softDelete
-              },
-          }).then(data => {
-              console.log('Done student creation.');
-          }).catch(error => {
-              console.log('---Student creation failed' + error)
-          });
-      },
-  },
+    name: 'add-student',
+    data(){
+        return{
+            name: null,
+            email: null,
+            softDelete: false,
+        }
+    },
+    methods: {
+        createStudent() {
+            let {email, name, softDelete} = this;
+            Bus.$emit('createStudent', {email, name, softDelete});
+        }
+    },
 };
 </script>
