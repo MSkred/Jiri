@@ -88,7 +88,6 @@ export default {
                 }
             },
             update(data){
-                console.log(data)
                 return data.allEvents[0]
             }
         },

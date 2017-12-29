@@ -133,8 +133,12 @@ import { store } from '../store'
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
 import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
+import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
+
+var _ = require('lodash');
 export default {
   name: 'edit-event',
+    props: ['id'],
   data(){
       return{
         courseName: null,
@@ -151,9 +155,50 @@ export default {
         jurys: [],
         students: [],
         projects: [],
+
+        editableEvent: '',
       }
   },
     apollo: {
+        editableEvent: {
+            query: SINGLE_EVENT_QUERY,
+            variables() {
+                // Use vue reactive properties
+                return {
+                    id: this.id,
+                }
+            },
+            update(data){
+            
+                // // Put courseName & academicYear in data  
+                this.courseName = data.allEvents[0].courseName
+                this.academicYear = data.allEvents[0].academicYear
+
+                // // Put eventStudents in data  
+                data.allEvents[0].students.map(student => {
+                    let id = student.id,
+                        name = student.name;
+
+                    this.eventStudents.push( {id: id, name: name, event: true} )
+                });
+
+             
+                this.students.forEach(student => {
+                    this.eventStudents.forEach(eStudent => {
+                        if(student.id == eStudent.id){
+                            student.event = true;
+                            console.log('done')
+                        }else{
+                            console.log('dont')
+                        }
+                    });
+                });
+
+
+               // return data.allEvents[0]
+            }
+
+        },
         jurys: {
             query: ALL_USER_QUERY,
             update(data){
@@ -290,6 +335,24 @@ export default {
                 i++;
             });
         },
+
+        test(){
+            this.students.forEach(student => {
+                this.eventStudents.forEach(eStudent => {
+                    if(student.id == eStudent.id){
+                        student.event = true;
+                        console.log('done')
+                    }else{
+                        console.log('dont')
+                    }
+                });
+            });
+        }
+    },
+    created(){
+        console.log(this.test());
+               
+
     }
 };
 </script>

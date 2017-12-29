@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar is-link" role="navigation" aria-label="dropdown navigation">
       <template v-if="userId">
-        <div class="navbar-start" v-if="currentUser.isAdmin">
+        <div class="navbar-start">
           <router-link :to="{name :'home'}" class="navbar-item">Dashboard</router-link>
           <div class="navbar-item has-dropdown is-hoverable">
             <router-link :to="{name :'users'}" class="navbar-link">Tous les utilisateurs</router-link>
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="navbar-end">
-          <a href="javascript:avoid" @click.prevent="logout()"  class="navbar-item">{{currentUser.name}} Se deconecter</a>
+          <a href="javascript:avoid" @click.prevent="logout()"  class="navbar-item"> Se deconecter</a>
           <router-link v-if="!userId" :to="{name :'login'}" class="navbar-item">Se connecter</router-link>
         </div>
       </template>
@@ -62,7 +62,7 @@ export default {
             }
         },
         update(data){
-          console.log(data)
+            //console.log(data)
             console.log('User data get done')
             return data.User
         }
