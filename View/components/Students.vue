@@ -63,8 +63,7 @@
 import {mapGetters, mapActions, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
 import Modify from './Modify.vue';
-import {UPDATE_STUDENT_MUTATION} from '../constants/StuentsUpdate.gql';
-
+import {Bus} from '../Bus'
 
 import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 export default {
@@ -84,9 +83,7 @@ export default {
         allStudents: {
             query: ALL_STUDENT_QUERY,
             update(data){
-                console.log(data)
                 return data.allStudents
-                data.allStudents.push(editfield)
             }
         },
     },
@@ -107,19 +104,11 @@ export default {
             let id = studentId;
             let name = document.getElementById("name").value;
             let email = document.getElementById("email").value;
-            this.$apollo.mutate({
-                mutation: UPDATE_STUDENT_MUTATION,
-                variables: {
-                    id,
-                    name,
-                    email, 
-                },
-            }).then(data => {
-                location.reload()
-                console.log('Done student modification')
-            }).catch(error => {
-                console.log('---Student modification failed'  + error)
-            });
+            
+            Bus.$emit('modifyStudent', { id, name, email });
+
+            // Close the modify modal
+            this.showModifyModal = false;
         }
     },
 }
