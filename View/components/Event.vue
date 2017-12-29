@@ -48,6 +48,22 @@
                 </div>
             </div>
         </div>
+        <h2>Les projets de l'événement</h2>
+        <div class="papa">
+            <div v-for="(project, key) in event.projects" class="enfant">
+                <div class="flex" v-if="!project.softDelete">
+                    <div class="flex__header">
+                        <h2 class="title">{{project.name}}</h2>
+                    </div>
+                    <div class="flex__content">
+                        <p>{{project.description}}</p>
+                    </div>
+                    <div class="flex__footer">
+                        <button>Supprimer de l'événement</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

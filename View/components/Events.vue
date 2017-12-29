@@ -23,6 +23,7 @@
                         <div class="flex__content">
                             <p class="jurys">{{event.jurys.length}} jurys</p>
                             <p class="students">{{event.students.length}} étudiants</p>
+                            <p class="projects">{{event.projects.length}} projets</p>
                         </div>
                         <div class="flex__footer" v-if="currentUser.isAdmin">
                             <button class="modify"  @click.prevent="showModifyModal = true; setModifyData(event)">Modifier</button>
@@ -38,6 +39,13 @@
                         <button @click.prevent="showDesactivateModal = false">Annuler</button>
                     </div>
             </desactivate>  
+            <modify v-if="showModifyModal" >
+                <h3 slot="header">Voullez-vous vraiment modifier {{modalItem.courseName}} de {{modalItem.academicYear}}</h3>
+                <div slot="footer">
+                    <button @click.prevent="editEvent(modalItem.id)">Modifier</button>
+                    <button @click.prevent="showModifyModal = false">Annuler</button>
+                </div>
+            </modify>
       </div>
   </div>
 </template>
@@ -45,6 +53,8 @@
 <script>
 import {mapGetters, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
+import Modify from './Modify.vue';
+
 import {Bus} from '../Bus'
 
 import { USER_QUERY } from '../constants/User.gql'
@@ -53,6 +63,7 @@ export default {
     name: 'events',
     components: {
         Desactivate,
+        Modify
     },
     data(){
         return{
@@ -90,6 +101,10 @@ export default {
         ])
     },  
     methods: {
+        editEvent(eventId){
+          location.assign(`/editEvent/${eventId}`)  
+        },
+
         ...mapMutations([
             'setDesactivateData',
             'setModifyData'
