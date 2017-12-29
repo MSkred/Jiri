@@ -68,7 +68,6 @@ export default {
             
             // Redirection on create meeting view
             location.assign(`/event/${this.event.id}/meeting/${this.currentMeeting}/student/${this.studentId}`);
-
         }
     },
     created(){

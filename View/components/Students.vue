@@ -64,6 +64,9 @@ import {mapGetters, mapActions, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
 import Modify from './Modify.vue';
 import {UPDATE_STUDENT_MUTATION} from '../constants/StuentsUpdate.gql';
+
+
+import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 export default {
     name: 'students',
     components: {
@@ -74,11 +77,21 @@ export default {
         return{
             showDesactivateModal: false,
             showModifyModal: false,
+            allStudents: [],
         }
+    },
+    apollo: {
+        allStudents: {
+            query: ALL_STUDENT_QUERY,
+            update(data){
+                console.log(data)
+                return data.allStudents
+                data.allStudents.push(editfield)
+            }
+        },
     },
     computed: {
         ...mapGetters([
-            'allStudents',
             'modalItem'
         ])
     },
@@ -109,14 +122,5 @@ export default {
             });
         }
     },
-    actions: {
-        ...mapActions([
-            'setAllStudents',
-        ])
-    },
-    created(){
-        // students recuperation
-        this.$store.dispatch('setAllStudents')
-    }
 }
 </script>
