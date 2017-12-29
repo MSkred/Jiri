@@ -11,9 +11,7 @@ export const USER_QUERY = gql`
             juryEvents{
                 id
             }
-            meetings{
-                id
-            }
+            
         }
     }
 `;

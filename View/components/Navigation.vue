@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar is-link" role="navigation" aria-label="dropdown navigation">
       <template v-if="userId">
-        <div class="navbar-start">
+        <div class="navbar-start" v-if="currentUser.isAdmin">
           <router-link :to="{name :'home'}" class="navbar-item">Dashboard</router-link>
           <div class="navbar-item has-dropdown is-hoverable">
             <router-link :to="{name :'users'}" class="navbar-link">Tous les utilisateurs</router-link>
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="navbar-end">
-          <a href="javascript:avoid" @click.prevent="logout()"  class="navbar-item">Se deconecter</a>
+          <a href="javascript:avoid" @click.prevent="logout()"  class="navbar-item">{{currentUser.name}} Se deconecter</a>
           <router-link v-if="!userId" :to="{name :'login'}" class="navbar-item">Se connecter</router-link>
         </div>
       </template>
@@ -37,9 +37,31 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {mapGetters} from 'vuex'
+import { USER_QUERY } from '../constants/User.gql'
+
 export default {
   name: 'navigation',
+  data(){
+      return{
+          currentUser: {},
+      }
+  },
+  apollo: {
+    currentUser: {
+        query: USER_QUERY,
+        variables() {
+            // Use vue reactive properties
+            return {
+                id: this.userId,
+            }
+        },
+        update(data){
+            console.log('User data get done')
+            return data.User
+        }
+    }
+  },
   methods:{
     logout(){
       localStorage.removeItem('graphcoolToken')
@@ -47,19 +69,11 @@ export default {
       // Redirect to login
       location.assign('/login')
     },
-    ...mapActions([
-        'setCurrentUser'
-    ])
   },
   computed: {
     ...mapGetters([
       'userId',
-      'userData'
     ])
   },
-  updated() {
-    this.$store.dispatch('setCurrentUser')
-    console.log(this.userData.name)
-  }
 }
 </script>

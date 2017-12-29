@@ -95,7 +95,7 @@ export default {
             update(data){
                 return data.allUsers
             }
-        },
+        }
     },
     computed: {
         ...mapGetters([
