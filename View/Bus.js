@@ -22,6 +22,7 @@ import { UPDATE_STUDENT_MUTATION } from './constants/StudentsUpdate.gql';
 // Projects query
 import { CREATE_PROJECT_MUTATION } from './constants/ProjectsCreate.gql'
 import { ALL_PROJECT_QUERY } from './constants/ProjectsAll.gql'
+import { UPDATE_PROJECT_MUTATION } from './constants/ProjectUpdate.gql';
 
 // Events query
 import { CREATE_EVENT_MUTATION } from './constants/EventsCreate.gql'
@@ -253,6 +254,31 @@ export const Bus = new Vue();
             refetchQueries: [
                 {
                     query: ALL_USER_QUERY,
+                }
+            ]
+        })
+    })
+
+    /*******************
+     *  Update Project
+    *******************/
+    Bus.$on('modifyProject', payload => {
+        let { id, name, description } = payload;
+
+        apolloClient.mutate({
+            mutation: UPDATE_PROJECT_MUTATION,
+            variables: {
+                id,
+                name,
+                description,
+            },
+            update: (cache, { data: { updateProject } }) => {
+                console.log(updateProject)
+                console.log('Project updating done')
+            },
+            refetchQueries: [
+                {
+                    query: ALL_PROJECT_QUERY,
                 }
             ]
         })

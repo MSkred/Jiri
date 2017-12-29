@@ -60,9 +60,11 @@
 
 <script>
 import {mapGetters, mapActions, mapMutations} from 'vuex'
-import Desactivate from './Desactivate.vue';
-import Modify from './Modify.vue';
-import { UPDATE_PROJECT_MUTATION } from '../constants/ProjectUpdate.gql';
+import Desactivate from './Desactivate.vue'
+import Modify from './Modify.vue'
+import {Bus} from '../Bus'
+
+import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql';
 
 export default {
     name: 'projects',
@@ -74,11 +76,19 @@ export default {
         return{
             showDesactivateModal: false,
             showModifyModal: false,
+            allProjects: [],
         }
+    },
+    apollo: {
+        allProjects: {
+            query: ALL_PROJECT_QUERY,
+            update(data){
+                return data.allProjects
+            }
+        },
     },
     computed: {
         ...mapGetters([
-            'allProjects',
             'modalItem'
         ])
     }, 
@@ -94,29 +104,12 @@ export default {
             let id = projectId;
             let name = document.getElementById("name").value;
             let description = document.getElementById("description").value;
-            this.$apollo.mutate({
-                mutation: UPDATE_PROJECT_MUTATION,
-                variables: {
-                    id,
-                    name,
-                    description, 
-                },
-            }).then(data => {
-                location.reload()
-                console.log('Done project modification')
-            }).catch(error => {
-                console.log('---Project modification failed'  + error)
-            });
+            
+            Bus.$emit('modifyProject', { id, name, description });
+
+            // Close the modify modal
+            this.showModifyModal = false;
         }
     },
-    actions: {
-        ...mapActions([
-            'setAllProjects',
-        ])
-    },
-    created(){
-        // students recuperation
-        this.$store.dispatch('setAllProjects')
-    }
 }
 </script>
