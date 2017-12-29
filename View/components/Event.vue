@@ -53,17 +53,29 @@
 
 <script>
 import {mapGetters} from 'vuex'
+
+import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
 export default {
     name: 'SingleEvent',
     props: ['id'],
-    computed: {
-        ...mapGetters([
-            'event',
-        ])
+    data(){
+        return{
+            event: [],
+        }
     },
-    created(){
-        // Event recupeartion
-        this.$store.dispatch('setEvent', this.id);
-    }
+    apollo: {
+        event: {
+            query: SINGLE_EVENT_QUERY,
+            variables() {
+                // Use vue reactive properties
+                return {
+                    id: this.id,
+                }
+            },
+            update(data){
+                return data.allEvents[0]
+            }
+        },
+    },
 }
 </script>
