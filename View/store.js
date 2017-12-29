@@ -11,8 +11,7 @@ export const store = new Vuex.Store({
         lastAddedId: null,
 
         // For user 
-        userId: null,
-        userData: {},
+        userId: '',
 
         // For event creation
         eventJurys: [],

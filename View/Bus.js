@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { apolloClient }  from './apollo'
 import { store } from './store'
-import { router } from './router'
+import router from './router'
 import gql from 'graphql-tag'
 
 /*******************
@@ -13,6 +13,7 @@ import { CREATE_USER_MUTATION } from './constants/UsersCreate.gql'
 import { ALL_USER_QUERY } from './constants/UsersAll.gql'
 import { UPDATE_USER_MUTATION } from './constants/UsersUpdate.gql';
 import { DESACTIVATE_USER_MUTATION } from './constants/UserDesactivate.gql'
+import { LOGIN_USER_MUTATION } from './constants/UsersLogin.gql'
 
 // Students query
 import { CREATE_STUDENT_MUTATION } from './constants/StudentsCreate.gql'
@@ -392,4 +393,24 @@ export const Bus = new Vue();
                 }
             ]
         })
+    })
+
+    /*******************
+     *  Authenticate User
+    *******************/
+    Bus.$on('authentification', payload => {
+        let { email, password } = payload;
+        apolloClient.mutate({
+            mutation: LOGIN_USER_MUTATION,
+            variables: {
+                email,
+                password
+            },
+
+            update: (cache, { data: { authenticateUser } }) => {
+                localStorage.setItem('userToken', authenticateUser.token);
+                localStorage.setItem('userId', authenticateUser.id);
+                router.push({ name: 'home' });
+            },
+        });
     })

@@ -4,9 +4,6 @@ export const mutations = {
     getUserId(state, id){
         state.userId = id;
     },
-    getUserData(state, payload){
-        state.userData = payload
-    },
     setDesactivateData(state, payload) {
         state.modalItem = payload;
     },
@@ -16,5 +13,4 @@ export const mutations = {
     lastAddedId(state, payload) {
         state.lastAddedId = payload;
     },
-    
 }

@@ -20,7 +20,7 @@
 
 import VueApollo from 'vue-apollo'
 import { LOGIN_USER_MUTATION } from '../constants/UsersLogin.gql'
-import {mapGetters, mapMutations} from 'vuex'
+import {Bus} from '../Bus'
 export default {
     name: 'login',
     data(){
@@ -31,26 +31,8 @@ export default {
     },
     methods: {
         authentification(){
-            const { email, password } = this;
-            this.$apollo.mutate({
-                mutation: LOGIN_USER_MUTATION,
-                variables: {
-                    email,
-                    password,
-                },
-            }).then(data => {
-              console.log('Authentification succes');
-        
-              // Post user token and id in localStorage
-              localStorage.setItem('graphcoolToken', data.data.authenticateUser.token)
-              localStorage.setItem('graphcoolId', data.data.authenticateUser.id)
-
-              // Redirect to home
-              location.assign('/')
-              
-            }).catch(error => {
-                console.log('---Authentification failed' + error)
-            });
+            let {email, password} = this;
+            Bus.$emit('authentification', {email, password})
         }
     },
 }

@@ -11,7 +11,7 @@ const httpLink = new HttpLink({ uri: 'https://api.graph.cool/simple/v1/cjazgfjex
 const middlewareLink = new ApolloLink((operation, forward) => {
     operation.setContext({
         headers: {
-            authorization: `Bearer ${localStorage.getItem('graphcoolToken')}`
+            authorization: `Bearer ${localStorage.getItem('userToken')}`
         }
     });
     return forward(operation);

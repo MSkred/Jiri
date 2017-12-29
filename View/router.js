@@ -21,7 +21,6 @@ import Login from './components/Login.vue'
 
 import { store } from './store'
 import { LOGGEDIN_USER_QUERY } from './constants/UsersLoggedIn.gql'
-import { ISADMIN_USER_QUERY } from './constants/UsersIsAdmin.gql'
 import { apolloClient } from './apollo'
 
 // Create routes
@@ -55,41 +54,18 @@ const router = new VueRouter({
 function loggedIn(data){
     return data.data.loggedInUser && data.data.loggedInUser.id !== ''
 }
-function isAdmin(data) {
-    return data.data.allUsers && data.data.allUsers !== []
-}
-
 
 router.beforeEach((to, from, next) => {
     apolloClient.query({
         query: LOGGEDIN_USER_QUERY,
+        fetchPolicy: 'network-only',
     }).then(data => {
         if (loggedIn(data) === null && to.name !== 'login') {
             console.log('Vous n etes pas connecter')
             return next({ name: 'login' });
         } else if (loggedIn(data) !== null) {
+            console.log('Vous etes connecter')
             store.commit('getUserId', data.data.loggedInUser.id);
-            let id = data.data.loggedInUser.id;
-            apolloClient.query({
-                query: ISADMIN_USER_QUERY,
-                variables: {
-                    id
-                }
-            }).then(data => {
-                if (data.data.allUsers.length === 0 ) {
-                    console.log('Vous etes connecter non admin')
-                    if (to.name == 'event') {
-                         next({ name: 'event' });
-                    } else if (to.name == 'meeting') {
-                        next({ name: 'meeting' });
-                    } else if (to.name == 'addMeeting') {
-                        next({ name: 'addMeeting' });
-                    }else{
-                        next({name: 'events'});
-                    }
-                }
-            })
-            console.log('Vous etes connecter en admin')
             next();
         } else {
             next();

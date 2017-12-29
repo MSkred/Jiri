@@ -14,9 +14,6 @@ export const getters = {
     userId(state) {
         return state.userId;
     },
-    userData(state) {
-        return state.userData;
-    },
 
     // ModalItem
     modalItem(state) {

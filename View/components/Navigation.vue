@@ -43,13 +43,18 @@ import { USER_QUERY } from '../constants/User.gql'
 export default {
   name: 'navigation',
   data(){
-      return{
-          currentUser: {},
-      }
+    return{
+      currentUser: {},
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+    ])
   },
   apollo: {
     currentUser: {
-        query: USER_QUERY,
+      query: USER_QUERY,
         variables() {
             // Use vue reactive properties
             return {
@@ -57,6 +62,7 @@ export default {
             }
         },
         update(data){
+          console.log(data)
             console.log('User data get done')
             return data.User
         }
@@ -64,16 +70,11 @@ export default {
   },
   methods:{
     logout(){
-      localStorage.removeItem('graphcoolToken')
+      localStorage.removeItem('userToken')
       
       // Redirect to login
       location.assign('/login')
     },
-  },
-  computed: {
-    ...mapGetters([
-      'userId',
-    ])
   },
 }
 </script>
