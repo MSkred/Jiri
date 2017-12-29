@@ -12,9 +12,13 @@ import gql from 'graphql-tag'
 import { CREATE_USER_MUTATION } from './constants/UsersCreate.gql'
 import { ALL_USER_QUERY } from './constants/UsersAll.gql'
 
-// Stundents query
+// Students query
 import { CREATE_STUDENT_MUTATION } from './constants/StudentsCreate.gql'
 import { ALL_STUDENT_QUERY } from './constants/StudentsAll.gql'
+
+// Projects query
+import { CREATE_PROJECT_MUTATION } from './constants/ProjectsCreate.gql'
+import { ALL_PROJECT_QUERY } from './constants/ProjectsAll.gql'
 
 export const Bus = new Vue();
 
@@ -49,7 +53,7 @@ Bus.$on('createStudent', payload => {
     let { email, name, softDelete } = payload;
 
     apolloClient.mutate({
-        mutation: CREATE_STUDENT_MUTATION,
+        mutation: CREATE_PROJECT_MUTATION,
         variables: {
             email,
             name,
@@ -58,6 +62,27 @@ Bus.$on('createStudent', payload => {
         refetchQueries: [
             {
                 query: ALL_STUDENT_QUERY,
+            }
+        ]
+    });
+})
+
+/*******************
+ *  Create Project
+*******************/
+Bus.$on('createProject', payload => {
+    let { description, name, softDelete } = payload;
+
+    apolloClient.mutate({
+        mutation: CREATE_PROJECT_MUTATION,
+        variables: {
+            description,
+            name,
+            softDelete
+        },
+        refetchQueries: [
+            {
+                query: ALL_PROJECT_QUERY,
             }
         ]
     });

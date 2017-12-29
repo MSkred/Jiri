@@ -18,35 +18,22 @@
 </template>
 
 <script>
-import VueApollo from 'vue-apollo'
-import nanoid from 'nanoid'
+import {Bus} from '../Bus'
 
-import { CREATE_PROJECT_MUTATION } from '../constants/ProjectsCreate.gql'
 export default {
-  name: 'add-project',
-  data(){
-      return{
-          name: null,
-          description: null, 
-          softDelete: false,
-      }
-  },
-  methods: {
-      createProject(){
-          const { name, description, softDelete } = this;
-          this.$apollo.mutate({
-              mutation: CREATE_PROJECT_MUTATION,
-              variables: {
-                  name,
-                  description,
-                  softDelete
-              },
-          }).then(data => {
-              console.log('Done project creation.');
-          }).catch(error => {
-              console.log('---Project creation failed' + error)
-          });
-      }
-  }
+    name: 'add-project',
+    data(){
+        return{
+            name: null,
+            description: null, 
+            softDelete: false,
+        }
+    },
+    methods: {
+        createProject() {
+            let { description, name, softDelete } = this;
+            Bus.$emit('createProject', { description, name, softDelete });
+        }
+    }
 }
 </script>
