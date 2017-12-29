@@ -1,7 +1,4 @@
 
-import { DESACTIVATE_PROJECT_MUTATION } from './constants/ProjectDesactivate.gql'
-
-
 import {apolloClient} from './apollo'
 
 export const actions = {
