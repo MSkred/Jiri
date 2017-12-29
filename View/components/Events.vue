@@ -45,6 +45,8 @@
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import Desactivate from './Desactivate.vue';
+
+import { ALL_EVENT_QUERY } from '../constants/EventsAll.gql'
 export default {
     name: 'events',
     components: {
@@ -54,11 +56,19 @@ export default {
         return{
             showDesactivateModal: false,
             showModifyModal: false,
+            events: [],
         }
+    },
+    apollo: {
+        events: {
+            query: ALL_EVENT_QUERY,
+            update(data){
+                return data.allEvents
+            }
+        },
     },
     computed: {
         ...mapGetters([
-            'events',
             'modalItem',
         ])
     },  
@@ -71,9 +81,5 @@ export default {
             'setModifyData'
         ]),
     },
-    created(){
-        // Events recupeartion
-        this.$store.dispatch('setAllEvents');
-    }
 }
 </script>

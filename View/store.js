@@ -13,7 +13,6 @@ export const store = new Vuex.Store({
         // For user 
         userId: null,
         userData: {},
-        //users: [],
         
         user: [],
         student: [],
