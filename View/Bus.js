@@ -39,6 +39,10 @@ Bus.$on('createUser', payload => {
             isAdmin,
             softDelete
         },
+        update: (cache, { data: { signupUser }}) => {
+            console.log(signupUser)
+            console.log('User creation done')
+        },
         refetchQueries: [
             {
                 query: ALL_USER_QUERY,
@@ -53,11 +57,15 @@ Bus.$on('createStudent', payload => {
     let { email, name, softDelete } = payload;
 
     apolloClient.mutate({
-        mutation: CREATE_PROJECT_MUTATION,
+        mutation: CREATE_STUDENT_MUTATION,
         variables: {
             email,
             name,
             softDelete
+        },
+        update: (cache, { data: { createStudent } }) => {
+            console.log(createStudent)
+            console.log('Student creation done')
         },
         refetchQueries: [
             {
@@ -79,6 +87,10 @@ Bus.$on('createProject', payload => {
             description,
             name,
             softDelete
+        },
+        update: (cache, { data: { createProject } }) => {
+            console.log(createProject)
+            console.log('Project creation done')
         },
         refetchQueries: [
             {
