@@ -19,7 +19,7 @@
                 <input v-model="company" type="text" id="company" name="company" placeholder="Écrivez l'entreprise" class="form-control">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" @click="createUser">Créer un utilisateur</button>
+                <button type="submit" class="btn btn-primary" @click.prevent="createUser">Créer un utilisateur</button>
             </div>
       </div>
   </div>
@@ -64,8 +64,8 @@ export default {
         //     });
         // },
         createUser() {
-            let {email, password, name, company, isAdmin} = this;
-            Bus.$emit('createUser', {email, password, name, company, isAdmin});
+            let {email, password, name, company, isAdmin, softDelete} = this;
+            Bus.$emit('createUser', {email, password, name, company, isAdmin, softDelete});
         }
     },
 };
