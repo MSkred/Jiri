@@ -52,9 +52,8 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
+
 export default {
     name: 'SingleEvent',
     props: ['id'],

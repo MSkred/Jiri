@@ -13,17 +13,29 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import { STUDENT_QUERY } from '../constants/Student.gql'
+
 export default {
     name: 'student',
     props: ['id'],
-    computed: {
-        ...mapGetters([
-            'student',
-        ])
+    data(){
+        return{
+            student: [],
+        }
     },
-    created(){
-        // student recupeartion
-        this.$store.dispatch('setStudent', this.id);
-    }
+    apollo: {
+        student: {
+            query: STUDENT_QUERY,
+            variables() {
+                // Use vue reactive properties
+                return {
+                    id: this.id,
+                }
+            },
+            update(data){
+                return data.Student
+            }
+        },
+    },
 }
 </script>
