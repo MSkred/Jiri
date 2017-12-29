@@ -130,10 +130,6 @@
 import nanoid from 'nanoid'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 // import VueApollo from 'vue-apollo'
- 
-import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
-import { CREATE_IMPLEMENTATIONS_MUTATION } from '../constants/ImplementationsCreate.gql'
-import { UPDATE_EVENT_MUTATION } from '../constants/EventsUpdate.gql'
 var _ = require('lodash');
 
 

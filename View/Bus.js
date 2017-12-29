@@ -27,6 +27,9 @@ import { ALL_EVENT_QUERY } from './constants/EventsAll.gql'
 // Implementations query
 import { CREATE_IMPLEMENTATIONS_MUTATION } from './constants/ImplementationsCreate.gql'
 
+// Meetings query
+import { CREATE_MEETING_MUTATION } from './constants/MeetingsCreate.gql'
+
 export const Bus = new Vue();
 
 
@@ -164,5 +167,31 @@ Bus.$on('createEvent', payload => {
                 query: ALL_EVENT_QUERY,
             }
         ]
+    });
+})
+/*******************
+ *  Create Meeting
+*******************/
+Bus.$on('startMeeting', payload => {
+    let { studentId, softDelete, authorId, eventId } = payload;
+
+    apolloClient.mutate({
+        mutation: CREATE_MEETING_MUTATION,
+        variables: {
+            softDelete,
+            studentId,
+            authorId,
+            eventId
+        },
+        update: (cache, { data: { createMeeting } }) => {
+            console.log(createMeeting)
+            console.log('Meeting creation done')
+
+            // Put meeting data in store
+            store.commit('meeting', createMeeting)
+
+            // Get the lastAddedId for meeting creation
+            store.commit('lastAddedId', createMeeting.id)
+        }
     });
 })

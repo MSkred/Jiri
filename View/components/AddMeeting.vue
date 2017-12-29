@@ -32,7 +32,7 @@
 
 <script>
 import {mapGetters, mapMutations} from 'vuex'
-import { CREATE_MEETING_MUTATION } from '../constants/MeetingsCreate.gql'
+import {Bus} from '../Bus'
 export default {
     name: 'add-meeting',
     props: ['id'], 
@@ -50,45 +50,25 @@ export default {
             'userId',
             'event',
             'meeting',
+            'lastAddedId'
         ])
     },
     methods: {
-        // ...mapMutations([
-        //     'addProjectToMeeting',
-        //     'removeProjectToMeeting',
-        // ]),
         startMeeting(){
-            // Push project ID in new array
-            // this.meetingProjects.map( project => {
-            //     let projectId = project.id
-            //     this.projectsIds.push(projectId)
-            // })
 
-            // Get user & event ID and assign it
+            // Defined author and event ID
             this.authorId = this.userId
             this.eventId = this.event.id
 
-            //Create meeting
-            const { studentId, softDelete, authorId, eventId } = this;
-            this.$apollo.mutate({
-                mutation: CREATE_MEETING_MUTATION,
-                variables: {
-                    softDelete,
-                    studentId,
-                    authorId,
-                    eventId
-                }
-            }).then(data => {
-                //console.log(data.data.createMeeting)
-                this.currentMeeting = data.data.createMeeting.id
-                this.$store.commit('meeting', data.data.createMeeting)
-                //this.$store.commit('meetingStudent', data.data.createMeeting.student)
-                location.assign(`/event/${this.event.id}/meeting/${this.currentMeeting}/student/${this.studentId}`)
-                console.log('Done meeting creation')
-            }).then(data => {
-            }).catch(error => {
-                console.log('---meeting creation failed'  + error)
-            });
+            // Defined currentMeeting ID
+            this.currentMeeting = this.lastAddedId
+            
+            let { studentId, softDelete, authorId, eventId } = this; 
+            Bus.$emit('startMeeting', { studentId, softDelete, authorId, eventId });    
+            
+            // Redirection on create meeting view
+            location.assign(`/event/${this.event.id}/meeting/${this.currentMeeting}/student/${this.studentId}`);
+
         }
     },
     created(){
