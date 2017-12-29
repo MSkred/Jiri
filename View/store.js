@@ -9,21 +9,22 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         lastAddedId: null,
+
+        // For user 
         userId: null,
         userData: {},
-        users: [],
+        //users: [],
+        
         user: [],
-        jurys: [],
-        students: [],
         student: [],
-        allStudents: [],
-        projects: [],
-        allProjects: [],
-        events: [],
         event: {},
+
+        // For event creation
         eventJurys: [],
         eventStudents: [],
         eventProjects: [],
+
+
         meeting: {},
         meetingProjects: [],
         modalItem: null,

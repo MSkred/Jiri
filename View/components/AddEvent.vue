@@ -129,11 +129,14 @@
 
 import nanoid from 'nanoid'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
-// import VueApollo from 'vue-apollo'
 var _ = require('lodash');
-
-
 import {Bus} from '../Bus'
+
+import { store } from '../store'
+
+import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
+import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
+import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
 export default {
     name: 'add-event',
     data(){
@@ -148,13 +151,52 @@ export default {
             studentsIds: [],
             projectsIds: [],
             implementationsIds: [],
+
+            jurys: [],
+            students: [],
+            projects: [],
         }
+    },
+    apollo: {
+        jurys: {
+            query: ALL_USER_QUERY,
+            update(data){
+                var newJury = [];
+                data.allUsers.map( jury => {
+                    let id = jury.id
+                    let name = jury.name
+                    newJury.push( {id: id, name: name, event: false} )
+                } )
+                return newJury
+            }
+        },
+        students: {
+            query: ALL_STUDENT_QUERY,
+            update(data){
+                var newStudents = [];
+                data.allStudents.map( student => {
+                    let id = student.id
+                    let name = student.name
+                    newStudents.push( {id: id, name: name, event: false} )
+                } )
+                return newStudents
+            }
+        },
+        projects: {
+            query: ALL_PROJECT_QUERY,
+            update(data){
+                var newProjects = [];
+                data.allProjects.map( project => {
+                    let id = project.id
+                    let name = project.name
+                    newProjects.push( {id: id, name: name, event: false} )
+                } )
+                return newProjects
+            }
+        },
     },
     computed:{
         ...mapGetters([
-            'jurys',
-            'students',
-            'projects',
             'eventJurys',
             'eventStudents',
             'eventProjects',
@@ -188,31 +230,70 @@ export default {
             let { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
             Bus.$emit('createEvent', { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds });
         },
-        ...mapMutations([
-            'addJury',
-            'addStudent',
-            'addProject',
-            'removeStudent',
-            'removeJury',
-            'removeProject'
-        ]),
-        ...mapActions([
-            'setAllJurys',
-            'setAllStudents',
-            'setAllProjects',
-        ])
-    },
-    created(){
 
-        // Users recuperation
-        this.$store.dispatch('setAllJurys')
+        // Add & Remove Jurys
+        addJury(key){
+            let eventJurys = store.state.eventJurys;
+            this.jurys[key].event = true;
 
-        // Students recuperation
-        this.$store.dispatch('setAllStudents')
+            if (this.jurys[key].event == true) {
+                eventJurys.push(this.jurys[key])    
+                this.jurys.splice(key, 1)
+            }
+        },
+        removeJury(key) {
+            let eventJurys = store.state.eventJurys;
 
-        // Projects recuperation
-        this.$store.dispatch('setAllProjects')
-        
+            eventJurys[key].event = false;
+            if (eventJurys[key].event == false) {
+                this.jurys.push(eventJurys[key])
+                eventJurys.splice(key, 1)
+            }
+        },
+
+        // Add & Remove Students
+        addStudent(key){
+            let eventStudents = store.state.eventStudents;
+            this.students[key].event = true;
+
+            if (this.students[key].event == true) {
+                eventStudents.push(this.students[key])    
+                this.students.splice(key, 1)
+            }
+        },
+        removeStudent(key) {
+            let eventStudents = store.state.eventStudents;
+
+            eventStudents[key].event = false;
+            if (eventStudents[key].event == false) {
+                this.students.push(eventStudents[key])
+                eventStudents.splice(key, 1)
+            }
+        },
+
+        // Add & Remove Projects
+        addProject(key){
+            let eventProjects = store.state.eventProjects;
+
+            if(!this.projects[key].event){
+                this.projects[key].event = true;
+                eventProjects.push(this.projects[key]);
+            }
+        },
+        removeProject(key) {
+            let eventProjects = store.state.eventProjects;
+
+            if (this.projects[key].event) {
+                this.projects[key].event = false;
+            }
+            var i = 0;
+            eventProjects.forEach(project => {
+                if(!project.event){
+                    eventProjects.splice(i, 1)
+                }
+                i++;
+            });
+        },
     }
 };
 </script>
