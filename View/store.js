@@ -8,6 +8,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
+        lastAddedId: null,
         userId: null,
         userData: {},
         users: [],

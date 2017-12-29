@@ -53,4 +53,7 @@ export const getters = {
     modalItem(state) {
         return state.modalItem;
     },
+    lastAddedId(state) {
+        return state.lastAddedId
+    },
 }

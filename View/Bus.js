@@ -20,6 +20,13 @@ import { ALL_STUDENT_QUERY } from './constants/StudentsAll.gql'
 import { CREATE_PROJECT_MUTATION } from './constants/ProjectsCreate.gql'
 import { ALL_PROJECT_QUERY } from './constants/ProjectsAll.gql'
 
+// Events query
+import { CREATE_EVENT_MUTATION } from './constants/EventsCreate.gql'
+import { ALL_EVENT_QUERY } from './constants/EventsAll.gql'
+
+// Implementations query
+import { CREATE_IMPLEMENTATIONS_MUTATION } from './constants/ImplementationsCreate.gql'
+
 export const Bus = new Vue();
 
 
@@ -74,7 +81,6 @@ Bus.$on('createStudent', payload => {
         ]
     });
 })
-
 /*******************
  *  Create Project
 *******************/
@@ -95,6 +101,67 @@ Bus.$on('createProject', payload => {
         refetchQueries: [
             {
                 query: ALL_PROJECT_QUERY,
+            }
+        ]
+    });
+})
+/*******************
+ *  Create Event
+*******************/
+Bus.$on('createEvent', payload => {
+    let { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = payload;
+
+    apolloClient.mutate({
+        mutation: CREATE_EVENT_MUTATION,
+        variables: {
+            courseName,
+            academicYear,
+            softDelete,
+            authorId,
+            jurysIds,
+            studentsIds,
+            projectsIds,
+        },
+        update: (cache, { data: { createEvent } }) => {
+            
+            // Get the lastAddedId for implementaiton creation
+            store.commit('lastAddedId', createEvent.id)
+
+            console.log(createEvent)
+            console.log('Event creation done')
+            
+            // Looped on students & projects ID
+            // for create implementation mutation
+            studentsIds.forEach(student => {
+                projectsIds.forEach(project => {
+
+                    // Init variable for implementation mutation
+                    let weight = 1 / (projectsIds.length),
+                        projectId = project,
+                        studentsIds = student,
+                        softDelete = false,
+                        eventId = store.getters.lastAddedId;
+
+                    apolloClient.mutate({
+                        mutation: CREATE_IMPLEMENTATIONS_MUTATION,
+                        variables: {
+                            softDelete,
+                            eventId,
+                            projectId,
+                            studentsIds,
+                            weight,
+                        },
+                        update: (cache, { data: { createImplementation } }) => {
+                            console.log(createImplementation)
+                            console.log('Implementation creation done')
+                        }
+                    });
+                });
+            });
+        },
+        refetchQueries: [
+            {
+                query: ALL_EVENT_QUERY,
             }
         ]
     });

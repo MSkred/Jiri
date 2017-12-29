@@ -135,6 +135,9 @@ import { CREATE_EVENT_MUTATION } from '../constants/EventsCreate.gql'
 import { CREATE_IMPLEMENTATIONS_MUTATION } from '../constants/ImplementationsCreate.gql'
 import { UPDATE_EVENT_MUTATION } from '../constants/EventsUpdate.gql'
 var _ = require('lodash');
+
+
+import {Bus} from '../Bus'
 export default {
     name: 'add-event',
     data(){
@@ -163,78 +166,105 @@ export default {
         ]),
     },
     methods: {
-        createEvent(){
-            
+        createEvent() {
+
             // Push ID on project in new array
             this.eventProjects.map( project => {
                 let projectId = project.id;
                 this.projectsIds.push(projectId)
             } )
+
             // Push ID on student in new array
             this.eventStudents.map( student => {
                 let studentId = student.id;
                 this.studentsIds.push(studentId)
             } )
+
             // Push ID on project in new array
             this.eventJurys.map( jury => {
                 let juryId = jury.id;
                 this.jurysIds.push(juryId)
             } )
+
             // Defined author id
             this.authorId = this.userId;
 
-            // Create event
-            const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
-            this.$apollo.mutate({
-                mutation: CREATE_EVENT_MUTATION,
-                variables: {
-                    courseName,
-                    academicYear,
-                    softDelete,
-                    authorId,
-                    jurysIds,
-                    studentsIds,
-                    projectsIds,
-                },
-            }).then(data => {
-                this.currentEvent = data.data.createEvent.id
-                console.log('Done event creation.');
-            }).then(data => {
-                // Create all implementations
-                this.studentsIds.forEach(student => {
-                    this.projectsIds.forEach(project => {
-                        let studentsIds = student;
-                        let projectId = project
-                        let eventId = this.currentEvent;
-                        let weight = 1/(projectsIds.length)
-                        let softDelete = this.softDelete
-                        console.log(studentsIds, projectId, eventId, weight, softDelete);
-                        this.$apollo.mutate({
-                            mutation: CREATE_IMPLEMENTATIONS_MUTATION,
-                            variables: {
-                                softDelete,
-                                eventId,
-                                projectId,
-                                studentsIds,
-                                weight,
-                            }
-                        }).then(data => {
-                            this.implementationsIds.push(data.data.createImplementation.id);
-                            console.log('Done implementation creation')
-                        }).catch(error => {
-                            console.log('---implementation creation failed'  + error)
-                        });
-
-                    });
-                });
-                this.studentsIds = [];
-                this.projectsIds = [];
-            }).catch(error => {
-                console.log('---Event creation failed' + error)
-            });
-
-
+            let { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
+            Bus.$emit('createEvent', { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds });
         },
+        // createEvent(){
+            
+        //     // Push ID on project in new array
+        //     this.eventProjects.map( project => {
+        //         let projectId = project.id;
+        //         this.projectsIds.push(projectId)
+        //     } )
+        //     // Push ID on student in new array
+        //     this.eventStudents.map( student => {
+        //         let studentId = student.id;
+        //         this.studentsIds.push(studentId)
+        //     } )
+        //     // Push ID on project in new array
+        //     this.eventJurys.map( jury => {
+        //         let juryId = jury.id;
+        //         this.jurysIds.push(juryId)
+        //     } )
+
+        //     // Defined author id
+        //     this.authorId = this.userId;
+
+        //     // Create event
+        //     const { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
+        //     this.$apollo.mutate({
+        //         mutation: CREATE_EVENT_MUTATION,
+        //         variables: {
+        //             courseName,
+        //             academicYear,
+        //             softDelete,
+        //             authorId,
+        //             jurysIds,
+        //             studentsIds,
+        //             projectsIds,
+        //         },
+        //     }).then(data => {
+        //         this.currentEvent = data.data.createEvent.id
+        //         console.log('Done event creation.');
+        //     }).then(data => {
+        //         // Create all implementations
+        //         this.studentsIds.forEach(student => {
+        //             this.projectsIds.forEach(project => {
+        //                 let studentsIds = student;
+        //                 let projectId = project
+        //                 let eventId = this.currentEvent;
+        //                 let weight = 1/(projectsIds.length)
+        //                 let softDelete = this.softDelete
+        //                 console.log(studentsIds, projectId, eventId, weight, softDelete);
+        //                 this.$apollo.mutate({
+        //                     mutation: CREATE_IMPLEMENTATIONS_MUTATION,
+                            // variables: {
+                            //     softDelete,
+                            //     eventId,
+                            //     projectId,
+                            //     studentsIds,
+                            //     weight,
+                            // }
+        //                 }).then(data => {
+        //                     this.implementationsIds.push(data.data.createImplementation.id);
+        //                     console.log('Done implementation creation')
+        //                 }).catch(error => {
+        //                     console.log('---implementation creation failed'  + error)
+        //                 });
+
+        //             });
+        //         });
+        //         this.studentsIds = [];
+        //         this.projectsIds = [];
+        //     }).catch(error => {
+        //         console.log('---Event creation failed' + error)
+        //     });
+
+
+        // },
         ...mapMutations([
             'addJury',
             'addStudent',

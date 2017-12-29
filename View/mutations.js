@@ -155,6 +155,9 @@ export const mutations = {
     },
     setModifyData(state, payload) {
         state.modalItem = payload;
-    }
+    },
+    lastAddedId(state, payload) {
+        state.lastAddedId = payload;
+    },
     
 }
