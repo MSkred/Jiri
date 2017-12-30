@@ -18,6 +18,7 @@ import { LOGIN_USER_MUTATION } from './constants/UsersLogin.gql'
 // Students query
 import { CREATE_STUDENT_MUTATION } from './constants/StudentsCreate.gql'
 import { ALL_STUDENT_QUERY } from './constants/StudentsAll.gql'
+import { STUDENT_QUERY } from './constants/Student.gql'
 import { UPDATE_STUDENT_MUTATION } from './constants/StudentsUpdate.gql';
 import { DESACTIVATE_STUDENT_MUTATION } from './constants/StudentDesactivate.gql'
 
@@ -36,6 +37,7 @@ import { DESACTIVATE_EVENT_MUTATION } from './constants/EventDesactivate.gql'
 // Implementations query
 import { CREATE_IMPLEMENTATIONS_MUTATION } from './constants/ImplementationsCreate.gql'
 import { DELETE_IMPLEMENTATIONS_MUTATION } from './constants/ImplementationsDelete.gql'
+import { UPDATE_IMPLEMENTATION_MUTATION } from './constants/ImplementationsUpdate.gql'
 
 // Meetings query
 import { CREATE_MEETING_MUTATION } from './constants/MeetingsCreate.gql'
@@ -297,6 +299,34 @@ export const Bus = new Vue();
             refetchQueries: [
                 {
                     query: ALL_PROJECT_QUERY,
+                }
+            ]
+        })
+    })
+
+    /*******************
+     *  Update Implementation
+    *******************/
+    Bus.$on('modifyImplementation', payload => {
+        let { id, weight, studentId } = payload;
+
+        apolloClient.mutate({
+            mutation: UPDATE_IMPLEMENTATION_MUTATION,
+            variables: {
+                id,
+                weight
+            },
+            update: (cache, { data: { updateImplementation } }) => {
+                console.log(updateImplementation)
+                console.log('Implementation updating done')
+            
+            },
+            refetchQueries: [
+                {
+                    query: STUDENT_QUERY,
+                    variables:{
+                        id: studentId
+                    }
                 }
             ]
         })
