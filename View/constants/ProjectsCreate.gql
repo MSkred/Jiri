@@ -1,10 +1,11 @@
 import gql from 'graphql-tag'
 
 export const CREATE_PROJECT_MUTATION = gql `
-    mutation CreateProject($description: String!, $name: String!, $softDelete: Boolean!) {
-        createProject(name: $name, description: $description, softDelete: $softDelete) {
+    mutation CreateProject($description: String!, $name: String!, $softDelete: Boolean!, $weight: Float!) {
+        createProject(name: $name, description: $description, softDelete: $softDelete, weight: $weight) {
             name
             description
+            weight
         }
     }
 `;

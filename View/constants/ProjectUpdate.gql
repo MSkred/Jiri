@@ -1,11 +1,12 @@
 import gql from 'graphql-tag'
 
 export const UPDATE_PROJECT_MUTATION = gql `
-    mutation updateProject($id: ID!, $name: String!, $description: String!) {
-        updateProject(id: $id, name: $name, description: $description) {
+    mutation updateProject($id: ID!, $name: String!, $description: String!, $weight: Float!) {
+        updateProject(id: $id, name: $name, description: $description, weight: $weight) {
             id
             name
             description
+            weight
         }
     }
 `;

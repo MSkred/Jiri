@@ -101,14 +101,15 @@ export const Bus = new Vue();
      *  Create Project
     *******************/
     Bus.$on('createProject', payload => {
-        let { description, name, softDelete } = payload;
+        let { description, name, softDelete, weight } = payload;
 
         apolloClient.mutate({
             mutation: CREATE_PROJECT_MUTATION,
             variables: {
                 description,
                 name,
-                softDelete
+                softDelete,
+                weight
             },
             update: (cache, { data: { createProject } }) => {
                 console.log(createProject)
