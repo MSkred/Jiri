@@ -34,7 +34,7 @@
                     <div class="flex">
                         <div class="flex__header">
                             <h2 class="title">{{implementation.project.name}}</h2>
-                            <p class="subtitle">{{implementation.project.weight}}</p>
+                            <p class="subtitle">{{implementation.weight}}</p>
                         </div>
                         <div class="flex__content">
                             <p>{{implementation.project.description}}</p>
@@ -51,7 +51,7 @@
             <form slot="body">
                 <div class="form-group">
                     <label for="weight">Pondération du projet</label>
-                    <input type="number" :value="modalItem.project.weight" id="weight" name="weight">
+                    <input type="number" :value="modalItem.weight" id="weight" name="weight">
                 </div>
             </form>
             <div slot="footer">

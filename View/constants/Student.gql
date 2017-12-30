@@ -13,6 +13,7 @@ export const STUDENT_QUERY = gql`
             }
             implementations{
                 id
+                weight
                 project{
                     name
                     description
