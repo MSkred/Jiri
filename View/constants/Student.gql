@@ -8,12 +8,15 @@ export const STUDENT_QUERY = gql`
             name
             studentEvents{
                 id
+                courseName
+                academicYear
             }
             implementations{
                 id
                 project{
                     name
                     description
+                    weight
                 }
             }
         }
