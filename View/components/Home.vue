@@ -51,13 +51,26 @@
         <modify v-if="showModifyModal" >
             <h3 slot="header">Modifier le meeting avec XXX</h3>
             <form slot="body">
-                <div class="form-group">
-                    <label for="weight">Pondération du projet</label>
-                    <input type="number" :value="modalItem.weight" id="weight" name="weight">
+                <div v-for="(score, key) in modalItem.scores" :key="score.id" :id="key">
+                        <h4>{{score.implementation.project.name}}</h4>
+                        <label for="comment">Commentaire</label>
+                        <textarea :value="score.comment" name="comment" id="comment" cols="30" rows="10"></textarea>
+                        <label for="score">Côte</label>
+                        <input :value="score.score" type="number" name="score" id="score">
+                </div>
+                
+                <div>
+                    <form action="">
+                        <h4>Le commentaire globale de {{modalItem.student.name}}</h4>
+                        <label for="globalComment">Commentaire</label>
+                        <textarea :value="modalItem.comment" name="globalComment" id="globalComment" cols="30" rows="10"></textarea>
+                        <label for="globalScore">Côte</label>
+                        <input :value="modalItem.evaluation" type="number" name="globalScore" id="globalScore">
+                    </form>
                 </div>
             </form>
             <div slot="footer">
-                <button @click.prevent="modifyImplementation(modalItem.id)">Modifier</button>
+                <button @click.prevent="modifyMeeting(modalItem.id)">Modifier</button>
                 <button @click.prevent="showModifyModal = false">Annuler</button>
             </div>
         </modify>
@@ -69,6 +82,7 @@
 import { USER_QUERY } from '../constants/User.gql'
 import {mapGetters, mapMutations} from 'vuex'
 import Modify from './Modify.vue';
+import {Bus} from '../Bus'
 
 export default {
   name: 'home',
@@ -107,6 +121,16 @@ export default {
         ...mapMutations([
             'setModifyData'
         ]),
+        modifyMeeting(meetingId){
+            let id = meetingId,
+                comment = document.getElementById('globalComment').value,
+                evaluation = parseFloat(document.getElementById('globalScore').value);
+            
+            Bus.$emit('validateMeeting', { id, comment, evaluation });
+
+            // Close the modify modal
+            this.showModifyModal = false;
+        }
   }
 }
 </script>
