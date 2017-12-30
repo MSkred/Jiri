@@ -41,6 +41,7 @@ import { UPDATE_IMPLEMENTATION_MUTATION } from './constants/ImplementationsUpdat
 
 // Meetings query
 import { CREATE_MEETING_MUTATION } from './constants/MeetingsCreate.gql'
+import { UPDATE_MEETING_MUTATION } from './constants/MeetingsUpdate.gql'
 
 // Scores query 
 import { CREATE_SCORE_MUTATION } from './constants/ScoresCreate.gql'
@@ -228,7 +229,7 @@ export const Bus = new Vue();
     /*******************
      *  Create Score
     *******************/
-    Bus.$on('validateMeeting', payload => {
+    Bus.$on('createScore', payload => {
         let { meetingId, softDelete, implementationId, comment, score } = payload;
 
         apolloClient.mutate({
@@ -431,6 +432,26 @@ export const Bus = new Vue();
                     query: ALL_EVENT_QUERY,
                 }
             ]
+        })
+    })
+
+    /*******************
+     *  Update Meeting
+    *******************/
+    Bus.$on('validateMeeting', payload => {
+        let { id, comment, evaluation } = payload;
+
+        apolloClient.mutate({
+            mutation: UPDATE_MEETING_MUTATION,
+            variables: {
+                id,
+                comment,
+                evaluation
+            },
+            update: (cache, { data: { updateMeeting } }) => {
+                console.log(updateMeeting)
+                console.log('Meeting updating done')
+            },
         })
     })
 

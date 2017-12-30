@@ -1,0 +1,11 @@
+import gql from 'graphql-tag'
+
+export const UPDATE_MEETING_MUTATION = gql `
+    mutation updateMeeting($id: ID!, $comment: String!, $evaluation: Float!) {
+        updateMeeting(id: $id, comment: $comment, evaluation: $evaluation) {
+            id
+            comment
+            evaluation
+        }
+    }
+`;

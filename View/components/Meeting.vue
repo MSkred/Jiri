@@ -120,7 +120,7 @@ export default {
         },
         validateMeeting(){
             
-            // Create Score array
+            // Generate Score array
             this.meeting.event.implementations.map( implementation => {
                 if(implementation.meeting){
                     let implementationId = implementation.id;
@@ -130,6 +130,7 @@ export default {
                 }
             } )
 
+            // Loop on score array and create all score data
             this.scores.forEach(scoore => {
                 let meetingId = this.id;
                 let softDelete = this.softDelete;
@@ -137,8 +138,15 @@ export default {
                 let comment = scoore.comment;
                 let score = parseFloat(scoore.score);
                 
-                Bus.$emit('validateMeeting', {meetingId, softDelete, implementationId, comment, score});
+                Bus.$emit('createScore', {meetingId, softDelete, implementationId, comment, score});
             });
+
+            // Update meeting with comment & evaluation
+            let comment = this.global.comment,
+                evaluation = parseFloat(this.global.score),
+                id = this.id;
+
+            Bus.$emit('validateMeeting', {id, comment, evaluation});
         }
     },
     
