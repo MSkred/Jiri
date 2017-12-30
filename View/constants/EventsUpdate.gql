@@ -5,6 +5,7 @@ export const UPDATE_EVENT_MUTATION = gql `
         updateEvent(id: $id, academicYear: $academicYear, courseName: $courseName, jurysIds: $jurysIds, studentsIds: $studentsIds, implementationsIds: $implementationsIds, projectsIds: $projectsIds) {
             id
             courseName
+            implementations{id}
         }
     }
 `;

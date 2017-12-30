@@ -1,0 +1,11 @@
+import gql from 'graphql-tag'
+
+export const DELETE_IMPLEMENTATIONS_MUTATION = gql `
+    mutation deleteImplementations($id: ID!){
+        deleteImplementation(
+            id: $id
+        ) {
+            id
+        }
+    }
+`;
