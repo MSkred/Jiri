@@ -1,20 +1,16 @@
 import gql from 'graphql-tag'
 
 export const SINGLE_MEETING_QUERY = gql `
-    query allMeetings($id: ID, $studentId: ID) {
+    query allMeetings($id: ID, $eventId: ID) {
         allMeetings(filter: {id: $id}){
             id
             student{
                 name
                 id
-            }
-            event{
-                id
-                implementations(filter: {students_every: {id: $studentId} }){
+                implementations(filter: {event: {id: $eventId}}) {
                     id
                     project{
                         name
-                        description
                     }
                 }
             }
