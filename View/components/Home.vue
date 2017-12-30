@@ -41,28 +41,50 @@
                             <p>{{meeting.event.courseName}} de {{meeting.event.academicYear}}</p>
                             <p>{{meeting.comment}}</p>
                         </div>
+                        <div class="flex__footer">
+                            <button class="modify"  @click.prevent="showModifyModal = true; setModifyData(meeting)">Modifier</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <modify v-if="showModifyModal" >
+            <h3 slot="header">Modifier le meeting avec XXX</h3>
+            <form slot="body">
+                <div class="form-group">
+                    <label for="weight">Pondération du projet</label>
+                    <input type="number" :value="modalItem.weight" id="weight" name="weight">
+                </div>
+            </form>
+            <div slot="footer">
+                <button @click.prevent="modifyImplementation(modalItem.id)">Modifier</button>
+                <button @click.prevent="showModifyModal = false">Annuler</button>
+            </div>
+        </modify>
     </div>
 </template>
 
 
 <script>  
 import { USER_QUERY } from '../constants/User.gql'
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
+import Modify from './Modify.vue';
 
 export default {
   name: 'home',
+    components: {
+        Modify
+    },
   data(){
     return{
-      currentUser: {},
+        currentUser: {},
+        showModifyModal: false,
     }
   },
   computed: {
     ...mapGetters([
-      'userId',
+        'modalItem',
+        'userId',
     ])
   },
   apollo: {
@@ -82,7 +104,9 @@ export default {
     }
   },
   methods: {
-     
+        ...mapMutations([
+            'setModifyData'
+        ]),
   }
 }
 </script>

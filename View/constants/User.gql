@@ -24,6 +24,16 @@ export const USER_QUERY = gql`
                 student{
                     name
                 }
+                scores{
+                    id
+                    comment
+                    score
+                    implementation{
+                        project{
+                            name
+                        }
+                    }
+                }
             }
         }
     }
