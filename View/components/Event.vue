@@ -20,14 +20,11 @@
             <div v-for="(jury, key) in event.jurys" class="enfant">
                 <div class="flex" v-if="!jury.softDelete">
                     <div class="flex__header">
-                        <h2 class="title">{{jury.name}}</h2>
+                        <h1 class="title">{{jury.name}}</h1>
                         <p class="subtitle">{{jury.company}}</p>
                     </div>
                     <div class="flex__content">
                         <p>{{jury.email}}</p>
-                    </div>
-                    <div class="flex__footer">
-                        <button>Supprimer de l'événement</button>
                     </div>
                 </div>
             </div>
@@ -37,13 +34,10 @@
             <div v-for="(student, key) in event.students" class="enfant">
                 <div class="flex" v-if="!student.softDelete">
                     <div class="flex__header">
-                        <h2 class="title">{{student.name}}</h2>
+                        <h1 class="title">{{student.name}}</h1>
                     </div>
                     <div class="flex__content">
                         <p>{{student.email}}</p>
-                    </div>
-                    <div class="flex__footer">
-                        <button>Supprimer de l'événement</button>
                     </div>
                 </div>
             </div>
@@ -53,17 +47,31 @@
             <div v-for="(project, key) in event.projects" class="enfant">
                 <div class="flex" v-if="!project.softDelete">
                     <div class="flex__header">
-                        <h2 class="title">{{project.name}}</h2>
+                        <h1 class="title">{{project.name}}</h1>
                     </div>
                     <div class="flex__content">
                         <p>{{project.description}}</p>
                     </div>
-                    <div class="flex__footer">
-                        <button>Supprimer de l'événement</button>
+                </div>
+            </div>
+        </div>
+        <h2>Les meetings de l'événement</h2>
+        <div class="papa">
+            <div v-for="(meeting, key) in event.meetings" class="enfant">
+                <div class="flex" v-if="!meeting.softDelete">
+                    <div class="flex__header">
+                        <h1 class="title">{{meeting.author.name}} & {{meeting.student.name}}</h1>
+                        <p class="subtitle">
+                            {{meeting.evaluation}} / 20
+                        </p>
+                    </div>
+                    <div class="flex__content">
+                        <p>{{meeting.comment}}</p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
@@ -75,7 +83,7 @@ export default {
     props: ['id'],
     data(){
         return{
-            event: [],
+            //event: [],
         }
     },
     apollo: {

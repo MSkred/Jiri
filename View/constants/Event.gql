@@ -24,11 +24,22 @@ export const SINGLE_EVENT_QUERY = gql `
             }
             meetings{
                 id
+                comment
+                evaluation
                 author{
                     name
                 }
                 student{
                     name
+                }
+                scores{
+                    comment
+                    score
+                    implementation{
+                        project{
+                            name
+                        }
+                    }
                 }
             }
         }
