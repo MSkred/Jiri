@@ -28,6 +28,23 @@
                 </router-link>
             </div>
         </div>
+        <h2>Les meeting que vous avez effectué</h2>
+        <div class="papa">
+            <div v-for="(meeting, key) in currentUser.meetings" class="enfant">
+                <div class="contenu">
+                    <div class="flex">
+                        <div class="flex__header">
+                            <h1 class="title">{{meeting.student.name}}</h1>
+                            <p class="subtitle">{{meeting.evaluation}} / 20</p>
+                        </div>
+                        <div class="flex__content">
+                            <p>{{meeting.event.courseName}} de {{meeting.event.academicYear}}</p>
+                            <p>{{meeting.comment}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

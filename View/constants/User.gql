@@ -13,6 +13,18 @@ export const USER_QUERY = gql`
                 courseName
                 academicYear
             }
+            meetings{
+                id
+                evaluation
+                comment
+                event{
+                    courseName
+                    academicYear
+                }
+                student{
+                    name
+                }
+            }
         }
     }
 `;
