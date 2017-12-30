@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="navbar-end">
-          <a href="javascript:avoid" @click.prevent="logout()"  class="navbar-item"> Se deconecter</a>
+          <a href="javascript:avoid" @click.prevent="logout()"  class="navbar-item">Se deconecter</a>
           <router-link v-if="!userId" :to="{name :'login'}" class="navbar-item">Se connecter</router-link>
         </div>
       </template>

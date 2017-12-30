@@ -31,7 +31,7 @@
         <div>
             <label for="jury">Ajoutez des membres du jury</label>
             <ul>
-                <li v-for="(jury, key) in jurys" :value="jury.id" :key="jury.id">
+                <li v-if="!jury.event" v-for="(jury, key) in jurys" :value="jury.id" :key="jury.id">
                     {{jury.name}}
                     <button class="btn btn-primary" v-on:click.prevent="addJury(key)">+</button>
                 </li>
@@ -55,7 +55,7 @@
         <div>
             <label for="jury">Ajoutez des étudiants</label>
             <ul>
-                <li v-for="(student, key) in students" :value="student.id" :key="student.id">
+                <li v-if="!student.event" v-for="(student, key) in students" :value="student.id" :key="student.id">
                     {{student.name}}
                     <button type="submit" class="btn btn-primary" v-on:click.prevent="addStudent(key)">+</button>
                 </li>
@@ -160,45 +160,6 @@ export default {
       }
   },
     apollo: {
-        editableEvent: {
-            query: SINGLE_EVENT_QUERY,
-            variables() {
-                // Use vue reactive properties
-                return {
-                    id: this.id,
-                }
-            },
-            update(data){
-            
-                // // Put courseName & academicYear in data  
-                this.courseName = data.allEvents[0].courseName
-                this.academicYear = data.allEvents[0].academicYear
-
-                // // Put eventStudents in data  
-                data.allEvents[0].students.map(student => {
-                    let id = student.id,
-                        name = student.name;
-
-                    this.eventStudents.push( {id: id, name: name, event: true} )
-                });
-
-             
-                this.students.forEach(student => {
-                    this.eventStudents.forEach(eStudent => {
-                        if(student.id == eStudent.id){
-                            student.event = true;
-                            console.log('done')
-                        }else{
-                            console.log('dont')
-                        }
-                    });
-                });
-
-
-               // return data.allEvents[0]
-            }
-
-        },
         jurys: {
             query: ALL_USER_QUERY,
             update(data){
@@ -234,6 +195,78 @@ export default {
                 } )
                 return newProjects
             }
+        },
+        editableEvent: {
+            query: SINGLE_EVENT_QUERY,
+            variables() {
+                // Use vue reactive properties
+                return {
+                    id: this.id,
+                }
+            },
+            update(data){
+            
+                // // Put courseName & academicYear in data  
+                this.courseName = data.allEvents[0].courseName
+                this.academicYear = data.allEvents[0].academicYear
+
+                // // Put eventStudents in data  
+                data.allEvents[0].students.map(student => {
+                    let id = student.id,
+                        name = student.name;
+
+                    this.eventStudents.push( {id: id, name: name, event: true} )
+                });
+                // Check two array, event = true
+                // if ID coresponding
+                this.eventStudents.map(eStudent => {
+                    this.students.map(student => {
+                        if(student.id === eStudent.id){
+                            student.event = true;
+                        }
+                    })
+                })
+
+
+                // // Put eventJurys in data  
+                data.allEvents[0].jurys.map(jury => {
+                    let id = jury.id,
+                        name = jury.name;
+
+                    this.eventJurys.push( {id: id, name: name, event: true} )
+                });
+                // Check two array, event = true
+                // if ID coresponding
+                this.eventJurys.map(eJury => {
+                    this.jurys.map(jury => {
+                        if(jury.id === eJury.id){
+                            jury.event = true;
+                        }
+                    })
+                })
+
+
+                // // Put eventProjects in data  
+                data.allEvents[0].projects.map(project => {
+                    let id = project.id,
+                        name = project.name;
+
+                    this.eventProjects.push( {id: id, name: name, event: true} )
+                });
+                // Check two array, event = true
+                // if ID coresponding
+                this.eventProjects.map(eProject => {
+                    this.projects.map(project => {
+                        if(project.id === eProject.id){
+                            project.event = true;
+                        }
+                    })
+                })
+
+
+               //return data.allEvents[0]
+            }
+
         },
     },
     computed:{
