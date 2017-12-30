@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const UPDATE_EVENT_MUTATION = gql `
-    mutation updateEvent($id: ID!, $implementationsIds: [ID!]) {
-        updateEvent(id: $id, implementationsIds: $implementationsIds) {
+    mutation updateEvent($id: ID!, $courseName: String!, $academicYear: String!, $jurysIds: [ID!], $studentsIds: [ID!], $projectsIds: [ID!], $implementationsIds: [ID!]) {
+        updateEvent(id: $id, academicYear: $academicYear, courseName: $courseName, jurysIds: $jurysIds, studentsIds: $studentsIds, implementationsIds: $implementationsIds, projectsIds: $projectsIds) {
             id
             courseName
         }

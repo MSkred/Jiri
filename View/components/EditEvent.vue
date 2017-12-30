@@ -117,7 +117,7 @@
             </ul>
         </div>
         <input type="button" name="previous" class="previous action-button" value="Previous" />
-        <input type="submit" name="submit" class="submit action-button" @click.prevent="createEvent" value="Créez l'événement" />
+        <input type="submit" name="submit" class="submit action-button" @click.prevent="updateEvent" value="Sauvegarder l'événement" />
     </fieldset>
 </form>
       </div>
@@ -143,10 +143,7 @@ export default {
       return{
         courseName: null,
         academicYear: null,
-        softDelete: false,       
-        authorId: null,
-        currentEvent:  null,
-        eventDatas: [],
+
         jurysIds: [],
         studentsIds: [],
         projectsIds: [],
@@ -278,7 +275,7 @@ export default {
         ]),
     },
     methods: {
-        createEvent() {
+        updateEvent() {
 
             // Push ID on project in new array
             this.eventProjects.map( project => {
@@ -298,11 +295,10 @@ export default {
                 this.jurysIds.push(juryId)
             } )
 
-            // Defined author id
-            this.authorId = this.userId;
+            let id = this.id; 
 
-            let { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
-            Bus.$emit('createEvent', { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds });
+            let { courseName, academicYear, jurysIds, studentsIds, projectsIds } = this;
+            Bus.$emit('updateEvent', { id, courseName, academicYear, jurysIds, studentsIds, projectsIds });
         },
 
         // Add & Remove Jurys
@@ -355,37 +351,24 @@ export default {
             }
         },
         removeProject(key) {
-            let eventProjects = store.state.eventProjects;
+            //let eventProjects = store.state.eventProjects;
 
             if (this.projects[key].event) {
                 this.projects[key].event = false;
             }
             var i = 0;
-            eventProjects.forEach(project => {
+            this.eventProjects.forEach(project => {
+                if(project.id === this.projects[key].id){
+                    project.event = false;
+                }
+                
                 if(!project.event){
-                    eventProjects.splice(i, 1)
+                    this.eventProjects.splice(i, 1)
+                    //var i = 0;
                 }
                 i++;
             });
         },
-
-        test(){
-            this.students.forEach(student => {
-                this.eventStudents.forEach(eStudent => {
-                    if(student.id == eStudent.id){
-                        student.event = true;
-                        console.log('done')
-                    }else{
-                        console.log('dont')
-                    }
-                });
-            });
-        }
-    },
-    created(){
-        console.log(this.test());
-               
-
     }
 };
 </script>

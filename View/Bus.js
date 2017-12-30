@@ -30,6 +30,7 @@ import { DESACTIVATE_PROJECT_MUTATION } from './constants/ProjectDesactivate.gql
 // Events query
 import { CREATE_EVENT_MUTATION } from './constants/EventsCreate.gql'
 import { ALL_EVENT_QUERY } from './constants/EventsAll.gql'
+import { UPDATE_EVENT_MUTATION } from './constants/EventsUpdate.gql'
 import { DESACTIVATE_EVENT_MUTATION } from './constants/EventDesactivate.gql'
 
 // Implementations query
@@ -286,6 +287,34 @@ export const Bus = new Vue();
             refetchQueries: [
                 {
                     query: ALL_PROJECT_QUERY,
+                }
+            ]
+        })
+    })
+
+    /*******************
+     *  Update Event
+    *******************/
+    Bus.$on('updateEvent', payload => {
+        let { id, courseName, academicYear, jurysIds, studentsIds, projectsIds } = payload;
+
+        apolloClient.mutate({
+            mutation: UPDATE_EVENT_MUTATION,
+            variables: {
+                id,
+                courseName,
+                academicYear,
+                jurysIds,
+                studentsIds,
+                projectsIds,
+            },
+            update: (cache, { data: { updateEvent } }) => {
+                console.log(updateEvent)
+                console.log('Event updating done')
+            },
+            refetchQueries: [
+                {
+                    query: ALL_EVENT_QUERY,
                 }
             ]
         })
