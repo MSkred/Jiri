@@ -39,6 +39,7 @@ import { DELETE_IMPLEMENTATIONS_MUTATION } from './constants/ImplementationsDele
 
 // Meetings query
 import { CREATE_MEETING_MUTATION } from './constants/MeetingsCreate.gql'
+import { create } from 'domain';
 
 export const Bus = new Vue();
 
@@ -153,11 +154,17 @@ export const Bus = new Vue();
                     projectsIds.forEach(project => {
 
                         // Init variable for implementation mutation
-                        let weight = 1 / (projectsIds.length),
-                            projectId = project,
-                            studentsIds = student,
+                        let projectId = project,
+                            studentId = student,
                             softDelete = false,
-                            eventId = store.getters.lastAddedId;
+                            eventId = store.getters.lastAddedId,
+                            weight;
+
+                        createEvent.projects.forEach(projectID => {
+                            if(projectID.id === project){
+                                weight = projectID.weight;
+                            }
+                        });
 
                         apolloClient.mutate({
                             mutation: CREATE_IMPLEMENTATIONS_MUTATION,
@@ -165,7 +172,7 @@ export const Bus = new Vue();
                                 softDelete,
                                 eventId,
                                 projectId,
-                                studentsIds,
+                                studentId,
                                 weight,
                             },
                             update: (cache, { data: { createImplementation } }) => {
