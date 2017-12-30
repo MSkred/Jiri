@@ -8,6 +8,11 @@ export const USER_QUERY = gql`
             name
             company
             isAdmin
+            juryEvents{
+                id
+                courseName
+                academicYear
+            }
         }
     }
 `;
