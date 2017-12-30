@@ -33,7 +33,7 @@
                 <div class="contenu">
                     <div class="flex">
                         <div class="flex__header">
-                            <h2 class="title">{{implementation.project.name}}</h2>
+                            <h2 class="title">{{implementation.project.name}} du {{implementation.event.courseName}} de {{implementation.event.academicYear}}</h2>
                             <p class="subtitle">{{implementation.weight}}</p>
                         </div>
                         <div class="flex__content">
