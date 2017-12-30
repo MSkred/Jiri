@@ -280,7 +280,7 @@ export const Bus = new Vue();
      *  Update Project
     *******************/
     Bus.$on('modifyProject', payload => {
-        let { id, name, description } = payload;
+        let { id, name, description, weight } = payload;
 
         apolloClient.mutate({
             mutation: UPDATE_PROJECT_MUTATION,
@@ -288,6 +288,7 @@ export const Bus = new Vue();
                 id,
                 name,
                 description,
+                weight
             },
             update: (cache, { data: { updateProject } }) => {
                 console.log(updateProject)

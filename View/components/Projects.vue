@@ -18,7 +18,7 @@
                     <div class="flex" v-if="!project.softDelete">
                         <div class="flex__header">
                             <h2 class="title">{{project.name}}</h2>
-                            <p class="subtitle">subtitle</p>
+                            <p class="subtitle">Pondération de {{project.weight}}</p>
                         </div>
                         <div class="flex__content">
                             <p>{{project.description}}</p>
@@ -47,6 +47,10 @@
                     <div class="form-group">
                         <label for="email">Description</label>
                         <textarea :value="modalItem.description" name="decription" id="description" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Pondération du projet</label>
+                        <input type="number" :value="modalItem.weight" id="weight" name="weight">
                     </div>
                 </form>
                 <div slot="footer">
@@ -101,8 +105,9 @@ export default {
             let id = projectId;
             let name = document.getElementById("name").value;
             let description = document.getElementById("description").value;
+            let weight = parseFloat(document.getElementById("weight").value);
             
-            Bus.$emit('modifyProject', { id, name, description });
+            Bus.$emit('modifyProject', { id, name, description, weight });
 
             // Close the modify modal
             this.showModifyModal = false;
