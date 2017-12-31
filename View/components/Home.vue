@@ -124,9 +124,26 @@ export default {
         modifyMeeting(meetingId){
             let id = meetingId,
                 comment = document.getElementById('globalComment').value,
-                evaluation = parseFloat(document.getElementById('globalScore').value);
+                evaluation = parseFloat( document.getElementById('globalScore').value );
             
             Bus.$emit('validateMeeting', { id, comment, evaluation });
+
+
+            // Loop on all scores and get ID element with i
+            var i = 0;
+            this.modalItem.scores.forEach(scoore => {
+
+                // Get data in var
+                let id = scoore.id,
+                    comment = document.getElementById(i).querySelector('#comment').value,
+                    score = parseFloat( document.getElementById(i).querySelector('#score').value );
+                    
+                    // Event bus with data on argument
+                    Bus.$emit('updateScore', { id, comment, score });
+                
+                // Increment 
+                i++;
+            });            
 
             // Close the modify modal
             this.showModifyModal = false;

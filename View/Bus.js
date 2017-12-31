@@ -45,6 +45,7 @@ import { UPDATE_MEETING_MUTATION } from './constants/MeetingsUpdate.gql'
 
 // Scores query 
 import { CREATE_SCORE_MUTATION } from './constants/ScoresCreate.gql'
+import { UPDATE_SCORE_MUTATION } from './constants/ScoresUpdate.gql'
 
 import { create } from 'domain';
 
@@ -453,6 +454,25 @@ export const Bus = new Vue();
                 console.log('Meeting updating done')
             },
         })
+    })
+    /*******************
+     *  Update Score
+    *******************/
+    Bus.$on('updateScore', payload => {
+        let { id, comment, score } = payload;
+
+        apolloClient.mutate({
+            mutation: UPDATE_SCORE_MUTATION,
+            variables: {
+                id,
+                comment,
+                score,
+            },
+            update: (cache, { data: { updateScore } }) => {
+                console.log(updateScore)
+                console.log('Score update done')
+            },
+        });
     })
 
 /*******************
