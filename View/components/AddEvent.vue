@@ -229,6 +229,8 @@ export default {
 
             let { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = this;
             Bus.$emit('createEvent', { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds });
+            
+            this.$router.push({name: 'events'})
         },
 
         // Add & Remove Jurys

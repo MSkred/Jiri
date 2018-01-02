@@ -1,0 +1,26 @@
+import gql from 'graphql-tag'
+
+export const UPDATE_EVENT_MUTATION = gql `
+query Event($id: ID!){
+    Event(id : $id){
+        courseName
+        students{
+            name
+            implementations(filter: {event: {id: $id}}) {
+                project{
+                    name
+                }
+                scores {
+                    score
+                    comment
+                    meeting{
+                        author{
+                            name
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+`

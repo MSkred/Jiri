@@ -15,6 +15,15 @@
                 </router-link>
             </div>
         </section>
+        <h2>Tableau des scores</h2>
+        <table class="scores">
+            <thead>
+                <th>&nbsp;</th>
+                <th>Maxime</th>
+                <th>Mehdy</th>
+                <th>Tom</th>
+            </thead>
+        </table>
         <h2>Les jurys de l'événement</h2>
         <div class="papa">
             <div v-for="(jury, key) in event.jurys" class="enfant">

@@ -299,6 +299,9 @@ export default {
 
             let { courseName, academicYear, jurysIds, studentsIds, projectsIds } = this;
             Bus.$emit('updateEvent', { id, courseName, academicYear, jurysIds, studentsIds, projectsIds });
+
+            this.$router.push({name: 'events'})
+
         },
 
         // Add & Remove Jurys

@@ -139,6 +139,9 @@ export default {
                 let score = parseFloat(scoore.score);
                 
                 Bus.$emit('createScore', {meetingId, softDelete, implementationId, comment, score});
+
+                
+                this.$router.push({name: `event`})
             });
 
             // Update meeting with comment & evaluation
