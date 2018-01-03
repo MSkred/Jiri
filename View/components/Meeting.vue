@@ -137,11 +137,11 @@ export default {
                 let implementationId = scoore.implementationId;
                 let comment = scoore.comment;
                 let score = parseFloat(scoore.score);
-                
-                Bus.$emit('createScore', {meetingId, softDelete, implementationId, comment, score});
+                let eventIds = this.eventId;
+                Bus.$emit('createScore', {meetingId, softDelete, implementationId, comment, score, eventIds});
 
                 
-                this.$router.push({name: `event`})
+                //this.$router.push({name: `event`})
             });
 
             // Update meeting with comment & evaluation

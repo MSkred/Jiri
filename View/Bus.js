@@ -165,7 +165,7 @@ export const Bus = new Vue();
                         let projectId = project,
                             studentId = student,
                             softDelete = false,
-                            eventId = store.getters.lastAddedId,
+                            eventsIds = store.getters.lastAddedId,
                             weight;
 
                         createEvent.projects.forEach(projectID => {
@@ -178,7 +178,7 @@ export const Bus = new Vue();
                             mutation: CREATE_IMPLEMENTATIONS_MUTATION,
                             variables: {
                                 softDelete,
-                                eventId,
+                                eventsIds,
                                 projectId,
                                 studentId,
                                 weight,
@@ -231,7 +231,7 @@ export const Bus = new Vue();
      *  Create Score
     *******************/
     Bus.$on('createScore', payload => {
-        let { meetingId, softDelete, implementationId, comment, score } = payload;
+        let { meetingId, softDelete, implementationId, comment, score, eventIds  } = payload;
 
         apolloClient.mutate({
             mutation: CREATE_SCORE_MUTATION,
@@ -241,6 +241,7 @@ export const Bus = new Vue();
                 implementationId,
                 comment,
                 score,
+                eventIds
             },
             update: (cache, { data: { createScore } }) => {
                 console.log(createScore)

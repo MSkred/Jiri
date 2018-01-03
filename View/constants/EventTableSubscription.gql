@@ -10,9 +10,9 @@ subscription Score($id: ID!){
             event: {
                 id: $id
                 students_every: {
-                studentEvents_some: {
-                    id: $id
-                }
+                    studentEvents_some: {
+                        id: $id
+                    }
                 }
             }
             }

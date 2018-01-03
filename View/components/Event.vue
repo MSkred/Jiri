@@ -144,19 +144,19 @@ export default {
     },
   mounted(){
       let id = this.id;
-      console.log(eventId)
+      console.log(id)
     this.scoreSubscription = this.$apollo.queries.score.subscribeToMore({
       document: TABLE_EVENT_SUBSCRIPTION,
       variables: {
           id,
       },
       updateQuery: (previousResult, { subscriptionData }) => {
+          console.log(previousResult.Event.students, subscriptionData.data.Score.node.meeting.students)
           return {
               score: [
-              console.log(previousResult, subscriptionData),
-            ...previousResult.score,
-            // Add the new tag
-            subscriptionData.data.Score.node,
+                ...previousResult.Event.students,
+                // Add the new tag
+                subscriptionData.data.Score.node.meeting,
           ]
         }
       }
