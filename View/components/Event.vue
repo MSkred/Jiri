@@ -1,3 +1,11 @@
+
+<style>
+tr, th, td{
+    width: 200px;
+    background: yellow;
+}
+</style>
+
 <template>
     <div class="wrapper">
         <section class="hero is-link">
@@ -16,13 +24,23 @@
             </div>
         </section>
         <h2>Tableau des scores</h2>
-        <table class="scores">
+        <table class="scores" v-for="(student, key) in score.students">
+            <caption>{{student.name}}</caption>
             <thead>
-                <th>&nbsp;</th>
-                <th>Maxime</th>
-                <th>Mehdy</th>
-                <th>Tom</th>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th v-for="(implementation, key) in student.implementations">{{implementation.project.name}}</th>
+                </tr>
             </thead>
+            <tbody>
+                <tr v-for="(implementation, key) in student.implementations">
+                    <td>&nbsp;</td>
+                    <td v-for="(score, key) in implementation.scores">
+                        <span v-if="score.score">{{score.score}}</span>
+                        <span v-if="!score.score">&nbsp;</span>
+                    </td>
+                </tr>
+            </tbody>
         </table>
         <h2>Les jurys de l'événement</h2>
         <div class="papa">
@@ -95,6 +113,7 @@ export default {
     data(){
         return{
             //event: [],
+            score: {},
         }
     },
     apollo: {
@@ -110,35 +129,36 @@ export default {
                 return data.allEvents[0]
             }
         },
-        table: {
-            query: TABLE_EVENT_QUERY,
-            variables(){
-                return {
-                    id: this.id,
+        score() {
+            let id = this.id;
+            return {
+                query: TABLE_EVENT_QUERY,
+                variables: {
+                    id
+                },
+                update(data){
+                    return data.Event
                 }
-            },
-            update(data){
-                return data.Event
             }
         },
     },
   mounted(){
-    this.eventSubscription = this.$apollo.queries.table.subscribeToMore({
+      let id = this.id;
+      console.log(eventId)
+    this.scoreSubscription = this.$apollo.queries.score.subscribeToMore({
       document: TABLE_EVENT_SUBSCRIPTION,
-      variables(){
-          return{
-              eventId: this.id,
-          }
+      variables: {
+          id,
       },
       updateQuery: (previousResult, { subscriptionData }) => {
-console.log('ok')
-        // return {
-        //   table: [
-        //     ...previousResult.allMessages,
-        //     // Add the new tag
-        //     subscriptionData.data.Message.node,
-        //   ]
-        // }
+          return {
+              score: [
+              console.log(previousResult, subscriptionData),
+            ...previousResult.score,
+            // Add the new tag
+            subscriptionData.data.Score.node,
+          ]
+        }
       }
     })
   }

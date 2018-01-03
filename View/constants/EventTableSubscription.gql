@@ -1,17 +1,17 @@
 import gql from 'graphql-tag'
 
 export const TABLE_EVENT_SUBSCRIPTION = gql `
-subscription Score($eventId: ID!){
+subscription Score($id: ID!){
     Score(
         filter: {
         mutation_in: [CREATED]
         node: {
             meeting:{
             event: {
-                id: $eventId
+                id: $id
                 students_every: {
                 studentEvents_some: {
-                    id: $eventId
+                    id: $id
                 }
                 }
             }
