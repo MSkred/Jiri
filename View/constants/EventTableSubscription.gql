@@ -1,0 +1,49 @@
+import gql from 'graphql-tag'
+
+export const TABLE_EVENT_SUBSCRIPTION = gql `
+subscription Score($eventId: ID!){
+    Score(
+        filter: {
+        mutation_in: [CREATED]
+        node: {
+            meeting:{
+            event: {
+                id: $eventId
+                students_every: {
+                studentEvents_some: {
+                    id: $eventId
+                }
+                }
+            }
+            }
+        }
+        }
+    ) {
+    node{
+        meeting{
+            event {
+            id
+                courseName
+                    students{
+                name
+                implementations {
+                    project{
+                        name
+                    }
+                    scores {
+                        score
+                        comment
+                        meeting{
+                            author{
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+            }
+        }
+        }
+    }
+    }
+`

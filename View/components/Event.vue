@@ -86,6 +86,8 @@
 
 <script>
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
+import { TABLE_EVENT_QUERY } from '../constants/EventTable.gql'
+import { TABLE_EVENT_SUBSCRIPTION } from '../constants/EventTableSubscription.gql'
 
 export default {
     name: 'SingleEvent',
@@ -108,6 +110,37 @@ export default {
                 return data.allEvents[0]
             }
         },
+        table: {
+            query: TABLE_EVENT_QUERY,
+            variables(){
+                return {
+                    id: this.id,
+                }
+            },
+            update(data){
+                return data.Event
+            }
+        },
     },
+  mounted(){
+    this.eventSubscription = this.$apollo.queries.table.subscribeToMore({
+      document: TABLE_EVENT_SUBSCRIPTION,
+      variables(){
+          return{
+              eventId: this.id,
+          }
+      },
+      updateQuery: (previousResult, { subscriptionData }) => {
+console.log('ok')
+        // return {
+        //   table: [
+        //     ...previousResult.allMessages,
+        //     // Add the new tag
+        //     subscriptionData.data.Message.node,
+        //   ]
+        // }
+      }
+    })
+  }
 }
 </script>
