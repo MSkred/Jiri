@@ -24,7 +24,7 @@ tr, th, td{
             </div>
         </section>
         <h2>Tableau des scores</h2>
-        <table class="scores" v-for="(student, key) in score.students">
+        <table class="scores" v-for="(student, key) in tableEvent[0].students">
             <caption>{{student.name}}</caption>
             <thead>
                 <tr>
@@ -113,7 +113,7 @@ export default {
     data(){
         return{
             //event: [],
-            score: {},
+            tableEvent: {},
         }
     },
     apollo: {
@@ -129,7 +129,7 @@ export default {
                 return data.allEvents[0]
             }
         },
-        score() {
+        tableEvent() {
             let id = this.id;
             return {
                 query: TABLE_EVENT_QUERY,
@@ -137,30 +137,109 @@ export default {
                     id
                 },
                 update(data){
-                    return data.Event
-                }
+                    var newEvent = [],
+                        students = [],
+                        newScore = [];       
+
+                        data.Event.students.map( student => {
+                            var implementations = [];                 
+                            let name = student.name;
+                            student.implementations.map( implementation => {
+                                var scores = [];
+                                let id = implementation.id,
+                                    project = implementation.project;
+                                implementation.scores.map( scoore => {
+                                    let comment = scoore.comment,
+                                        score = scoore.score,
+                                        id = scoore.id,
+                                        meeting = scoore.meeting;
+                                    scores.push({ id, score, comment, meeting });
+                                } )
+                                implementations.push({ id, project, scores })
+                            } )
+                            students.push({ name, implementations })
+                        } )
+                        newScore.push({ courseName: data.Event.courseName, students})
+                    
+                    return newScore
+                },
             }
         },
     },
-  mounted(){
-      let id = this.id;
-      console.log(id)
-    this.scoreSubscription = this.$apollo.queries.score.subscribeToMore({
-      document: TABLE_EVENT_SUBSCRIPTION,
-      variables: {
-          id,
-      },
-      updateQuery: (previousResult, { subscriptionData }) => {
-          console.log(previousResult.Event.students, subscriptionData.data.Score.node.meeting.students)
-          return {
-              score: [
-                ...previousResult.Event.students,
-                // Add the new tag
-                subscriptionData.data.Score.node.meeting,
-          ]
-        }
-      }
-    })
-  }
+    mounted(){
+        let id = this.id;
+        this.tableEventSubscription = this.$apollo.queries.tableEvent.subscribeToMore({
+            document: TABLE_EVENT_SUBSCRIPTION,
+            variables: {
+                id,
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+
+                // Create empty variables
+                var newEvent = [],
+                    students = [],
+                    newScore = [];     
+
+
+                // Looped on all students in my event
+                previousResult.Event.students.map( student => {
+                    // Reset implentation array
+                    var implementations = [];  
+                    
+                    // Stock the student name
+                    let name = student.name;
+
+                    // Looped on all student's implementation
+                    student.implementations.map( implementation => {
+                        // Reset score array
+                        var scores = [];  
+
+                        // Stock the implementation id & project
+                        let id = implementation.id,
+                            project = implementation.project;
+                        
+                        // Looped on all implementation's score
+                        implementation.scores.map( scoore => {
+                            // Stock score's comment, id, score & meeting
+                            let comment = scoore.comment,
+                                score = scoore.score,
+                                id = scoore.id,
+                                meeting = scoore.meeting;
+
+                            // Push object in scores array
+                            scores.push({ id, score, comment, meeting });
+                           
+                        } )
+
+                        // Check if student have an implementation with
+                        // the same ID of subscription Data 
+                        // if true push it
+                        if(implementation.id === subscriptionData.data.Score.node.implementation.id){
+                            scores.push(subscriptionData.data.Score.node)
+                        }
+
+                        // Push object in implementation array
+                        implementations.push({ id, project, scores })
+                    
+                    })
+                    // Push object in student array
+                    students.push({ name, implementations })
+                })
+
+                newEvent.push({courseName: previousResult.Event.courseName, students })
+                
+                console.log(subscriptionData)
+                return {
+                    tableEvent: [
+                        subscriptionData.data.Score.node,
+                        ...newEvent,
+                        // __typename: previousResult.Event.__typename,
+                        // ...newEvent
+                        //events: [...previousResult, ...newEvent[0]],
+                    ]             
+                }
+            }
+        })
+    }
 }
 </script>

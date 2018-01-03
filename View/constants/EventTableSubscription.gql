@@ -4,46 +4,28 @@ export const TABLE_EVENT_SUBSCRIPTION = gql `
 subscription Score($id: ID!){
     Score(
         filter: {
-        mutation_in: [CREATED]
+        mutation_in: [CREATED],
         node: {
-            meeting:{
-            event: {
-                id: $id
-                students_every: {
-                    studentEvents_some: {
-                        id: $id
-                    }
-                }
-            }
-            }
+            event_some: {id: $id}
         }
-        }
+    }
     ) {
-    node{
-        meeting{
-            event {
+        node{
+            score
+            event{
+                id
+            }
+            implementation{
+                id
+            }
+            comment
             id
-                courseName
-                    students{
-                name
-                implementations {
-                    project{
-                        name
-                    }
-                    scores {
-                        score
-                        comment
-                        meeting{
-                            author{
-                                name
-                            }
-                        }
-                    }
+            meeting{
+                author{
+                    name
                 }
             }
-            }
-        }
         }
     }
-    }
+}
 `

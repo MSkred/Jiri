@@ -6,11 +6,13 @@ query Event($id: ID!){
         courseName
         students{
             name
-            implementations(filter: {event: {id: $id}}) {
+            implementations(filter: {events_every: {id: $id}}) {
+                id
                 project{
                     name
                 }
                 scores {
+                    id
                     score
                     comment
                     meeting{
