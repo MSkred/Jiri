@@ -10,6 +10,12 @@ export const SINGLE_EVENT_QUERY = gql `
                 id
                 name
                 email
+                implementations(filter: {events_some: {id: $id}}){
+                    id
+                    project{
+                        name
+                    }
+                }
             }
             jurys{
                 id
