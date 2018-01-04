@@ -14,11 +14,13 @@ export const STUDENT_QUERY = gql`
             implementations{
                 id
                 weight
-                event{
+                events{
+                    id
                     courseName
                     academicYear
                 }
                 project{
+                    id
                     name
                     description
                     weight

@@ -174,7 +174,7 @@ export default {
                         ...previousResult.allScores,
                         // Add the new tag
                         subscriptionData.data.Score.node,
-                    ]
+                    ],
                 }
             }
         })

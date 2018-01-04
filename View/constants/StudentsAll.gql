@@ -11,6 +11,7 @@ export const ALL_STUDENT_QUERY = gql `
             implementations{
                 id
                 project{
+                    id
                     name
                     description
                 }
