@@ -30,7 +30,6 @@ tr, th, td{
                 <tr>
                     <th>&nbsp;</th>
                     <th v-for="(meeting, key) in student.meetings">{{meeting.author.name}}</th>
-                    <!-- <th v-for="(implementation, key) in student.implementations" :id="implementation.id" >{{implementation.project.name}}</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -39,10 +38,9 @@ tr, th, td{
                     <template v-for="(meeting, key) in student.meetings">
                         <template v-for="(score, key) in allScores">
                             <td v-if="score.implementation.id == implementation.id && score.meeting.id == meeting.id">{{score.score}}</td>
-                            <td v-if="score.implementation.id == implementation.id && score.meeting.id !== meeting.id">none</td>
+                            <td v-if="(score.implementation.id == implementation.id && score.meeting.id !== meeting.id)">none</td>
                         </template>
                     </template>
-                    <td v-if="student.meetings >= [0]">none</td>
                 </tr>
             </tbody>
         </table>
@@ -158,149 +156,28 @@ export default {
                 `,
                 variables: {
                     id
-                },
-                update(data){
-                    return data.allScores
                 }
             }
         }
-        // tableEvent() {
-        //     let id = this.id;
-        //     return {
-        //         query: TABLE_EVENT_QUERY,
-        //         variables: {
-        //             id
-        //         },
-        //         update(data){
-        //             var newEvent = [],
-        //                 students = [],
-        //                 newScore = [];       
-
-        //                 data.Event.students.map( student => {
-        //                     var implementations = [];                 
-        //                     let name = student.name;
-        //                     student.implementations.map( implementation => {
-        //                         var scores = [];
-        //                         let id = implementation.id,
-        //                             project = implementation.project;
-        //                         implementation.scores.map( scoore => {
-        //                             let comment = scoore.comment,
-        //                                 score = scoore.score,
-        //                                 id = scoore.id,
-        //                                 meeting = scoore.meeting;
-        //                             scores.push({ id, score, comment, meeting });
-        //                         } )
-        //                         implementations.push({ id, project, scores })
-        //                     } )
-        //                     students.push({ name, implementations })
-        //                 } )
-        //                 newScore.push({ courseName: data.Event.courseName, students})
-                    
-        //             return newScore
-        //         },
-        //     }
-        // },
     },
-    // mounted(){
-    //     let id = this.id;
-    //     this.tableEventSubscription = this.$apollo.queries.tableEvent.subscribeToMore({
-    //         document: TABLE_EVENT_SUBSCRIPTION,
-    //         variables: {
-    //             id,
-    //         },
-    //         updateQuery: (previousResult, { subscriptionData }) => {
-    //             // Create empty variables
-    //             var newEvent = [],
-    //                 students = [],
-    //                 newScore = [];     
-
-
-    //             // Looped on all students in my event
-    //             previousResult.Event.students.map( student => {
-    //                 // Reset implentation array
-    //                 var implementations = [];  
-                    
-    //                 // Stock the student name
-    //                 let name = student.name;
-
-    //                 // Looped on all student's implementation
-    //                 student.implementations.map( implementation => {
-    //                     // Reset score array
-    //                     var scores = [];  
-
-    //                     // Stock the implementation id & project
-    //                     let id = implementation.id,
-    //                         project = implementation.project;
-                        
-    //                     // Looped on all implementation's score
-    //                     implementation.scores.map( scoore => {
-    //                         // Stock score's comment, id, score & meeting
-    //                         let comment = scoore.comment,
-    //                             score = scoore.score,
-    //                             id = scoore.id,
-    //                             meeting = scoore.meeting;
-
-    //                         // Push object in scores array
-    //                         scores.push({ id, score, comment, meeting });
-                           
-    //                     } )
-
-    //                     // Check if student have an implementation with
-    //                     // the same ID of subscription Data 
-    //                     // if true push it
-    //                     if(implementation.id === subscriptionData.data.Score.node.implementation.id){
-    //                         scores.push(subscriptionData.data.Score.node)
-    //                     }
-
-    //                     // Push object in implementation array
-    //                     implementations.push({ id, project, scores })
-                    
-    //                 })
-    //                 // Push object in student array
-    //                 students.push({ name, implementations })
-    //             })
-
-    //             newEvent.push({courseName: previousResult.Event.courseName, students })
-
-
-
-    //             var Teststudents = [],
-    //                 addedScore =  subscriptionData.data.Score.node,
-    //                 testScore = [];
-
-    //             Teststudents.push(...previousResult.Event.students)
-    //             Teststudents.map( student => {
-    //                 if(student.id === addedScore.meeting.student.id){
-    //                     student.implementations.map( implementation => {
-    //                         testScore = [];
-    //                         if(implementation.id === addedScore.implementation.id){
-    //                             //testScore.push(...implementation.scores, addedScore)
-    //                             //implementation.scores = (...implementations.scores)
-    //                         }
-    //                     } )
-    //                 }
-    //             } )
-                
-    //             return {
-    //               tableEvent: [
-                    
-    //               ]
-    //                 // tableEvent: [
-    //                 //     {
-    //                 //         Event: [],
-    //                 //         __typename: previousResult.Event.__typename,
-    //                 //         courseName: previousResult.Event.courseName,
-    //                 //         // ...previousResult.Event.students,
-    //                 //     }
-    //                 //     // subscriptionData.data.Score.node,
-    //                 //     // ...newEvent,
-    //                 //     // __typename: previousResult.Event.__typename,
-    //                 //     // ...newEvent
-    //                 //     //events: [...previousResult, ...newEvent[0]],
-    //                 // ]             
-    //             }
-    //         }
-    //     })
-    // }
+    mounted(){
+        let id = this.id;
+        this.scoreSubscription = this.$apollo.queries.allScores.subscribeToMore({
+            document: TABLE_EVENT_SUBSCRIPTION,
+            variables: {
+                id,
+            },
+            updateQuery: (previousResult, { subscriptionData }) => {
+                console.log(previousResult, subscriptionData)
+                return {
+                    allScores: [
+                        ...previousResult.allScores,
+                        // Add the new tag
+                        subscriptionData.data.Score.node,
+                    ]
+                }
+            }
+        })
+    }
 }
 </script>

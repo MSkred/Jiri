@@ -11,22 +11,17 @@ subscription Score($id: ID!){
     }
     ) {
         node{
+            id
             score
-            event{
-                id
-            }
+            comment
             implementation{
                 id
             }
-            comment
-            id
             meeting{
+                id
                 author{
-                    name
-                }
-                student{
-                    name
                     id
+                    name
                 }
             }
         }
