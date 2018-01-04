@@ -106,6 +106,7 @@ tr, th, td{
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
 import { TABLE_EVENT_QUERY } from '../constants/EventTable.gql'
 import { TABLE_EVENT_SUBSCRIPTION } from '../constants/EventTableSubscription.gql'
+import gql from 'graphql-tag'
 
 export default {
     name: 'SingleEvent',
@@ -174,7 +175,6 @@ export default {
                 id,
             },
             updateQuery: (previousResult, { subscriptionData }) => {
-
                 // Create empty variables
                 var newEvent = [],
                     students = [],
@@ -227,16 +227,43 @@ export default {
                 })
 
                 newEvent.push({courseName: previousResult.Event.courseName, students })
+
+
+
+                var Teststudents = [],
+                    addedScore =  subscriptionData.data.Score.node,
+                    testScore = [];
+
+                Teststudents.push(...previousResult.Event.students)
+                Teststudents.map( student => {
+                    if(student.id === addedScore.meeting.student.id){
+                        student.implementations.map( implementation => {
+                            testScore = [];
+                            if(implementation.id === addedScore.implementation.id){
+                                //testScore.push(...implementation.scores, addedScore)
+                                //implementation.scores = (...implementations.scores)
+                            }
+                        } )
+                    }
+                } )
                 
-                console.log(subscriptionData)
                 return {
-                    tableEvent: [
-                        subscriptionData.data.Score.node,
-                        ...newEvent,
-                        // __typename: previousResult.Event.__typename,
-                        // ...newEvent
-                        //events: [...previousResult, ...newEvent[0]],
-                    ]             
+                  tableEvent: [
+                    
+                  ]
+                    // tableEvent: [
+                    //     {
+                    //         Event: [],
+                    //         __typename: previousResult.Event.__typename,
+                    //         courseName: previousResult.Event.courseName,
+                    //         // ...previousResult.Event.students,
+                    //     }
+                    //     // subscriptionData.data.Score.node,
+                    //     // ...newEvent,
+                    //     // __typename: previousResult.Event.__typename,
+                    //     // ...newEvent
+                    //     //events: [...previousResult, ...newEvent[0]],
+                    // ]             
                 }
             }
         })

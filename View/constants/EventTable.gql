@@ -5,6 +5,7 @@ query Event($id: ID!){
     Event(id : $id){
         courseName
         students{
+            id
             name
             implementations(filter: {events_every: {id: $id}}) {
                 id

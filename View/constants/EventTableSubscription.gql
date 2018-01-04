@@ -24,6 +24,10 @@ subscription Score($id: ID!){
                 author{
                     name
                 }
+                student{
+                    name
+                    id
+                }
             }
         }
     }
