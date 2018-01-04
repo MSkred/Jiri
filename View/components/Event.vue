@@ -29,16 +29,20 @@ tr, th, td{
             <thead>
                 <tr>
                     <th>&nbsp;</th>
-                    <th v-for="(implementation, key) in student.implementations">{{implementation.project.name}}</th>
+                    <th v-for="(meeting, key) in student.meetings">{{meeting.author.name}}</th>
+                    <!-- <th v-for="(implementation, key) in student.implementations" :id="implementation.id" >{{implementation.project.name}}</th> -->
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(implementation, key) in student.implementations">
-                    <td>&nbsp;</td>
-                    <td v-for="(score, key) in implementation.scores">
-                        <span v-if="score.score">{{score.score}}</span>
-                        <span v-if="!score.score">&nbsp;</span>
-                    </td>
+                    <td>{{implementation.project.name}}</td>
+                    <template v-for="(meeting, key) in student.meetings">
+                        <template v-for="(score, key) in allScores">
+                            <td v-if="score.implementation.id == implementation.id && score.meeting.id == meeting.id">{{score.score}}</td>
+                            <td v-if="score.implementation.id == implementation.id && score.meeting.id !== meeting.id">none</td>
+                        </template>
+                    </template>
+                    <td v-if="student.meetings >= [0]">none</td>
                 </tr>
             </tbody>
         </table>
@@ -113,7 +117,7 @@ export default {
     props: ['id'],
     data(){
         return{
-            //event: [],
+            event: {},
             tableEvent: {},
         }
     },
@@ -130,6 +134,36 @@ export default {
                 return data.allEvents[0]
             }
         },
+        allScores(){
+            let id = this.id;
+            return {
+                query: gql`
+                    query allScores($id: ID!){
+                        allScores(filter: 
+                            {event_every: { id: $id}}) {
+                            id
+                            score
+                            comment
+                            implementation{
+                                id
+                            }
+                            meeting{
+                                id
+                                author{
+                                    id
+                                }
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    id
+                },
+                update(data){
+                    return data.allScores
+                }
+            }
+        }
         // tableEvent() {
         //     let id = this.id;
         //     return {

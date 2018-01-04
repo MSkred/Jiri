@@ -18,10 +18,12 @@ export const USER_QUERY = gql`
                 evaluation
                 comment
                 event{
+                    id
                     courseName
                     academicYear
                 }
                 student{
+                    id
                     name
                 }
                 scores{
@@ -29,7 +31,9 @@ export const USER_QUERY = gql`
                     comment
                     score
                     implementation{
+                        id
                         project{
+                            id
                             name
                         }
                     }
