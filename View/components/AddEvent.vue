@@ -125,8 +125,6 @@
 </template>
 
 <script>
-
-
 import nanoid from 'nanoid'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 var _ = require('lodash');
@@ -299,3 +297,5 @@ export default {
     }
 };
 </script>
+
+
