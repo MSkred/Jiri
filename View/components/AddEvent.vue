@@ -2,6 +2,9 @@
   <div>
       <div class="container">
         <h1>Ajouter un événement</h1>
+        <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
+            {{this.feedbackItem.message}}
+        </ui-alert>
         <form-wizard 
             :title="null" 
             :subtitle="null" 
@@ -9,7 +12,7 @@
             :nextButtonText="`Suivant`"
             :backButtonText="`Précédent`"
             :color="`#3273dc`"
-            @on-complete="createEvent">
+            @on-complete="validateBeforeSubmit">
             <tab-content title="Nom & année">
                 <ui-textbox v-model="courseName" name="courseName" id="courseName"
                     label="Nom de l'événement"
@@ -20,12 +23,11 @@
                 ></ui-textbox>
                 <span v-show="errors.has('courseName')" class="help is-danger">{{ errors.first('courseName') }}</span>
 
-                <ui-select v-model="academicYear" name="academicYear" id="academicYear"
+                <ui-select v-model="academicYear"
                     label="L'année académique"
                     placeholder="Sélectionnez l'année académique"
                     :options="yearsStrings"
                 ></ui-select>
-                <span v-show="!academicYear" class="help is-danger">Le champs année académique est obligatoire</span>
             </tab-content>
             <tab-content title="Ajout des jurys">
                     <label for="jury">Sélectionnez les projets</label>
@@ -146,7 +148,7 @@ export default {
     data(){
         return{
             courseName: null,
-            academicYear: null,
+            academicYear: '2017 - 2018',
             softDelete: false,       
             authorId: null,
             currentEvent:  null,
@@ -166,6 +168,8 @@ export default {
                 '2020 - 2021',
                 '2021 - 2022',
             ],
+            showAlert: false,
+            feedback: null,
         }
     },
     apollo: {
@@ -211,10 +215,14 @@ export default {
             'eventJurys',
             'eventStudents',
             'eventProjects',
-            'userId'
+            'userId',
+            'feedbackItem'
         ]),
     },
     methods: {
+        ...mapMutations([
+            'setFeedback',
+        ]),
         // Name of the function of vue-form-wizard
         createEvent() {
             // Push ID on project in new array
@@ -243,26 +251,42 @@ export default {
             
             this.$router.push({name: 'events'})
         },
+        validateBeforeSubmit() {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+
+                    // Create Event
+                    this.createEvent();
+                    
+                    // Create feedback
+                    this.feedback = {
+                        type: 'success',
+                        message: `L'événement ${this.courseName} a bien été créé`,
+                    }
+
+                    // Set feedback
+                    this.setFeedback(this.feedback);
+
+                    // Reset data for emptied field
+                    Object.assign(this.$data, this.$options.data.apply(this))
+                    
+                    return this.showAlert = true;
+                }else{
+                    // Create feedback
+                    this.feedback = {
+                        type: 'error',
+                        message: `L'événement ${this.courseName} n'a pas été créé car il y a des erreurs. Veuillez les corrigez et réessayer`
+                    }
+
+                    // Set feedback
+                    this.setFeedback(this.feedback);
+                    
+                    return this.showAlert = true;
+                }
+            });
+        },
 
         // Add & Remove Students
-            // addStudent(key){
-            //     let eventStudents = store.state.eventStudents;
-            //     this.students[key].event = true;
-
-            //     if (this.students[key].event == true) {
-            //         eventStudents.push(this.students[key])    
-            //         this.students.splice(key, 1)
-            //     }
-            // },
-            // removeStudent(key) {
-            //     let eventStudents = store.state.eventStudents;
-
-            //     eventStudents[key].event = false;
-            //     if (eventStudents[key].event == false) {
-            //         this.students.push(eventStudents[key])
-            //         eventStudents.splice(key, 1)
-            //     }
-            // },
             addStudent(key){
                 let eventStudents = store.state.eventStudents;
 
