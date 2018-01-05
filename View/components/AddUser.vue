@@ -6,9 +6,11 @@
                 <label for="name">Prénom et nom</label>
                 <input v-model="name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-group" :class="{ 'control': true }">
                 <label for="email">Email</label>
-                <input v-model="email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control">
+                <input v-model="email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control"
+                v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }">
+                <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
             </div>
             <div class="form-group">
                 <label for="password">Mot de passe</label>
@@ -26,7 +28,6 @@
 </template>
 <script>
 import {Bus} from '../Bus'
-import VeeValidate from 'vee-validate'
 
 export default {
     name: 'add-user',
