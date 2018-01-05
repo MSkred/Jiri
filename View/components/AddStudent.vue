@@ -7,8 +7,6 @@
         </ui-alert>
         <form @submit.prevent="validateBeforeSubmit">
             <div class="form-group" :class="{ 'control': true }">
-                <!-- <label for="name">Prénom et nom</label>
-                <input v-model="name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control"> -->
                 <ui-textbox v-model="name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom"
                     label="Prénom & nom"
                     data-vv-as="Le champs prénom et nom" 
@@ -19,8 +17,6 @@
                 <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
             </div>
             <div class="form-group" :class="{ 'control': true }">
-                <!-- <label for="email">Email</label>
-                <input v-model="email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control"> -->
                 <ui-textbox v-model="email" type="email" id="email" name="email"  placeholder="Écrivez l'adresse mail"
                     label="Email"
                     data-vv-as="Le champs email" 
