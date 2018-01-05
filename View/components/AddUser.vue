@@ -55,7 +55,7 @@
                     <span v-show="errors.has('company')" class="help is-danger">{{ errors.first('company') }}</span>
                 </div>
                 <div class="control">
-                    <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" :size="normal">Créer l'utilisateur</ui-button>
+                    <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" size="normal">Créer l'utilisateur</ui-button>
                 </div>
         </form>
       </div>

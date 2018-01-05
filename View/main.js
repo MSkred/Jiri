@@ -18,8 +18,12 @@ import 'keen-ui/dist/keen-ui.css';
 // Merge the locales.
 Validator.localize('fr', fr);
 
+
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
 // Use this
 Vue.use(VeeValidate, KeenUI)
+Vue.use(VueMaterial)
 
 
 new Vue({

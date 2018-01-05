@@ -27,7 +27,7 @@
                 <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
             </div>
             <div class="form-group">
-                <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" :size="normal" @click="createUser">Créer un étudiant</ui-button>
+                <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" size="normal">Créer un étudiant</ui-button>
             </div>
         </form>
       </div>

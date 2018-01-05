@@ -13,6 +13,7 @@
             </div>
         </section>
         <div class="papa">
+            <md-button>Default</md-button>
              <div class="enfant" v-for="(user, key) in users">
                 <router-link class="contenu" :to="{name: 'user', params: {id: user.id}}" :href="`/user/${user.id}`">
                     <div class="flex" v-if="!user.softDelete">
@@ -42,14 +43,9 @@
                 <h3 slot="header">Modification de {{modalItem.name}}</h3>
                 <form slot="body">
                     <div class="form-group">
-                        <!-- <label for="name">Prénom et nom</label>
-                        <input :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control"> -->
+                        <label for="name">Prénom et nom</label>
+                        <input :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
                         
-                        <ui-textbox :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom"
-                            label="Prénom & nom"
-                          >
-                        </ui-textbox>
-                        <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -80,16 +76,17 @@ import Desactivate from './Desactivate.vue';
 import Modify from './Modify.vue';
 import {Bus} from '../Bus'
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
-import { UiAlert, UiTextbox, UiButton, UiIcon } from 'keen-ui';
+import { UiAlert, UiButton, UiIcon } from 'keen-ui';
+import { MdButton } from 'vue-material';
 export default {
     name: 'users',
     components: {
         UiAlert,
-        UiTextbox,
         UiButton,
         UiIcon,
         Desactivate,
-        Modify
+        Modify,
+        MdButton,
     },
     data(){
         return{
