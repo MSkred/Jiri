@@ -12,6 +12,7 @@ import App from './App.vue'
 
 // Merge the locales.
 Validator.localize('fr', fr);
+
 // Use this
 Vue.use(VeeValidate)
 
