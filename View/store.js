@@ -24,10 +24,7 @@ export const store = new Vuex.Store({
         modalItem: null,
 
         // For feedback
-        feedbackItem: {
-            type: null,
-            message: null,
-        }
+        feedbackItem: null,
     },
     getters,
     mutations,

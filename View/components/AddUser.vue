@@ -2,8 +2,8 @@
   <div>
       <div class="container">
       <h1>Ajouter un utilisateur</h1>
-        <ui-alert @dismiss="showAlert = false" type="success" v-show="showAlert">
-            Hi everybody! This is the default alert.
+        <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
+            {{this.feedbackItem.message}}
         </ui-alert>
         <form @submit.prevent="validateBeforeSubmit">
                 <div class="form-group" :class="{ 'control': true }">
@@ -75,7 +75,9 @@ export default {
         company: null,
         softDelete: false,
 
-        showAlert: true,
+        showAlert: false,
+
+        feedback: null,
       }
     },
     computed: {
@@ -96,16 +98,35 @@ export default {
                 if (result) {
                     // eslint-disable-next-line
                     alert('From Submitted!');
+
+                    // Create User
                     this.createUser();
                     
+                    // Create feedback
+                    this.feedback = {
+                        type: 'success',
+                        message: `L'utilisateur ${this.name} a bien été créé`,
+                    }
+
+                    // Set feedback
+                    this.setFeedback(this.feedback);
+
+                    // Reset data for emptied field
                     Object.assign(this.$data, this.$options.data.apply(this))
-                    // this.email = '';
-                    // this.name = '';
+                    
+                    return this.showAlert = true;
+                }else{
+                    // Create feedback
+                    this.feedback = {
+                        type: 'error',
+                        message: `L'utilisateur ${this.name} n'a pas été créé car il y a des erreurs. Veuillez les corrigez et réessayer`
+                    }
 
-                    return;
+                    // Set feedback
+                    this.setFeedback(this.feedback);
+                    
+                    return this.showAlert = true;
                 }
-
-                alert('Corrigez les erreurs');
             });
         }
     },

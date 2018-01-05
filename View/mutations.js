@@ -14,6 +14,6 @@ export const mutations = {
         state.lastAddedId = payload;
     },
     setFeedback(state, payload){
-        state.feedback = payload;
+        state.feedbackItem = payload;
     }
 }
