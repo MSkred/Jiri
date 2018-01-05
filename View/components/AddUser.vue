@@ -26,6 +26,7 @@
 </template>
 <script>
 import {Bus} from '../Bus'
+import VeeValidate from 'vee-validate'
 
 export default {
     name: 'add-user',
