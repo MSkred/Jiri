@@ -223,7 +223,6 @@ export default {
         ...mapMutations([
             'setFeedback',
         ]),
-        // Name of the function of vue-form-wizard
         createEvent() {
             // Push ID on project in new array
             this.eventProjects.map( project => {

@@ -45,7 +45,7 @@
                 <span v-show="errors.has('weight')" class="help is-danger">{{ errors.first('weight') }}</span>
             </div>
             <div class="form-group">
-                <button type="submit" class="button is-primary">Créer un projet</button>
+                <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" :size="normal">Créer un projet</ui-button>
             </div>
         </form>
       </div>
@@ -55,13 +55,14 @@
 <script>
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
-import { UiAlert,UiTextbox } from 'keen-ui';
+import { UiAlert,UiTextbox, UiButton } from 'keen-ui';
 
 export default {
     name: 'add-project',
     components: {
         UiAlert,
-        UiTextbox
+        UiTextbox,
+        UiButton
     },
     data(){
         return{

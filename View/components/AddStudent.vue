@@ -27,7 +27,7 @@
                 <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
             </div>
             <div class="form-group">
-                <button type="submit" class="button is-primary">Créer un étudiant</button>
+                <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" :size="normal" @click="createUser">Créer un étudiant</ui-button>
             </div>
         </form>
       </div>
@@ -37,13 +37,14 @@
 <script>
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
-import { UiAlert,UiTextbox } from 'keen-ui';
+import { UiAlert, UiTextbox, UiButton } from 'keen-ui';
 
 export default {
     name: 'add-student',
     components: {
         UiAlert,
-        UiTextbox
+        UiTextbox,
+        UiButton
     },
     data(){
         return{

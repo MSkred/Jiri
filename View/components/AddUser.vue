@@ -55,7 +55,7 @@
                     <span v-show="errors.has('company')" class="help is-danger">{{ errors.first('company') }}</span>
                 </div>
                 <div class="control">
-                    <button type="submit" class="button is-primary">Créer un utilisateur</button>
+                    <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" :size="normal">Créer l'utilisateur</ui-button>
                 </div>
         </form>
       </div>
@@ -64,13 +64,15 @@
 <script>
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
-import { UiAlert,UiTextbox } from 'keen-ui';
+import { UiAlert,UiTextbox, UiButton, UiIcon } from 'keen-ui';
 
 export default {
     name: 'add-user',
     components: {
         UiAlert,
-        UiTextbox
+        UiTextbox,
+        UiButton,
+        UiIcon
     },
     data () {
       return {
