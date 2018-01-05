@@ -42,8 +42,14 @@
                 <h3 slot="header">Modification de {{modalItem.name}}</h3>
                 <form slot="body">
                     <div class="form-group">
-                        <label for="name">Prénom et nom</label>
-                        <input :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
+                        <!-- <label for="name">Prénom et nom</label>
+                        <input :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control"> -->
+                        
+                        <ui-textbox :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom"
+                            label="Prénom & nom"
+                          >
+                        </ui-textbox>
+                        <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -59,8 +65,8 @@
                     </div>
                 </form>
                 <div slot="footer">
-                    <button @click.prevent="modifyUser(modalItem.id)">Sauvegarder les modifications</button>
-                    <button @click.prevent="showModifyModal = false">Annuler</button>
+                    <ui-button @click.prevent="modifyUser(modalItem.id)" color="green" buttonType="submit" icon="save" icon-position="right" size="normal">Sauvegarder les modifications</ui-button>
+                    <ui-button @click.prevent="showModifyModal = false" color="red" buttonType="submit" icon="cancel" icon-position="right" size="normal">Annuler</ui-button>
                 </div>
             </modify>
         </div>
@@ -73,12 +79,15 @@ import {mapGetters, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
 import Modify from './Modify.vue';
 import {Bus} from '../Bus'
-
-
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
+import { UiAlert, UiTextbox, UiButton, UiIcon } from 'keen-ui';
 export default {
     name: 'users',
     components: {
+        UiAlert,
+        UiTextbox,
+        UiButton,
+        UiIcon,
         Desactivate,
         Modify
     },
