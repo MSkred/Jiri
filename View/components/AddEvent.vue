@@ -28,38 +28,44 @@
                 <span v-show="!academicYear" class="help is-danger">Le champs année académique est obligatoire</span>
             </tab-content>
             <tab-content title="Ajout des jurys">
-                    <div>
-                        <label for="jury">Ajoutez des membres du jury</label>
-                        <ui-switch
-                            v-for="(jury, key) in jurys" :value="jury.id" :key="jury.id"
+                    <label for="jury">Sélectionnez les projets</label>
+                    <template v-for="(jury, key) in jurys">
+                        <!--Add jury -->
+                        <ui-switch 
+                            :value="jury.id" :key="jury.id"
+                            v-if="!jury.event"
                             @change="addJury(key)"
+                            v-model="jury.event"
                         >{{jury.name}}</ui-switch>
-                    </div>
-                    <div>
-                        <label for="jury">Membres du jury</label>
-                        <ui-switch
-                            v-for="(jury, key) in eventJurys" :value="jury.id" :key="jury.id"
-                            checked= 'true'
+
+                        <!--Remove jury -->
+                        <ui-switch 
+                            :value="jury.id" :key="jury.id"
+                            v-if="jury.event"
                             @change="removeJury(key)"
+                            v-model="jury.event"
                         >{{jury.name}}</ui-switch>
-                    </div>
+                    </template>
             </tab-content>
             <tab-content title="Ajout des étudiants">
-                    <div>
-                        <label for="jury">Ajoutez des étudiants</label>
-                        <ui-switch
-                            v-for="(student, key) in students" :value="student.id" :key="student.id"
+                    <label for="jury">Sélectionnez les étudiants</label>
+                    <template v-for="(student, key) in students">
+                        <!--Add student -->
+                        <ui-switch 
+                            :value="student.id" :key="student.id"
+                            v-if="!student.event"
                             @change="addStudent(key)"
+                            v-model="student.event"
                         >{{student.name}}</ui-switch>
-                    </div>
-                    <div v-if="eventStudents >= [0]">
-                        <label for="jury">Étudiant(es) ajouté à l'événement</label>
-                        <ui-switch
-                            v-for="(student, key) in eventStudents" :value="student.id" :key="student.id"
-                            checked= 'true'
+
+                        <!--Remove student -->
+                        <ui-switch 
+                            :value="student.id" :key="student.id"
+                            v-if="student.event"
                             @change="removeStudent(key)"
+                            v-model="student.event"
                         >{{student.name}}</ui-switch>
-                    </div>
+                    </template>
             </tab-content>
             <tab-content title="Ajout des projets">
                     <label for="jury">Sélectionnez les projets</label>
@@ -115,8 +121,6 @@
 </template>
 
 <script>
-//import nanoid from 'nanoid'
-//var _ = require('lodash');
 import {mapGetters, mapMutations} from 'vuex'
 import {Bus} from '../Bus'
 
@@ -240,69 +244,83 @@ export default {
             this.$router.push({name: 'events'})
         },
 
-        // Add & Remove Jurys
-        addJury(key){
-            let eventJurys = store.state.eventJurys;
-            this.jurys[key].event = true;
-
-            if (this.jurys[key].event == true) {
-                eventJurys.push(this.jurys[key])    
-                this.jurys.splice(key, 1)
-            }
-        },
-        removeJury(key) {
-            let eventJurys = store.state.eventJurys;
-
-            eventJurys[key].event = false;
-            if (eventJurys[key].event == false) {
-                this.jurys.push(eventJurys[key])
-                eventJurys.splice(key, 1)
-            }
-        },
-
         // Add & Remove Students
-        addStudent(key){
-            let eventStudents = store.state.eventStudents;
-            this.students[key].event = true;
+            // addStudent(key){
+            //     let eventStudents = store.state.eventStudents;
+            //     this.students[key].event = true;
 
-            if (this.students[key].event == true) {
-                eventStudents.push(this.students[key])    
-                this.students.splice(key, 1)
-            }
-        },
-        removeStudent(key) {
-            let eventStudents = store.state.eventStudents;
+            //     if (this.students[key].event == true) {
+            //         eventStudents.push(this.students[key])    
+            //         this.students.splice(key, 1)
+            //     }
+            // },
+            // removeStudent(key) {
+            //     let eventStudents = store.state.eventStudents;
 
-            eventStudents[key].event = false;
-            if (eventStudents[key].event == false) {
-                this.students.push(eventStudents[key])
-                eventStudents.splice(key, 1)
-            }
-        },
+            //     eventStudents[key].event = false;
+            //     if (eventStudents[key].event == false) {
+            //         this.students.push(eventStudents[key])
+            //         eventStudents.splice(key, 1)
+            //     }
+            // },
+            addStudent(key){
+                let eventStudents = store.state.eventStudents;
+
+                if(this.students[key].event){
+                    eventStudents.push(this.students[key]);
+                }
+            },
+            removeStudent(key) {
+                let eventStudents = store.state.eventStudents;
+
+                var i = 0;
+                eventStudents.forEach(student => {
+                    if(!student.event){
+                        eventStudents.splice(i, 1)
+                    }
+                    i++;
+                });
+            },
 
         // Add & Remove Projects
-        addProject(key){
-            let eventProjects = store.state.eventProjects;
+            addProject(key){
+                let eventProjects = store.state.eventProjects;
 
-            if(!this.projects[key].event){
-                this.projects[key].event = true;
-                eventProjects.push(this.projects[key]);
-            }
-        },
-        removeProject(key) {
-            let eventProjects = store.state.eventProjects;
-
-            if (this.projects[key].event) {
-                this.projects[key].event = false;
-            }
-            var i = 0;
-            eventProjects.forEach(project => {
-                if(!project.event){
-                    eventProjects.splice(i, 1)
+                if(this.projects[key].event){
+                    eventProjects.push(this.projects[key]);
                 }
-                i++;
-            });
-        },
+            },
+            removeProject(key) {
+                let eventProjects = store.state.eventProjects;
+
+                var i = 0;
+                eventProjects.forEach(project => {
+                    if(!project.event){
+                        eventProjects.splice(i, 1)
+                    }
+                    i++;
+                });
+            },
+
+        // Add & Remove Jury
+            addJury(key){
+                let eventJurys = store.state.eventJurys;
+
+                if(this.jurys[key].event){
+                    eventJurys.push(this.jurys[key]);
+                }
+            },
+            removeJury(key) {
+                let eventJurys = store.state.eventJurys;
+                
+                var i = 0;
+                eventJurys.forEach(jury => {
+                    if(!jury.event){
+                        eventJurys.splice(i, 1)
+                    }
+                    i++;
+                });
+            },
     }
 };
 </script>
