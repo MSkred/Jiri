@@ -28,6 +28,7 @@
     "graphql-request": "^1.4.0",
     "graphql-tag": "^2.5.0",
     "graphql-tools": "^2.8.0",
+    "keen-ui": "^1.0.1",
     "lodash": "^4.17.4",
     "mongoose": "^4.13.4",
     "nanoid": "^1.0.1",
