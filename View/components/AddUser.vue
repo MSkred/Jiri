@@ -7,45 +7,57 @@
         </ui-alert>
         <form @submit.prevent="validateBeforeSubmit">
                 <div class="form-group" :class="{ 'control': true }">
-                    <label for="name">Prénom et nom</label>
-                    <input v-model="name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control"
-                    data-vv-as="Le champs prénom et nom" 
-                    data-vv-validate-on="blur"
-                    v-validate="'required|alpha_spaces|min:5'" 
-                    :class="{'input': true, 'is-danger': errors.has('name') }">
+                    <ui-textbox v-model="name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom"
+                        label="Prénom & nom"
+                        data-vv-as="Le champs prénom et nom" 
+                        data-vv-validate-on="blur"
+                        v-validate="'required|alpha_spaces|min:5'" 
+                        :class="{'is-danger': errors.has('name') }">
+                    </ui-textbox>
                     <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
                 </div>
+        
                 <div class="form-group" :class="{ 'control': true }">
-                    <label for="email">Email</label>
-                    <input v-model="email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control"
-                    data-vv-as="Le champs email" 
-                    data-vv-validate-on="blur"
-                    v-validate="'required|email'"
-                    :class="{'input': true, 'is-danger': errors.has('email') }">
+                    <ui-textbox v-model="email" type="email" id="email" name="email"  placeholder="Écrivez l'adresse mail"
+                        label="Email"
+                        data-vv-as="Le champs email" 
+                        data-vv-validate-on="blur"
+                        v-validate="'required|email'"
+                        :class="{'is-danger': errors.has('email') }">
+                    </ui-textbox>
                     <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
                 </div>
                 <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input v-model="c_password" type="password" id="password" name="password" placeholder="Écrivez le mot de passe" class="form-control"
+                    <ui-textbox v-model="c_password" type="password" id="password" name="password"  placeholder="Écrivez le mot de passe"
+                        label="Mot de passe"
+                        data-vv-as="Le champs mot de passe" 
+                        data-vv-validate-on="blur"
+                        v-validate="'required|confirmed:c_password|min:4'"
+                        :class="{'is-danger': errors.has('password') }">
+                    </ui-textbox>
+                    
+                    <!-- <input v-model="c_password" type="password" id="password" name="password" placeholder="Écrivez le mot de passe" class="form-control"
                     data-vv-as="Le champs mot de passe"
                     data-vv-validate-on="blur"
                     v-validate="'required|confirmed:c_password|min:4'" 
-                    :class="{'input': true, 'is-danger': errors.has('password') }">
+                    :class="{'input': true, 'is-danger': errors.has('password') }"> -->
                     <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>
-                
-                    <label for="c_password">Comfirmez le mot de passe</label>
-                    <input v-model="password" type="password" name="c_password" placeholder="Confirmez le mot de passe" class="form-control" data-vv-as="'Confirmez le mot de passe'" 
-                    data-vv-validate-on="blur"
-                    v-validate="'required|confirmed:password|min:4'"
-                    :class="{'input': true, 'is-danger': errors.has('password') }">
+                    <ui-textbox v-model="password" type="password" id="c_password" name="c_password"  placeholder="Réécrivez le mot de passe"
+                        label="Confirmez le mot de passe"
+                        data-vv-as="Le champs mot de passe" 
+                        data-vv-validate-on="blur"
+                        v-validate="'required|confirmed:c_password|min:4'"
+                        :class="{'is-danger': errors.has('password') }">
+                    </ui-textbox>
                 </div>
                 <div class="form-group">
-                    <label for="company">Entreprise</label>
-                    <input v-model="company" type="text" id="company" name="company" placeholder="Écrivez l'entreprise" class="form-control"
-                    data-vv-as="Le champs entreprise" 
-                    data-vv-validate-on="blur"
-                    v-validate="'alpha_num|min:2'" 
-                    :class="{'input': true, 'is-danger': errors.has('company') }">
+                    <ui-textbox v-model="company" type="text" id="company" name="company"  placeholder="Écrivez le nom de l'entreprise"
+                        label="Entreprise"
+                        data-vv-as="Le champs entreprise" 
+                        data-vv-validate-on="blur"
+                        v-validate="'alpha_num|min:2'" 
+                        :class="{'is-danger': errors.has('company') }">
+                    </ui-textbox>
                     <span v-show="errors.has('company')" class="help is-danger">{{ errors.first('company') }}</span>
                 </div>
                 <div class="control">
@@ -58,12 +70,13 @@
 <script>
 import {mapGetters, mapMutations} from 'vuex'
 import {Bus} from '../Bus'
-import { UiAlert } from 'keen-ui';
+import { UiAlert,UiTextbox } from 'keen-ui';
 
 export default {
     name: 'add-user',
     components: {
         UiAlert,
+        UiTextbox
     },
     data () {
       return {

@@ -122,6 +122,7 @@ export default {
     apollo: {
         event: {
             query: SINGLE_EVENT_QUERY,
+            pollInterval: 300,
             variables() {
                 // Use vue reactive properties
                 return {
@@ -154,30 +155,12 @@ export default {
                         }
                     }
                 `,
+                pollInterval: 300,
                 variables: {
                     id
                 }
             }
         }
     },
-    mounted(){
-        let id = this.id;
-        this.scoreSubscription = this.$apollo.queries.allScores.subscribeToMore({
-            document: TABLE_EVENT_SUBSCRIPTION,
-            variables: {
-                id,
-            },
-            updateQuery: (previousResult, { subscriptionData }) => {
-                console.log(previousResult, subscriptionData)
-                return {
-                    allScores: [
-                        ...previousResult.allScores,
-                        // Add the new tag
-                        subscriptionData.data.Score.node,
-                    ],
-                }
-            }
-        })
-    }
 }
 </script>
