@@ -62,8 +62,8 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapMutations} from 'vuex'
 import {Bus} from '../Bus'
+import {mapGetters, mapMutations} from 'vuex'
 import { UiAlert,UiTextbox } from 'keen-ui';
 
 export default {
@@ -81,9 +81,7 @@ export default {
         c_password: null,
         company: null,
         softDelete: false,
-
         showAlert: false,
-
         feedback: null,
       }
     },
@@ -103,8 +101,6 @@ export default {
         validateBeforeSubmit() {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                    // eslint-disable-next-line
-                    alert('From Submitted!');
 
                     // Create User
                     this.createUser();
