@@ -69,7 +69,7 @@
 
 
 <script>
-import {mapGetters, mapActions, mapMutations} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import Desactivate from './Desactivate.vue';
 import Modify from './Modify.vue';
 import {Bus} from '../Bus'

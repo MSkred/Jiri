@@ -22,6 +22,12 @@ export const store = new Vuex.Store({
         meetingProjects: [],
 
         modalItem: null,
+
+        // For feedback
+        feedbackItem: {
+            type: null,
+            message: null,
+        }
     },
     getters,
     mutations,

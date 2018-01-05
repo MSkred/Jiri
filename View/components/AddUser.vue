@@ -2,6 +2,9 @@
   <div>
       <div class="container">
       <h1>Ajouter un utilisateur</h1>
+        <ui-alert @dismiss="showAlert = false" type="success" v-show="showAlert">
+            Hi everybody! This is the default alert.
+        </ui-alert>
         <form @submit.prevent="validateBeforeSubmit">
                 <div class="form-group" :class="{ 'control': true }">
                     <label for="name">Prénom et nom</label>
@@ -49,13 +52,11 @@
                     <button type="submit" class="button is-primary">Créer un utilisateur</button>
                 </div>
         </form>
-        <ui-alert @dismiss="showAlert = false" v-show="showAlert">
-            Hi everybody! This is the default alert.
-        </ui-alert>
       </div>
   </div>
 </template>
 <script>
+import {mapGetters, mapMutations} from 'vuex'
 import {Bus} from '../Bus'
 import { UiAlert } from 'keen-ui';
 
@@ -77,7 +78,15 @@ export default {
         showAlert: true,
       }
     },
+    computed: {
+        ...mapGetters([
+            'feedbackItem'
+        ])
+    },
     methods: {
+        ...mapMutations([
+            'setFeedback',
+        ]),
         createUser() {
             let {email, password, name, company, isAdmin, softDelete} = this;
             Bus.$emit('createUser', {email, password, name, company, isAdmin, softDelete});

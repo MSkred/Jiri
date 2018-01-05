@@ -24,4 +24,9 @@ export const getters = {
     lastAddedId(state) {
         return state.lastAddedId
     },
+
+    // FeedbackItem
+    feedbackItem(state) {
+        return state.feedbackItem;
+    },
 }
