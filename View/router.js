@@ -72,6 +72,7 @@ router.beforeEach((to, from, next) => {
         query: LOGGEDIN_USER_QUERY,
         fetchPolicy: 'network-only',
     }).then(data => {
+        console.log(to)
         if (loggedIn(data) === null && to.name !== 'login') {
             console.log('Vous n etes pas connecter')
             return next({ name: 'login' });

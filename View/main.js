@@ -15,7 +15,6 @@ import App from './App.vue'
 import KeenUI from 'keen-ui';
 import 'keen-ui/dist/keen-ui.css';
 
-
 // Merge the locales.
 Validator.localize('fr', fr);
 
