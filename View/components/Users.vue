@@ -12,26 +12,30 @@
                 </div>
             </div>
         </section>
-        <div class="papa">
-            <md-button>Default</md-button>
-             <div class="enfant" v-for="(user, key) in users">
+        
+        <div class="md-layout papa">
+            <div class="enfant" v-for="(user, key) in users">
                 <router-link class="contenu" :to="{name: 'user', params: {id: user.id}}" :href="`/user/${user.id}`">
-                    <div class="flex" v-if="!user.softDelete">
-                        <div class="flex__header">
-                            <h2 class="title">{{user.name}}</h2>
-                            <p class="subtitle">{{user.company}}</p>
-                        </div>
-                        <div class="flex__content">
-                            <p class="event">{{user.juryEvents.length}} événements</p>
-                            <p class="meeting">{{user.meetings.length}} meetings</p>
-                        </div>
-                        <div class="flex__footer">
-                            <button class="modify"  @click.prevent="showModifyModal = true; setModifyData(user)">Modifier</button>
-                            <button id="show-modal" @click.prevent="showDesactivateModal = true; setDesactivateData(user)">Désactiver</button>
-                        </div>
-                    </div>
+                    <md-card href="https://github.com/vuematerial/vue-material" class="md-primary" md-with-hover>
+                        <md-ripple>
+                            <md-card-header>
+                                <div class="md-title">{{user.name}}</div>
+                                <div class="md-subhead">{{user.company}}</div>
+                            </md-card-header>
+
+                            <md-card-content>
+                                <p class="event">{{user.juryEvents.length}} événements</p>
+                                <p class="meeting">{{user.meetings.length}} meetings</p>
+                            </md-card-content>
+
+                            <md-card-actions>
+                                <md-button @click.prevent="showModifyModal = true; setModifyData(user)">Modifier</md-button>
+                                <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(user)">Désactiver</md-button>
+                            </md-card-actions>
+                        </md-ripple>
+                    </md-card>
                 </router-link>
-             </div>
+            </div>
             <desactivate v-if="showDesactivateModal" >
                 <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.name}}</h3>
                 <div slot="footer">
@@ -42,29 +46,35 @@
             <modify v-if="showModifyModal" >
                 <h3 slot="header">Modification de {{modalItem.name}}</h3>
                 <form slot="body">
-                    <div class="form-group">
-                        <label for="name">Prénom et nom</label>
-                        <input :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
-                        
-                    </div>
-                    <div class="form-group">
+                    <md-field >
+                        <label for="name">Prénom & nom</label>
+                        <md-input name="name" id="name" placeholder="Écrivez le prénom et nom" :value="modalItem.name" />
+                    </md-field>
+                    <md-field >
                         <label for="email">Email</label>
-                        <input :value="modalItem.email" type="email" id="email" name="email" placeholder="Écrivez l'adresse mail" class="form-control">
-                    </div>
-                    <div class="form-group">
+                        <md-input name="email" id="email" type="email" placeholder="Écrivez l'adresse mail" :value="modalItem.email" />
+                    </md-field>
+                    <md-field>
                         <label for="password">Mot de passe</label>
-                        <input :value="modalItem.password" type="password" id="password" name="password" placeholder="Écrivez le mot de passe" class="form-control">
-                    </div>
-                    <div class="form-group">
+                        <md-input name="password" id="password" type="password" placeholder="Écrivez le mot de passe" :value="modalItem.password" />
+                    </md-field>
+                    <md-field >
                         <label for="company">Entreprise</label>
-                        <input :value="modalItem.company" type="text" id="company" name="company" placeholder="Écrivez l'entreprise" class="form-control">
-                    </div>
+                        <md-input name="company" id="company" placeholder="Écrivez l'entreprise" :value="modalItem.company" />
+                    </md-field>
+
+
                 </form>
                 <div slot="footer">
-                    <ui-button @click.prevent="modifyUser(modalItem.id)" color="green" buttonType="submit" icon="save" icon-position="right" size="normal">Sauvegarder les modifications</ui-button>
-                    <ui-button @click.prevent="showModifyModal = false" color="red" buttonType="submit" icon="cancel" icon-position="right" size="normal">Annuler</ui-button>
+                    <md-button @click.prevent="modifyUser(modalItem.id)" class="md-raised md-primary">
+                        Sauvegarder les modifications
+                    </md-button>
+                    <md-button @click.prevent="showModifyModal = false" class="md-accent">
+                        Annuler           
+                    </md-button>
                 </div>
             </modify>
+        </div>
         </div>
     </div>
 </template>
@@ -77,7 +87,6 @@ import Modify from './Modify.vue';
 import {Bus} from '../Bus'
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
 import { UiAlert, UiButton, UiIcon } from 'keen-ui';
-import { MdButton } from 'vue-material';
 export default {
     name: 'users',
     components: {
@@ -86,7 +95,6 @@ export default {
         UiIcon,
         Desactivate,
         Modify,
-        MdButton,
     },
     data(){
         return{
