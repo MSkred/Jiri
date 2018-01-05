@@ -35,12 +35,6 @@
                         v-validate="'required|confirmed:c_password|min:4'"
                         :class="{'is-danger': errors.has('password') }">
                     </ui-textbox>
-                    
-                    <!-- <input v-model="c_password" type="password" id="password" name="password" placeholder="Écrivez le mot de passe" class="form-control"
-                    data-vv-as="Le champs mot de passe"
-                    data-vv-validate-on="blur"
-                    v-validate="'required|confirmed:c_password|min:4'" 
-                    :class="{'input': true, 'is-danger': errors.has('password') }"> -->
                     <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>
                     <ui-textbox v-model="password" type="password" id="c_password" name="c_password"  placeholder="Réécrivez le mot de passe"
                         label="Confirmez le mot de passe"
