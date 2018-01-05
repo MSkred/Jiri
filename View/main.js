@@ -29,7 +29,4 @@ new Vue({
     apolloProvider,
     render: h => h(App),
     router,
-    components: {
-        UiAlert,
-    }
 })
