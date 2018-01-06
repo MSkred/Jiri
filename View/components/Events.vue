@@ -12,38 +12,49 @@
                 </div>
             </div>
         </section>
-      <div class="papa">
+      <div class="md-layout papa">
             <div v-for="(event, key) in events" class="enfant">
                 <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
-                    <div class="flex" v-if="!event.softDelete">
-                        <div class="flex__header">
-                            <h2 class="title">{{event.courseName}}</h2>
-                            <p class="subtitle">{{event.academicYear}}</p>
-                        </div>
-                        <div class="flex__content">
-                            <p class="jurys">{{event.jurys.length}} jurys</p>
-                            <p class="students">{{event.students.length}} étudiants</p>
-                            <p class="projects">{{event.projects.length}} projets</p>
-                        </div>
-                        <div class="flex__footer" v-if="currentUser.isAdmin">
-                            <button class="modify"  @click.prevent="showModifyModal = true; setModifyData(event)">Modifier</button>
-                            <button id="show-modal" @click.prevent="showDesactivateModal = true; setDesactivateData(event)">Désactiver</button>
-                        </div>
-                    </div>
+                    <md-card class="md-primary" md-with-hover>
+                        <md-ripple>
+                            <md-card-header>
+                                <div class="md-title">{{event.courseName}}</div>
+                                <div class="md-subhead">{{event.academicYear}}</div>
+                            </md-card-header>
+                            <md-card-content>
+                                <p class="jurys">{{event.jurys.length}} jurys</p>
+                                <p class="students">{{event.students.length}} étudiants</p>
+                                <p class="projects">{{event.projects.length}} projets</p>
+                            </md-card-content>
+                            <md-card-actions>
+                                <md-button @click.prevent="showModifyModal = true; setModifyData(event)">Modifier</md-button>
+                                <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(event)">Désactiver</md-button>
+                            </md-card-actions>
+                        </md-ripple>
+                    </md-card>
                 </router-link>
             </div>
             <desactivate v-if="showDesactivateModal && currentUser.isAdmin" >
                     <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.courseName}} de {{modalItem.academicYear}}</h3>
                     <div slot="footer">
-                        <button @click.prevent="desactivateEvent(modalItem.id)">Désactiver</button>
-                        <button @click.prevent="showDesactivateModal = false">Annuler</button>
+                        <md-button @click.prevent="desactivateEvent(modalItem.id)" class="md-accent">
+                            Désactiver
+                        </md-button>
+                        <md-button @click.prevent="showDesactivateModal = false" class="md-raised md-primary">
+                            Annuler           
+                        </md-button>
                     </div>
             </desactivate>  
             <modify v-if="showModifyModal" >
                 <h3 slot="header">Voullez-vous vraiment modifier {{modalItem.courseName}} de {{modalItem.academicYear}}</h3>
+                <div slot="body">Vous allez être dirigé vers la page de modification d'événement</div>
                 <div slot="footer">
-                    <button @click.prevent="editEvent(modalItem.id)">Modifier</button>
-                    <button @click.prevent="showModifyModal = false">Annuler</button>
+                    <md-button @click.prevent="editEvent(modalItem.id)" class="md-raised md-primary">
+                        Modifier
+                    </md-button>
+                    <md-button @click.prevent="showModifyModal = false" class="md-accent">
+                        Annuler           
+                    </md-button>
                 </div>
             </modify>
       </div>

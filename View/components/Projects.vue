@@ -12,50 +12,61 @@
                 </div>
             </div>
         </section>
-        <div class="papa">
+        <div class="md-layout papa">
             <div v-for="(project, key) in allProjects" class="enfant">
-                <div class="contenu">
-                    <div class="flex" v-if="!project.softDelete">
-                        <div class="flex__header">
-                            <h2 class="title">{{project.name}}</h2>
-                            <p class="subtitle">Pondération de {{project.weight}}</p>
-                        </div>
-                        <div class="flex__content">
+                <md-card class="md-primary" md-with-hover>
+                    <md-ripple>
+                        <md-card-header>
+                            <div class="md-title">{{project.name}}</div>
+                            <div class="md-subhead">Pondération de {{project.weight}}</div>
+                        </md-card-header>
+
+                        <md-card-content>
                             <p>{{project.description}}</p>
-                        </div>
-                        <div class="flex__footer">
-                            <button class="modify"  @click.prevent="showModifyModal = true; setModifyData(project)">Modifier</button>
-                            <button id="show-modal" @click.prevent="showDesactivateModal = true; setDesactivateData(project)">Désactiver</button>
-                        </div>
-                    </div>
-                </div>
+                        </md-card-content>
+
+                        <md-card-actions>
+                            <md-button @click.prevent="showModifyModal = true; setModifyData(project)">Modifier</md-button>
+                            <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(project)">Désactiver</md-button>
+                        </md-card-actions>
+                    </md-ripple>
+                </md-card>
             </div>
             <desactivate v-if="showDesactivateModal" >
                 <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.name}}</h3>
                 <div slot="footer">
-                    <button @click.prevent="desactivateProject(modalItem.id)">Désactiver</button>
-                    <button @click.prevent="showDesactivateModal = false">Annuler</button>
+                    <md-button @click.prevent="desactivateProject(modalItem.id)" class="md-accent">
+                        Désactiver
+                    </md-button>
+                    <md-button @click.prevent="showDesactivateModal = false" class="md-raised md-primary">
+                        Annuler           
+                    </md-button>
                 </div>
             </desactivate>
             <modify v-if="showModifyModal" >
                 <h3 slot="header">Modification de {{modalItem.name}}</h3>
                 <form slot="body">
-                    <div class="form-group">
+                    <md-field >
                         <label for="name">Nom</label>
-                        <input :value="modalItem.name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Description</label>
-                        <textarea :value="modalItem.description" name="decription" id="description" cols="30" rows="10" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
+                        <md-input name="name" id="name" placeholder="Écrivez le noml du projet" :value="modalItem.name" />
+                    </md-field>
+                    <md-field>
+                        <label for="description">Description</label>
+                        <md-textarea :value="modalItem.description" md-counter="256" name="decription" id="description"></md-textarea>
+                    </md-field>
+                    <md-field>
                         <label for="weight">Pondération du projet</label>
-                        <input type="number" :value="modalItem.weight" id="weight" name="weight">
-                    </div>
+                        <md-input type="number" :value="modalItem.weight" id="weight" name="weight" step="0.1"></md-input>
+                        <span class="md-helper-text">La pondération doit être un nombre entre 0 et 1</span>
+                    </md-field>
                 </form>
                 <div slot="footer">
-                    <button @click.prevent="modifyProject(modalItem.id)">Sauvegarder les modifications</button>
-                    <button @click.prevent="showModifyModal = false">Annuler</button>
+                    <md-button @click.prevent="modifyProject(modalItem.id)" class="md-raised md-primary">
+                        Sauvegarder les modifications
+                    </md-button>
+                    <md-button @click.prevent="showModifyModal = false" class="md-accent">
+                        Annuler           
+                    </md-button>
                 </div>
             </modify>  
         </div>

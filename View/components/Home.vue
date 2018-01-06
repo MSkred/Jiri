@@ -13,38 +13,39 @@
             </div>
         </section>
         <h2>Les événements auquel vous participez</h2>
-        <div class="papa">
+        <div class="md-layout papa">
             <div v-for="(event, key) in currentUser.juryEvents" class="enfant">
                 <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
-                    <div class="flex">
-                        <div class="flex__header">
-                            <h1 class="title">{{event.courseName}}</h1>
-                            <p class="subtitle">{{event.academicYear}}</p>
-                        </div>
-                        <div class="flex__content">
-                            <p></p>
-                        </div>
-                    </div>
+                    <md-card class="md-primary" md-with-hover>
+                        <md-ripple>
+                            <md-card-header>
+                                <div class="md-title">{{event.courseName}}</div>
+                                <div class="md-subhead">{{event.academicYear}}</div>
+                            </md-card-header>
+                        </md-ripple>
+                    </md-card>
                 </router-link>
             </div>
         </div>
         <h2>Les meeting que vous avez effectué</h2>
-        <div class="papa">
+        <div class="md-layout papa">
             <div v-for="(meeting, key) in currentUser.meetings" class="enfant">
                 <div class="contenu">
-                    <div class="flex">
-                        <div class="flex__header">
-                            <h1 class="title">{{meeting.student.name}}</h1>
-                            <p class="subtitle">{{meeting.evaluation}} / 20</p>
-                        </div>
-                        <div class="flex__content">
-                            <p>{{meeting.event.courseName}} de {{meeting.event.academicYear}}</p>
-                            <p>{{meeting.comment}}</p>
-                        </div>
-                        <div class="flex__footer">
-                            <button class="modify"  @click.prevent="showModifyModal = true; setModifyData(meeting)">Modifier</button>
-                        </div>
-                    </div>
+                    <md-card class="md-primary" md-with-hover>
+                        <md-ripple>
+                            <md-card-header>
+                                <div class="md-title">{{meeting.student.name}}</div>
+                                <div class="md-subhead">Côte globale de {{meeting.evaluation}}/20</div>
+                            </md-card-header>
+                            <md-card-content>
+                                <p>{{meeting.event.courseName}} de {{meeting.event.academicYear}}</p>
+                                <p>{{meeting.comment}}</p>
+                            </md-card-content>
+                            <md-card-actions>
+                                <md-button @click.prevent="showModifyModal = true; setModifyData(meeting)">Modifier</md-button>
+                            </md-card-actions>
+                        </md-ripple>
+                    </md-card>
                 </div>
             </div>
         </div>

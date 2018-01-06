@@ -1,125 +1,120 @@
 <template>
   <div>
       <div class="container">
-      <h1>Ajouter un événement</h1>
-      
-<form id="msform">
-    <ul id="progressbar">
-        <li class="active">Nom & année</li>
-        <li>Ajout du jury</li>
-        <li>Ajout des étudiants</li>
-        <li>Ajout des projets</li>
-        <li>Validation des informations</li>
-    </ul>
-    <fieldset>
-        <h2 class="fs-title">Écrivez le nom et l'année de l'événement</h2>
-        <h3 class="fs-subtitle">Ceci est l'étape 1</h3>
-        <input v-model="courseName" type="text" id="courseName" name="courseName" placeholder="Écrivez le nom" class="form-control">
-        <label for="academicYear">Sélectionnez l'année académique</label>
-        <select v-model="academicYear" name="academicYear" id="academicYear" class="form-control">
-            <option value="2017">2017 - 2018</option>
-            <option value="2018">2018 - 2019</option>
-            <option value="2019">2019 - 2020</option>
-            <option value="2020">2020 - 2021</option>
-            <option value="2021">2021 - 2022</option>
-        </select>
-        <input type="button" name="next" class="next action-button" value="Étape suivante" />
-    </fieldset>
-    <fieldset>
-        <h2 class="fs-title">Ajoutez les membres du jury</h2>
-        <h3 class="fs-subtitle">Ceci est l'étape 2</h3>
-        <div>
-            <label for="jury">Ajoutez des membres du jury</label>
-            <ul>
-                <li v-if="!jury.event" v-for="(jury, key) in jurys" :value="jury.id" :key="jury.id">
-                    {{jury.name}}
-                    <button class="btn btn-primary" v-on:click.prevent="addJury(key)">+</button>
-                </li>
-            </ul>
-        </div>
-        <div v-if="eventJurys">
-            <label for="jury">Membres du jury</label>
-            <ul>
-                <li v-for="(jury, key) in eventJurys" :value="jury.id" :key="jury.id">
-                    {{jury.name}}
-                    <button class="btn btn-danger" v-on:click.prevent="removeJury(key)">-</button>
-                </li>
-            </ul>
-        </div>
-        <input type="button" name="previous" class="previous action-button" value="Previous" />
-        <input type="button" name="next" class="next action-button" value="Next" />
-    </fieldset>
-    <fieldset>
-        <h2 class="fs-title">Ajoutez les étudiants</h2>
-        <h3 class="fs-subtitle">Ceci est l'étape 3</h3>
-        <div>
-            <label for="jury">Ajoutez des étudiants</label>
-            <ul>
-                <li v-if="!student.event" v-for="(student, key) in students" :value="student.id" :key="student.id">
-                    {{student.name}}
-                    <button type="submit" class="btn btn-primary" v-on:click.prevent="addStudent(key)">+</button>
-                </li>
-            </ul>
-        </div>
-        <div v-if="eventStudents >= [0]">
-            <label for="jury">Étudiant(es) ajouté à l'événement</label>
-            <ul>
-                <li v-for="(student, key) in eventStudents" :value="student.id" :key="student.id">
-                    {{student.name}}
-                    <button type="submit" class="btn btn-danger" v-on:click.prevent="removeStudent(key)">-</button>
-                </li>
-            </ul>
-        </div>
-        <input type="button" name="previous" class="previous action-button" value="Previous" />
-        <input type="button" name="next" class="next action-button" value="Next" />
-    </fieldset>
-    <fieldset>
-        <h2 class="fs-title">Ajoutez les projets</h2>
-        <h3 class="fs-subtitle">Ceci est l'étape 4</h3>
-        <label for="project">Sélectionnez les projets</label>
-        <label v-for="(project, key) in projects" :value="project.id" :key="project.id" class="form-check">
-            <!--Add project -->
-            <input v-if="!project.event" v-model="project.event" @click.prevent="addProject(key)" type="checkbox" class="form-check-input"></input>
-        
-            <!--Delete project -->
-            <input v-if="project.event" v-model="project.event" @click.prevent="removeProject(key)" type="checkbox" class="form-check-input">{{project.name}}</input>
-        </label>
-        <input type="button" name="previous" class="previous action-button" value="Previous" />
-        <input type="button" name="next" class="next action-button" value="Next" />
-    </fieldset>
-    <fieldset>
-        <h2 class="fs-title">Validez les informations de l'événement</h2>
-        <h3 class="fs-subtitle">Ceci est la dernières étape</h3>
-        <div class="form-group">
-            <li>
-                Nom: {{courseName}}
-            </li>
-            <li>
-                Année: {{academicYear}}
-            </li>
-            <ul>Jurys:
-                <li v-for="(jury, key) in eventJurys">
-                    {{jury.name}}
-                </li>
-                <li v-if="eventJurys <= [0]">Pas de jurys</li>
-            </ul>
-            <ul>Étudiants:
-                <li v-for="(student, key) in eventStudents">
-                    {{student.name}}
-                </li>
-                <li v-if="eventStudents <= [0]">Pas d'étudiants</li>
-            </ul>
-            <ul>Projects:
-                <li v-for="(projet, key) in eventProjects">
-                    {{projet.name}}
-                </li>
-                <li v-if="eventProjects <= [0]">Pas de projets</li>
-            </ul>
-        </div>
-        <input type="button" name="previous" class="previous action-button" value="Previous" />
-        <input type="submit" name="submit" class="submit action-button" @click.prevent="updateEvent" value="Sauvegarder l'événement" />
-    </fieldset>
-</form>
+        <h1>Modification d'un événement</h1>
+        <form-wizard 
+            :title="null" 
+            :subtitle="null" 
+            :finishButtonText="`Sauvegarder les`"
+            :nextButtonText="`Suivant`"
+            :backButtonText="`Précédent`"
+            :color="`#3273dc`"
+            @on-complete="updateEvent">
+            <tab-content title="Nom & année">
+                <ui-textbox v-model="courseName" name="courseName" id="courseName"
+                    label="Nom de l'événement"
+                    data-vv-as="Le champs nom de l'événement" 
+                    data-vv-validate-on="blur"
+                    v-validate="'required|alpha_spaces|min:5'" 
+                    :class="{'is-danger': errors.has('courseName') }"
+                ></ui-textbox>
+                <span v-show="errors.has('courseName')" class="help is-danger">{{ errors.first('courseName') }}</span>
+
+                <ui-select v-model="academicYear"
+                    label="L'année académique"
+                    placeholder="Sélectionnez l'année académique"
+                    :options="yearsStrings"
+                ></ui-select>
+            </tab-content>
+            <tab-content title="Ajout des jurys">
+                    <label for="jury">Sélectionnez les projets</label>
+                    <template v-for="(jury, key) in jurys">
+                        <!--Add jury -->
+                        <ui-switch 
+                            :value="jury.id" :key="jury.id"
+                            v-if="!jury.event"
+                            @change="addJury(key)"
+                            v-model="jury.event"
+                        >{{jury.name}}</ui-switch>
+
+                        <!--Remove jury -->
+                        <ui-switch 
+                            :value="jury.id" :key="jury.id"
+                            v-if="jury.event"
+                            @change="removeJury(key)"
+                            v-model="jury.event"
+                        >{{jury.name}}</ui-switch>
+                    </template>
+            </tab-content>
+            <tab-content title="Ajout des étudiants">
+                    <label for="jury">Sélectionnez les étudiants</label>
+                    <template v-for="(student, key) in students">
+                        <!--Add student -->
+                        <ui-switch 
+                            :value="student.id" :key="student.id"
+                            v-if="!student.event"
+                            @change="addStudent(key)"
+                            v-model="student.event"
+                        >{{student.name}}</ui-switch>
+
+                        <!--Remove student -->
+                        <ui-switch 
+                            :value="student.id" :key="student.id"
+                            v-if="student.event"
+                            @change="removeStudent(key)"
+                            v-model="student.event"
+                        >{{student.name}}</ui-switch>
+                    </template>
+            </tab-content>
+            <tab-content title="Ajout des projets">
+                    <label for="jury">Sélectionnez les projets</label>
+                    <template v-for="(project, key) in projects">
+                        <!--Add project -->
+                        <ui-switch 
+                            :value="project.id" :key="project.id"
+                            v-if="!project.event"
+                            @change="addProject(key)"
+                            v-model="project.event"
+                        >{{project.name}}</ui-switch>
+
+                        <!--Remove project -->
+                        <ui-switch 
+                            :value="project.id" :key="project.id"
+                            v-if="project.event"
+                            @change="removeProject(key)"
+                            v-model="project.event"
+                        >{{project.name}}</ui-switch>
+                    </template>
+            </tab-content>
+            <tab-content title="Validation des informations">
+                <div class="form-group">
+                            <li>
+                                Nom: {{courseName}}
+                            </li>
+                            <li>
+                                Année: {{academicYear}}
+                            </li>
+                            <ul>Jurys:
+                                <li v-for="(jury, key) in eventJurys">
+                                    {{jury.name}}
+                                </li>
+                                <li v-if="eventJurys <= [0]">Pas de jurys</li>
+                            </ul>
+                            <ul>Étudiants:
+                                <li v-for="(student, key) in eventStudents">
+                                    {{student.name}}
+                                </li>
+                                <li v-if="eventStudents <= [0]">Pas d'étudiants</li>
+                            </ul>
+                            <ul>Projects:
+                                <li v-for="(projet, key) in eventProjects">
+                                    {{projet.name}}
+                                </li>
+                                <li v-if="eventProjects <= [0]">Pas de projets</li>
+                            </ul>
+                        </div>
+            </tab-content>
+        </form-wizard>
       </div>
   </div>
 </template>
@@ -135,10 +130,21 @@ import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
 
+
+import {FormWizard, TabContent} from 'vue-form-wizard'
+import { UiAlert, UiTextbox, UiSelect, UiSwitch } from 'keen-ui';
 var _ = require('lodash');
 export default {
-  name: 'edit-event',
+    name: 'edit-event',
     props: ['id'],
+    components: {
+        FormWizard,
+        TabContent,
+        UiAlert,
+        UiTextbox,
+        UiSelect,
+        UiSwitch
+    },
   data(){
       return{
         courseName: null,
@@ -154,6 +160,13 @@ export default {
         projects: [],
 
         editableEvent: '',
+        yearsStrings: [
+            '2017 - 2018',
+            '2018 - 2019',
+            '2019 - 2020',
+            '2020 - 2021',
+            '2021 - 2022',
+        ],
       }
   },
     apollo: {
@@ -305,73 +318,80 @@ export default {
         },
 
         // Add & Remove Jurys
-        addJury(key){
-            let eventJurys = store.state.eventJurys;
-            this.jurys[key].event = true;
+            addJury(key){
+                let eventJurys = store.state.eventJurys;
 
-            if (this.jurys[key].event == true) {
-                eventJurys.push(this.jurys[key])    
-                this.jurys.splice(key, 1)
-            }
-        },
-        removeJury(key) {
-            let eventJurys = store.state.eventJurys;
-
-            eventJurys[key].event = false;
-            if (eventJurys[key].event == false) {
-                this.jurys.push(eventJurys[key])
-                eventJurys.splice(key, 1)
-            }
-        },
+                if(this.jurys[key].event){
+                    this.eventJurys.push(this.jurys[key]);
+                }
+            },
+            removeJury(key) {
+                if (this.jurys[key].event) {
+                    this.jurys[key].event = false;
+                }
+                var i = 0;
+                this.eventJurys.forEach(jury => {
+                    if(jury.id === this.jurys[key].id){
+                        jury.event = false;
+                    }
+                    
+                    if(!jury.event){
+                        this.eventJurys.splice(i, 1)
+                    }
+                    i++;
+                });
+            },
 
         // Add & Remove Students
-        addStudent(key){
-            let eventStudents = store.state.eventStudents;
-            this.students[key].event = true;
+            addStudent(key){
+                let eventStudents = store.state.eventStudents;
 
-            if (this.students[key].event == true) {
-                eventStudents.push(this.students[key])    
-                this.students.splice(key, 1)
-            }
-        },
-        removeStudent(key) {
-            let eventStudents = store.state.eventStudents;
-
-            eventStudents[key].event = false;
-            if (eventStudents[key].event == false) {
-                this.students.push(eventStudents[key])
-                eventStudents.splice(key, 1)
-            }
-        },
+                if(this.students[key].event){
+                    this.eventStudents.push(this.students[key]);
+                }
+            },
+            removeStudent(key) {
+                if (this.students[key].event) {
+                    this.students[key].event = false;
+                }
+                var i = 0;
+                this.eventStudents.forEach(student => {
+                    if(student.id === this.students[key].id){
+                        student.event = false;
+                    }
+                    
+                    if(!student.event){
+                        this.eventStudents.splice(i, 1)
+                    }
+                    i++;
+                });
+            },
 
         // Add & Remove Projects
-        addProject(key){
-            let eventProjects = store.state.eventProjects;
+            addProject(key){
+                let eventProjects = store.state.eventProjects;
 
-            if(!this.projects[key].event){
-                this.projects[key].event = true;
-                eventProjects.push(this.projects[key]);
-            }
-        },
-        removeProject(key) {
-            //let eventProjects = store.state.eventProjects;
+                if(this.projects[key].event){
+                    this.eventProjects.push(this.projects[key]);
+                }
+            },
+            removeProject(key) {
 
-            if (this.projects[key].event) {
-                this.projects[key].event = false;
-            }
-            var i = 0;
-            this.eventProjects.forEach(project => {
-                if(project.id === this.projects[key].id){
-                    project.event = false;
+                if (this.projects[key].event) {
+                    this.projects[key].event = false;
                 }
-                
-                if(!project.event){
-                    this.eventProjects.splice(i, 1)
-                    //var i = 0;
-                }
-                i++;
-            });
-        },
+                var i = 0;
+                this.eventProjects.forEach(project => {
+                    if(project.id === this.projects[key].id){
+                        project.event = false;
+                    }
+                    
+                    if(!project.event){
+                        this.eventProjects.splice(i, 1)
+                    }
+                    i++;
+                });
+            },
     }
 };
 </script>

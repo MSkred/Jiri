@@ -16,7 +16,7 @@
         <div class="md-layout papa">
             <div class="enfant" v-for="(user, key) in users">
                 <router-link class="contenu" :to="{name: 'user', params: {id: user.id}}" :href="`/user/${user.id}`">
-                    <md-card href="https://github.com/vuematerial/vue-material" class="md-primary" md-with-hover>
+                    <md-card class="md-primary" md-with-hover>
                         <md-ripple>
                             <md-card-header>
                                 <div class="md-title">{{user.name}}</div>
@@ -39,8 +39,12 @@
             <desactivate v-if="showDesactivateModal" >
                 <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.name}}</h3>
                 <div slot="footer">
-                    <button @click.prevent="desactivateUser(modalItem.id)">Désactiver</button>
-                    <button @click.prevent="showDesactivateModal = false">Annuler</button>
+                    <md-button @click.prevent="desactivateUser(modalItem.id)" class="md-accent">
+                        Désactiver
+                    </md-button>
+                    <md-button @click.prevent="showDesactivateModal = false" class="md-raised md-primary">
+                        Annuler           
+                    </md-button>
                 </div>
             </desactivate>
             <modify v-if="showModifyModal" >
@@ -62,8 +66,6 @@
                         <label for="company">Entreprise</label>
                         <md-input name="company" id="company" placeholder="Écrivez l'entreprise" :value="modalItem.company" />
                     </md-field>
-
-
                 </form>
                 <div slot="footer">
                     <md-button @click.prevent="modifyUser(modalItem.id)" class="md-raised md-primary">

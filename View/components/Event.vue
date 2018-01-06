@@ -45,58 +45,71 @@ tr, th, td{
             </tbody>
         </table>
         <h2>Les jurys de l'événement</h2>
-        <div class="papa">
-            <div v-for="(jury, key) in event.jurys" class="enfant">
-                <div class="flex" v-if="!jury.softDelete">
-                    <div class="flex__header">
-                        <h1 class="title">{{jury.name}}</h1>
-                        <p class="subtitle">{{jury.company}}</p>
-                    </div>
-                    <div class="flex__content">
-                        <p>{{jury.email}}</p>
-                    </div>
-                </div>
+        <div class="md-layout papa">
+            <div class="enfant" v-for="(jury, key) in event.jurys">
+                <router-link class="contenu" :to="{name: 'user', params: {id: jury.id}}" :href="`/user/${jury.id}`">
+                    <md-card class="md-primary" md-with-hover>
+                        <md-ripple>
+                            <md-card-header>
+                                <div class="md-title">{{jury.name}}</div>
+                                <div class="md-subhead">{{jury.company}}</div>
+                            </md-card-header>
+                            <md-card-content>
+                                <p>{{jury.email}}</p>
+                            </md-card-content>
+                        </md-ripple>
+                    </md-card>
+                </router-link>
             </div>
         </div>
         <h2>Les étudiants de l'événement</h2>
-        <div class="papa">
-            <div v-for="(student, key) in event.students" class="enfant">
-                <div class="flex" v-if="!student.softDelete">
-                    <div class="flex__header">
-                        <h1 class="title">{{student.name}}</h1>
-                    </div>
-                    <div class="flex__content">
-                        <p>{{student.email}}</p>
-                    </div>
-                </div>
+        <div class="md-layout papa">
+            <div class="enfant" v-for="(student, key) in event.students" >
+                <router-link class="contenu" :to="{name: 'student', params: {id: student.id}}" :href="`/student/${student.id}`">
+                    <md-card class="md-primary" md-with-hover>
+                        <md-ripple>
+                            <md-card-header>
+                                <div class="md-title">{{student.name}}</div>
+                            </md-card-header>
+                            <md-card-content>
+                                <p>{{student.email}}</p>
+                            </md-card-content>
+                        </md-ripple>
+                    </md-card>
+                </router-link>
             </div>
         </div>
         <h2>Les projets de l'événement</h2>
-        <div class="papa">
+        <div class="md-layout papa">
             <div v-for="(project, key) in event.projects" class="enfant">
-                <div class="flex" v-if="!project.softDelete">
-                    <div class="flex__header">
-                        <h1 class="title">{{project.name}}</h1>
-                    </div>
-                    <div class="flex__content">
-                        <p>{{project.description}}</p>
-                    </div>
-                </div>
+                <md-card class="md-primary" md-with-hover>
+                    <md-ripple>
+                        <md-card-header>
+                            <div class="md-title">{{project.name}}</div>
+                        </md-card-header>
+
+                        <md-card-content>
+                            <p>{{project.description}}</p>
+                        </md-card-content>
+                    </md-ripple>
+                </md-card>
             </div>
         </div>
         <h2>Les meetings de l'événement</h2>
-        <div class="papa">
+        <div class="md-layout papa">
             <div v-for="(meeting, key) in event.meetings" class="enfant">
-                <div class="flex" v-if="!meeting.softDelete">
-                    <div class="flex__header">
-                        <h1 class="title">{{meeting.author.name}} & {{meeting.student.name}}</h1>
-                        <p class="subtitle">
-                            {{meeting.evaluation}} / 20
-                        </p>
-                    </div>
-                    <div class="flex__content">
-                        <p>{{meeting.comment}}</p>
-                    </div>
+                <div class="contenu">
+                    <md-card class="md-primary" md-with-hover>
+                        <md-ripple>
+                            <md-card-header>
+                                <div class="md-title">{{meeting.author.name}} & {{meeting.student.name}}</div>
+                                <div class="md-subhead">Côte globale de {{meeting.evaluation}}/20</div>
+                            </md-card-header>
+                            <md-card-content>
+                                <p>{{meeting.comment}}</p>
+                            </md-card-content>
+                        </md-ripple>
+                    </md-card>
                 </div>
             </div>
         </div>
