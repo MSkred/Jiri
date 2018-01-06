@@ -12,42 +12,46 @@
                 </div>
             </div>
         </section>
-        <h2>Les événements de {{student.name}}</h2>
-        <div class="md-layout papa">
-            <div v-for="(event, key) in student.studentEvents" class="enfant">
-                <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
-                    <md-card class="md-primary" md-with-hover>
-                        <md-ripple>
-                            <md-card-header>
-                                <div class="md-title">{{event.courseName}}</div>
-                                <div class="md-subhead">{{event.academicYear}}</div>
-                            </md-card-header>
-                        </md-ripple>
-                    </md-card>
-                </router-link>
-            </div>
-        </div>
-        <h2>Les implémentations de {{student.name}}</h2>
-        <div class="md-layout papa">
-            <div v-for="(implementation, key) in student.implementations" class="enfant">
-                <md-card class="md-primary" md-with-hover>
-                    <md-ripple>
-                        <md-card-header>
-                            <div class="md-title">{{implementation.project.name}} du <span v-for="event in implementation.events">{{event.courseName}} de {{event.academicYear}}</span></div>
-                            <div class="md-subhead">Pondération de {{implementation.weight}}</div>
-                        </md-card-header>
+        <md-tabs>
+            <md-tab md-label="événements">
+                <div class="md-layout papa">
+                    <div v-for="(event, key) in student.studentEvents" class="enfant">
+                        <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
+                            <md-card class="md-primary" md-with-hover>
+                                <md-ripple>
+                                    <md-card-header>
+                                        <div class="md-title">{{event.courseName}}</div>
+                                        <div class="md-subhead">{{event.academicYear}}</div>
+                                    </md-card-header>
+                                </md-ripple>
+                            </md-card>
+                        </router-link>
+                    </div>
+                </div>
+            </md-tab>
+            <md-tab md-label="implémentations">
+                <div class="md-layout papa">
+                    <div v-for="(implementation, key) in student.implementations" class="enfant">
+                        <md-card class="md-primary" md-with-hover>
+                            <md-ripple>
+                                <md-card-header>
+                                    <div class="md-title">{{implementation.project.name}} du <span v-for="event in implementation.events">{{event.courseName}} de {{event.academicYear}}</span></div>
+                                    <div class="md-subhead">Pondération de {{implementation.weight}}</div>
+                                </md-card-header>
 
-                        <md-card-content>
-                            <p>{{implementation.project.description}}</p>
-                        </md-card-content>
+                                <md-card-content>
+                                    <p>{{implementation.project.description}}</p>
+                                </md-card-content>
 
-                        <md-card-actions>
-                            <md-button @click.prevent="showModifyModal = true; setModifyData(implementation)">Modifier</md-button>
-                        </md-card-actions>
-                    </md-ripple>
-                </md-card>
-            </div>
-        </div>
+                                <md-card-actions>
+                                    <md-button @click.prevent="showModifyModal = true; setModifyData(implementation)">Modifier</md-button>
+                                </md-card-actions>
+                            </md-ripple>
+                        </md-card>
+                    </div>
+                </div>
+            </md-tab>
+        </md-tabs>
         <modify v-if="showModifyModal" >
             <h3 slot="header">Modifier la pondération du projet {{modalItem.project.name}}</h3>
             <form slot="body">
