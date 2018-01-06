@@ -42,6 +42,7 @@
                                 <p>{{meeting.comment}}</p>
                             </md-card-content>
                             <md-card-actions>
+                                <md-button @click.prevent="showMeetingModal = true; setModifyData(meeting)">Voir le meeting</md-button>
                                 <md-button @click.prevent="showModifyModal = true; setModifyData(meeting)">Modifier</md-button>
                             </md-card-actions>
                         </md-ripple>
@@ -49,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <modify v-if="showModifyModal" >
+        <!-- <modify v-if="showModifyModal" >
             <h3 slot="header">Modifier le meeting avec XXX</h3>
             <form slot="body">
                 <div v-for="(score, key) in modalItem.scores" :key="score.id" :id="key">
@@ -74,7 +75,66 @@
                 <button @click.prevent="modifyMeeting(modalItem.id)">Modifier</button>
                 <button @click.prevent="showModifyModal = false">Annuler</button>
             </div>
-        </modify>
+        </modify> -->
+        <div v-if="showModifyModal">
+            <md-dialog :md-active.sync="showModifyModal">
+                <md-dialog-title>Modifier le meeting avec {{modalItem.student.name}}</md-dialog-title>
+                <md-tabs md-dynamic-height >
+                    <md-tab v-for="(score, key) in modalItem.scores" :id="key" :md-label="score.implementation.project.name">
+                        <md-field>
+                            <label for="comment">Commentaire</label>
+                            <md-textarea :value="score.comment" md-counter="256" name="comment" id="comment"></md-textarea>
+                        </md-field>
+                        <md-field>
+                            <label for="score">Côte</label>
+                            <md-input type="number" :value="score.score" id="score" name="score" step="0.5"></md-input>
+                            <span class="md-helper-text">La côte golbale doit être un nombre entre 0 et 20</span>
+                        </md-field>
+                    </md-tab>
+                    <md-tab md-label="Global">
+                        <md-field>
+                            <label for="globalComment">Commentaire</label>
+                            <md-textarea :value="modalItem.comment" md-counter="256" name="globalComment" id="globalComment"></md-textarea>
+                        </md-field>
+                        <md-field>
+                            <label for="globalScore">Côte</label>
+                            <md-input type="number" :value="modalItem.evaluation" id="globalScore" name="globalScore" step="0.5"></md-input>
+                            <span class="md-helper-text">La côte golbale doit être un nombre entre 0 et 20</span>
+                        </md-field>
+                    </md-tab>
+                </md-tabs>
+                <md-dialog-actions>
+                    <md-button class="md-primary" @click="showModifyModal = false">Fermer</md-button>
+                    <md-button class="md-primary" @click="modifyMeeting(modalItem.id)">Sauvegarder les modifications</md-button>
+                </md-dialog-actions>
+            </md-dialog>
+        </div>
+        
+        <div v-if="showMeetingModal">
+            <md-dialog :md-active.sync="showMeetingModal">
+                <md-dialog-title>Meeting avec {{modalItem.student.name}}</md-dialog-title>
+                <md-tabs md-dynamic-height >
+                    <md-tab v-for="score in modalItem.scores" :md-label="score.implementation.project.name">
+                        <h3>Commentaire</h3>
+                        <p>{{score.comment}}</p>
+                        <h3>Côte</h3>
+                        <p>{{score.score}}</p>
+                    </md-tab>
+                    <md-tab md-label="Global">
+                        <h3>Commentaire global</h3>
+                        <p>{{modalItem.comment}}</p>
+                        <h3>Côte global</h3>
+                        <p>{{modalItem.evaluation}}</p>
+                    </md-tab>
+                </md-tabs>
+                <md-dialog-actions>
+                    <md-button class="md-primary" @click="showMeetingModal = false">Fermer</md-button>
+                    <md-button class="md-accent" @click="showModifyModal = true; showMeetingModal = false">Modifier</md-button>
+                </md-dialog-actions>
+            </md-dialog>
+        </div>
+
+
     </div>
 </template>
 
@@ -94,6 +154,7 @@ export default {
     return{
         currentUser: {},
         showModifyModal: false,
+        showMeetingModal: false,
     }
   },
   computed: {
