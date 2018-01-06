@@ -1,7 +1,16 @@
 <template>
   <div>
-      <div class="container">
-        <h1>Ajouter un événement</h1>
+      <div class="wrapper">
+        <section class="hero is-link">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        Ajouter un événement
+                    </h1>
+                </div>
+            </div>
+        </section>
+        <h1></h1>
         <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
             {{this.feedbackItem.message}}
         </ui-alert>
