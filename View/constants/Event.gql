@@ -6,15 +6,21 @@ export const SINGLE_EVENT_QUERY = gql `
             id
             courseName
             academicYear
-            students{
+             students(filter: {studentEvents_some: {id: $id}}){
                 id
                 name
-                email
-                implementations(filter: {events_some: {id: $id}}){
+                implementations(filter: {events_some: {id: $id}}) {
                     id
-                    project{
+                    scores(filter: {event_some: {id: $id}}){
                         id
-                        name
+                        score
+                        comment
+                        meeting{
+                            author{
+                                id
+                                name
+                            }
+                        }
                     }
                 }
                 meetings(filter: {event: {id: $id}}) {

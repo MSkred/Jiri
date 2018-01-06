@@ -1,6 +1,17 @@
 <template>
-    <div class="container">
-        <h1>Créer un meeting</h1>
+    <div class="wrapper">
+        <section class="hero is-link">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        Créer un meeting
+                    </h1>
+                    <h2 class="subtitle">
+                        Bonjour {{currentUser.name}} vous êtes connecté en tant <span v-if="currentUser.isAdmin">que administrateur</span><span v-else>qu'utilisateur</span>
+                    </h2>
+                </div>
+            </div>
+        </section>
         <form>
             <md-field>
                 <label for="students">Sélectionnez un étudiant</label>
@@ -19,6 +30,7 @@
 import {mapGetters, mapMutations} from 'vuex'
 
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
+import { USER_QUERY } from '../constants/User.gql'
 import {Bus} from '../Bus'
 export default {
     name: 'add-meeting',
@@ -46,6 +58,20 @@ export default {
                 return data.allEvents[0]
             }
         },
+        currentUser: {
+        query: USER_QUERY,
+            variables() {
+                // Use vue reactive properties
+                return {
+                    id: this.userId,
+                }
+            },
+            update(data){
+                //console.log(data)
+                console.log('User data get done')
+                return data.User
+            }
+        }
     },
     computed: {
         ...mapGetters([
