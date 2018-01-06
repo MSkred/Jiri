@@ -52,7 +52,7 @@
                     </md-field>
                     <md-field>
                         <label for="description">Description</label>
-                        <md-textarea :value="modalItem.description" md-counter="256" name="decription" id="description"></md-textarea>
+                        <md-textarea :value="modalItem.description" md-counter="256" name="description" id="description"></md-textarea>
                     </md-field>
                     <md-field>
                         <label for="weight">Pondération du projet</label>
