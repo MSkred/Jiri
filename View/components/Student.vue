@@ -3,12 +3,12 @@
         <section class="hero is-link">
             <div class="hero-body">
                 <div class="container">
-                <h1 class="title">
-                    {{student.name}}
-                </h1>
-                <h2 class="subtitle">
-                    {{student.company}}
-                </h2>
+                    <h1 class="title">
+                        {{student.name}}
+                    </h1>
+                    <h2 class="subtitle">
+                        {{student.email}}
+                    </h2>
                 </div>
             </div>
         </section>

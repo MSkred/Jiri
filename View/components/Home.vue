@@ -12,44 +12,48 @@
                 </div>
             </div>
         </section>
-        <h2>Les événements auquel vous participez</h2>
-        <div class="md-layout papa">
-            <div v-for="(event, key) in currentUser.juryEvents" class="enfant">
-                <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
-                    <md-card class="md-primary" md-with-hover>
-                        <md-ripple>
-                            <md-card-header>
-                                <div class="md-title">{{event.courseName}}</div>
-                                <div class="md-subhead">{{event.academicYear}}</div>
-                            </md-card-header>
-                        </md-ripple>
-                    </md-card>
-                </router-link>
-            </div>
-        </div>
-        <h2>Les meeting que vous avez effectué</h2>
-        <div class="md-layout papa">
-            <div v-for="(meeting, key) in currentUser.meetings" class="enfant">
-                <div class="contenu">
-                    <md-card class="md-primary" md-with-hover>
-                        <md-ripple>
-                            <md-card-header>
-                                <div class="md-title">{{meeting.student.name}}</div>
-                                <div class="md-subhead">Côte globale de {{meeting.evaluation}}/20</div>
-                            </md-card-header>
-                            <md-card-content>
-                                <p>{{meeting.event.courseName}} de {{meeting.event.academicYear}}</p>
-                                <p>{{meeting.comment}}</p>
-                            </md-card-content>
-                            <md-card-actions>
-                                <md-button @click.prevent="showMeetingModal = true; setModifyData(meeting)">Voir le meeting</md-button>
-                                <md-button @click.prevent="showModifyModal = true; setModifyData(meeting)">Modifier</md-button>
-                            </md-card-actions>
-                        </md-ripple>
-                    </md-card>
+        <md-tabs>
+            <md-tab md-label="Mes événements">
+                <div class="md-layout papa">
+                    <div v-for="(event, key) in currentUser.juryEvents" class="enfant">
+                        <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
+                            <md-card class="md-primary" md-with-hover>
+                                <md-ripple>
+                                    <md-card-header>
+                                        <div class="md-title">{{event.courseName}}</div>
+                                        <div class="md-subhead">{{event.academicYear}}</div>
+                                    </md-card-header>
+                                </md-ripple>
+                            </md-card>
+                        </router-link>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </md-tab>
+            <md-tab md-label="Mes meetings">
+                <div class="md-layout papa">
+                    <div v-for="(meeting, key) in currentUser.meetings" class="enfant">
+                        <div class="contenu">
+                            <md-card class="md-primary" md-with-hover>
+                                <md-ripple>
+                                    <md-card-header>
+                                        <div class="md-title">{{meeting.student.name}}</div>
+                                        <div class="md-subhead">Côte globale de {{meeting.evaluation}}/20</div>
+                                    </md-card-header>
+                                    <md-card-content>
+                                        <p>{{meeting.event.courseName}} de {{meeting.event.academicYear}}</p>
+                                        <p>{{meeting.comment}}</p>
+                                    </md-card-content>
+                                    <md-card-actions>
+                                        <md-button @click.prevent="showMeetingModal = true; setModifyData(meeting)">Voir le meeting</md-button>
+                                        <md-button @click.prevent="showModifyModal = true; setModifyData(meeting)">Modifier</md-button>
+                                    </md-card-actions>
+                                </md-ripple>
+                            </md-card>
+                        </div>
+                    </div>
+                </div>
+            </md-tab>
+        </md-tabs>
         <div v-if="showModifyModal">
             <md-dialog :md-active.sync="showModifyModal">
                 <md-dialog-title>Modifier le meeting avec {{modalItem.student.name}}</md-dialog-title>
@@ -83,7 +87,6 @@
                 </md-dialog-actions>
             </md-dialog>
         </div>
-        
         <div v-if="showMeetingModal">
             <md-dialog :md-active.sync="showMeetingModal">
                 <md-dialog-title>Meeting avec {{modalItem.student.name}}</md-dialog-title>
@@ -107,8 +110,6 @@
                 </md-dialog-actions>
             </md-dialog>
         </div>
-
-
     </div>
 </template>
 
