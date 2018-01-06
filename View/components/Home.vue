@@ -50,32 +50,6 @@
                 </div>
             </div>
         </div>
-        <!-- <modify v-if="showModifyModal" >
-            <h3 slot="header">Modifier le meeting avec XXX</h3>
-            <form slot="body">
-                <div v-for="(score, key) in modalItem.scores" :key="score.id" :id="key">
-                        <h4>{{score.implementation.project.name}}</h4>
-                        <label for="comment">Commentaire</label>
-                        <textarea :value="score.comment" name="comment" id="comment" cols="30" rows="10"></textarea>
-                        <label for="score">Côte</label>
-                        <input :value="score.score" type="number" name="score" id="score">
-                </div>
-                
-                <div>
-                    <form action="">
-                        <h4>Le commentaire globale de {{modalItem.student.name}}</h4>
-                        <label for="globalComment">Commentaire</label>
-                        <textarea :value="modalItem.comment" name="globalComment" id="globalComment" cols="30" rows="10"></textarea>
-                        <label for="globalScore">Côte</label>
-                        <input :value="modalItem.evaluation" type="number" name="globalScore" id="globalScore">
-                    </form>
-                </div>
-            </form>
-            <div slot="footer">
-                <button @click.prevent="modifyMeeting(modalItem.id)">Modifier</button>
-                <button @click.prevent="showModifyModal = false">Annuler</button>
-            </div>
-        </modify> -->
         <div v-if="showModifyModal">
             <md-dialog :md-active.sync="showModifyModal">
                 <md-dialog-title>Modifier le meeting avec {{modalItem.student.name}}</md-dialog-title>

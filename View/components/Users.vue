@@ -3,12 +3,14 @@
         <section class="hero is-link">
             <div class="hero-body">
                 <div class="container">
-                <h1 class="title">
-                    Tous les utilisateurs
-                </h1>
-                <h2 class="subtitle">
-                    Primary subtitle
-                </h2>
+                    <h1 class="title">
+                        Tous les utilisateurs
+                    </h1>
+                    <h2 class="subtitle">
+                        <router-link :to="{name: 'addUser'}" :href="`/addUser`">
+                            <md-button class="md-raised">Créer un utilisateur</md-button>
+                        </router-link>
+                    </h2>
                 </div>
             </div>
         </section>
