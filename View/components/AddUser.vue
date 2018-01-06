@@ -62,6 +62,9 @@
                     </ui-textbox>
                     <span v-show="errors.has('company')" class="help is-danger">{{ errors.first('company') }}</span>
                 </div>
+                <div class="form-group">
+                    <md-switch v-model="isAdmin">Cette utilisateur est un admin</md-switch>
+                </div>
                 <div class="control">
                     <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" size="normal">Créer l'utilisateur</ui-button>
                 </div>
