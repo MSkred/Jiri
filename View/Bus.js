@@ -190,6 +190,7 @@ export const Bus = new Vue();
                         });
                     });
                 });
+                router.push({ name: 'events' });
             },
             refetchQueries: [
                 {
@@ -455,6 +456,7 @@ export const Bus = new Vue();
             update: (cache, { data: { updateMeeting } }) => {
                 console.log(updateMeeting)
                 console.log('Meeting updating done')
+                router.push({ name: 'home' });
             },
         })
     })

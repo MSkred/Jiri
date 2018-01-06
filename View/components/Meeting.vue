@@ -12,7 +12,7 @@
                 </div>
             </div>
         </section>
-        <form action="">
+        <form @submit.prevent="validateBeforeSubmit">
             <label for="project">Sélectionnez les projets</label>
             <md-switch v-for="implementation in meeting.event.implementations" v-model="implementation.meeting" class="md-primary">
                         {{implementation.project.name}}
@@ -37,21 +37,28 @@
                 </md-field>
                 <md-field>
                     <label for="score">Côte</label>
-                    <md-input type="number" v-model="implementation.score.score" id="score" name="score" step="0.5"></md-input>
+                    <md-input type="number" v-model="implementation.score.score" id="score" name="score" step="0.5" min="0" max="20"
+                    data-vv-as="Le champs côte global" 
+                    data-vv-validate-on="blur"
+                    v-validate="'required|min_value:0|max_value:20'"></md-input>
                     <span class="md-helper-text">La côte golbale doit être un nombre entre 0 et 20</span>
                 </md-field>
             </div>
             <!-- Global comment -->
             <md-field>
-                <label for="comment">Commentaire globale</label>
+                <label for="comment">Commentaire global</label>
                 <md-textarea v-model="global.comment" md-counter="256" name="comment" id="comment"></md-textarea>
             </md-field>
             <md-field>
-                <label for="score">Côte globale</label>
-                <md-input type="number" v-model="global.score" id="score" name="score" step="0.5"></md-input>
+                <label for="score">Côte global</label>
+                <md-input type="number" v-model="global.score" id="score" name="score" step="0.5" min="0" max="20"
+                    data-vv-as="Le champs côte global" 
+                    data-vv-validate-on="blur"
+                    v-validate="'required|min_value:0|max_value:20'"
+                ></md-input>
                 <span class="md-helper-text">La côte golbale doit être un nombre entre 0 et 20</span>
             </md-field>
-            <md-button @click.prevent="validateMeeting" class="md-raised md-primary">
+            <md-button type="submit" class="md-raised md-primary">
                 Valider le meeting
             </md-button>
         </form>
@@ -187,6 +194,17 @@ export default {
                 id = this.id;
 
             Bus.$emit('validateMeeting', {id, comment, evaluation});
+        },
+        validateBeforeSubmit() {
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+
+                    // Create Project
+                    this.validateMeeting();
+                }else{
+                    console.log('error')
+                }
+            });
         }
     },
     

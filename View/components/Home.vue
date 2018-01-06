@@ -65,7 +65,10 @@
                         </md-field>
                         <md-field>
                             <label for="score">Côte</label>
-                            <md-input type="number" :value="score.score" id="score" name="score" step="0.5"></md-input>
+                            <md-input type="number" :value="score.score" id="score" name="score" step="0.5" min="0" max="20"
+                                data-vv-as="Le champs côte global" 
+                                data-vv-validate-on="blur"
+                                v-validate="'required|min_value:0|max_value:20'"></md-input>
                             <span class="md-helper-text">La côte golbale doit être un nombre entre 0 et 20</span>
                         </md-field>
                     </md-tab>
@@ -76,7 +79,10 @@
                         </md-field>
                         <md-field>
                             <label for="globalScore">Côte</label>
-                            <md-input type="number" :value="modalItem.evaluation" id="globalScore" name="globalScore" step="0.5"></md-input>
+                            <md-input type="number" :value="modalItem.evaluation" id="globalScore" name="globalScore" step="0.5" min="0" max="20"
+                                data-vv-as="Le champs côte global" 
+                                data-vv-validate-on="blur"
+                                v-validate="'required|min_value:0|max_value:20'"></md-input>
                             <span class="md-helper-text">La côte golbale doit être un nombre entre 0 et 20</span>
                         </md-field>
                     </md-tab>

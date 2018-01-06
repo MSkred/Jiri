@@ -23,15 +23,16 @@ export default {
     flex-direction: row
     justify-content: flex-start
     flex-wrap: wrap
-    margin: 0 50px
 
 .enfant
-    width: 32%;
-    //background-color: #5182d2;
-    margin: 20px 0;
+    width: 25%;
     padding: 20px;
-    &:nth-child(3n+2)
-        margin: 20px;
+    @media (max-width: 1550px)
+        width: 33%
+    @media (max-width: 1050px)
+        width: 50%
+    @media (max-width: 720px)
+        width: 100%
 
 
 .contenu
@@ -39,4 +40,21 @@ export default {
     .title, .subtitle
         color: #fff;
 
+.hero.is-link
+    background-color: #448aff;  
+
+.navbar.is-link
+    background-color: #448aff;
+
+@media (max-width: 1050px)
+    #app .navbar-item, #app .navbar-link
+        color: #FFF
+    #app .navbar-dropdown .navbar-item
+        color: #FFF
+    #app .navbar-link:hover,
+    #app .navbar-end .navbar-item:hover,
+    #app .navbar-start .router-link-active:hover,
+    #app .navbar-dropdown .navbar-item:hover
+        background: #2366d1
+            
 </style>
