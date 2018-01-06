@@ -42,6 +42,9 @@ export default {
 
 .hero.is-link
     background-color: #448aff;  
+    button
+        margin-top: 50px
+        margin-left: 0
 
 .navbar.is-link
     background-color: #448aff;
@@ -56,5 +59,25 @@ export default {
     #app .navbar-start .router-link-active:hover,
     #app .navbar-dropdown .navbar-item:hover
         background: #2366d1
-            
+
+form
+    width: 80%
+    margin: 50px auto 
+    max-width: 800px
+    .form-group
+        margin-top: 50px
+    .ui-button
+        margin: 50px auto 0
+        display: block
+
+.vue-form-wizard
+    .wizard-nav,
+    .wizard-progress-with-circle,
+    .wizard-card-footer
+        max-width: 1000px
+        margin: 0 auto
+    .wizard-tab-content
+        width: 80%
+        margin: 50px auto 
+        max-width: 800px
 </style>
