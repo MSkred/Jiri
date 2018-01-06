@@ -7,7 +7,7 @@ export const SINGLE_MEETING_QUERY = gql `
             student{
                 name
                 id
-                implementations(filter: {events_every: {id: $eventId}}) {
+                implementations(filter: {events_some: {id: $eventId}}) {
                     id
                     project{
                         name

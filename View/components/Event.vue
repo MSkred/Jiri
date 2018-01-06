@@ -109,10 +109,11 @@ tr, th, td{
                     <tbody>
                         <tr v-for="(implementation, key) in student.implementations">
                             <td>{{implementation.project.name}}</td>
-                            <template v-for="(meeting, key) in student.meetings">
-                                <template v-for="(score, key) in allScores">
-                                    <td v-if="score.implementation.id == implementation.id && score.meeting.id == meeting.id">{{score.score}}</td>
-                                    <td v-if="(score.implementation.id == implementation.id && score.meeting.id !== meeting.id)">none</td>
+                            <template v-for="meeting in student.meetings">
+                                <template v-for="score in implementation.scores">
+                                <td v-if="meeting.id !== score.meeting.id">ok</td>
+                                <td v-if="meeting.id == score.meeting.id">{{meeting.author.name}}</td>
+
                                 </template>
                             </template>
                         </tr>
@@ -153,34 +154,34 @@ export default {
                 return data.allEvents[0]
             }
         },
-        allScores(){
-            let id = this.id;
-            return {
-                query: gql`
-                    query allScores($id: ID!){
-                        allScores(filter: 
-                            {event_every: { id: $id}}) {
-                            id
-                            score
-                            comment
-                            implementation{
-                                id
-                            }
-                            meeting{
-                                id
-                                author{
-                                    id
-                                }
-                            }
-                        }
-                    }
-                `,
-                pollInterval: 300,
-                variables: {
-                    id
-                }
-            }
-        }
+        // allScores(){
+        //     let id = this.id;
+        //     return {
+        //         query: gql`
+        //             query allScores($id: ID!){
+        //                 allScores(filter: 
+        //                     {event_every: { id: $id}}) {
+        //                     id
+        //                     score
+        //                     comment
+        //                     implementation{
+        //                         id
+        //                     }
+        //                     meeting{
+        //                         id
+        //                         author{
+        //                             id
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         `,
+        //         pollInterval: 300,
+        //         variables: {
+        //             id
+        //         }
+        //     }
+        // }
     },
 }
 </script>
