@@ -13,50 +13,57 @@
             </div>
         </section>
         <h2>Les événements de {{student.name}}</h2>
-        <div class="papa">
+        <div class="md-layout papa">
             <div v-for="(event, key) in student.studentEvents" class="enfant">
                 <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
-                    <div class="flex" v-if="!event.softDelete">
-                        <div class="flex__header">
-                            <h2 class="title">{{event.courseName}}</h2>
-                            <p class="subtitle">{{event.academicYear}}</p>
-                        </div>
-                        <div class="flex__content">
-                        </div>
-                    </div>
+                    <md-card class="md-primary" md-with-hover>
+                        <md-ripple>
+                            <md-card-header>
+                                <div class="md-title">{{event.courseName}}</div>
+                                <div class="md-subhead">{{event.academicYear}}</div>
+                            </md-card-header>
+                        </md-ripple>
+                    </md-card>
                 </router-link>
             </div>
         </div>
         <h2>Les implémentations de {{student.name}}</h2>
-        <div class="papa">
+        <div class="md-layout papa">
             <div v-for="(implementation, key) in student.implementations" class="enfant">
-                <div class="contenu">
-                    <div class="flex">
-                        <div class="flex__header">
-                            <h2 class="title">{{implementation.project.name}} du {{implementation.events.courseName}} de {{implementation.events.academicYear}}</h2>
-                            <p class="subtitle">{{implementation.weight}}</p>
-                        </div>
-                        <div class="flex__content">
+                <md-card class="md-primary" md-with-hover>
+                    <md-ripple>
+                        <md-card-header>
+                            <div class="md-title">{{implementation.project.name}} du <span v-for="event in implementation.events">{{event.courseName}} de {{event.academicYear}}</span></div>
+                            <div class="md-subhead">Pondération de {{implementation.weight}}</div>
+                        </md-card-header>
+
+                        <md-card-content>
                             <p>{{implementation.project.description}}</p>
-                        </div>
-                        <div class="flex__footer" v-if="currentUser.isAdmin">
-                            <button class="modify"  @click.prevent="showModifyModal = true; setModifyData(implementation)">Modifier</button>
-                        </div>
-                    </div>
-                </div>
+                        </md-card-content>
+
+                        <md-card-actions>
+                            <md-button @click.prevent="showModifyModal = true; setModifyData(implementation)">Modifier</md-button>
+                        </md-card-actions>
+                    </md-ripple>
+                </md-card>
             </div>
         </div>
         <modify v-if="showModifyModal" >
             <h3 slot="header">Modifier la pondération du projet {{modalItem.project.name}}</h3>
             <form slot="body">
-                <div class="form-group">
+                <md-field>
                     <label for="weight">Pondération du projet</label>
-                    <input type="number" :value="modalItem.weight" id="weight" name="weight">
-                </div>
+                    <md-input type="number" :value="modalItem.weight" id="weight" name="weight" step="0.1"></md-input>
+                    <span class="md-helper-text">La pondération doit être un nombre entre 0 et 1</span>
+                </md-field>
             </form>
             <div slot="footer">
-                <button @click.prevent="modifyImplementation(modalItem.id)">Modifier</button>
-                <button @click.prevent="showModifyModal = false">Annuler</button>
+                    <md-button @click.prevent="modifyImplementation(modalItem.id)" class="md-raised md-primary">
+                        Sauvegarder les modifications
+                    </md-button>
+                    <md-button @click.prevent="showModifyModal = false" class="md-accent">
+                        Annuler           
+                    </md-button>
             </div>
         </modify>
     </div>
@@ -91,13 +98,11 @@ export default {
         student: {
             query: STUDENT_QUERY,
             variables() {
-                // Use vue reactive properties
                 return {
                     id: this.id,
                 }
             },
             update(data){
-                console.log(data)
                 return data.Student
             },
         },
