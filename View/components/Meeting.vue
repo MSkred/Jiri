@@ -21,6 +21,16 @@
             <div v-for="(implementation, key) in meeting.event.implementations" v-if="implementation.meeting" :key="implementation.id">
                 <h1>{{implementation.project.name}}</h1>
                 <p>{{implementation.project.description}}</p>
+                <a :href="implementation.urlRepo">
+                    <md-button class="md-raised">
+                        Github
+                    </md-button>
+                </a>
+                <a :href="implementation.urlProject">
+                    <md-button class="md-raised">
+                        Siteweb
+                    </md-button>
+                </a>
                 <md-field>
                     <label for="comment">Commentaire</label>
                     <md-textarea v-model="implementation.score.comment" md-counter="256" name="comment" id="comment"></md-textarea>
@@ -98,8 +108,10 @@ export default {
                 // // Adding meeting key in my object
                 student.implementations.map( implementation => {
                     let id = implementation.id
+                    let urlProject = implementation.urlProject
+                    let urlRepo = implementation.urlRepo
                     let project = implementation.project
-                    implementations.push({ id: id, project: project, meeting: false, score: { comment: null, score: null } })
+                    implementations.push({ id: id, urlProject, urlRepo, project: project, meeting: false, score: { comment: null, score: null } })
                 } )
                 newStudent = ({ id: id, implementations: implementations})
                 
@@ -126,7 +138,6 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'meetingProjects',
             'lastAddedId',
             'userId'
         ])

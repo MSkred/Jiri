@@ -9,8 +9,12 @@ export const SINGLE_MEETING_QUERY = gql `
                 id
                 implementations(filter: {events_some: {id: $eventId}}) {
                     id
+                    urlRepo
+                    urlProject
                     project{
+                        id
                         name
+                        description
                     }
                 }
             }
