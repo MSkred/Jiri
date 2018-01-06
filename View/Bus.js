@@ -336,13 +336,15 @@ export const Bus = new Vue();
      *  Update Implementation
     *******************/
     Bus.$on('modifyImplementation', payload => {
-        let { id, weight, studentId } = payload;
+        let { id, weight, studentId, urlRepo, urlProject } = payload;
 
         apolloClient.mutate({
             mutation: UPDATE_IMPLEMENTATION_MUTATION,
             variables: {
                 id,
-                weight
+                weight,
+                urlProject,
+                urlRepo
             },
             update: (cache, { data: { updateImplementation } }) => {
                 console.log(updateImplementation)

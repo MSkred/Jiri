@@ -1,10 +1,12 @@
 import gql from 'graphql-tag'
 
 export const UPDATE_IMPLEMENTATION_MUTATION = gql `
-    mutation updateImplementation($id: ID!, $weight: Float!) {
-        updateImplementation(id: $id, weight: $weight) {
+    mutation updateImplementation($id: ID!, $weight: Float!, $urlRepo: String, $urlProject: String) {
+        updateImplementation(id: $id, weight: $weight, urlProject: $urlProject, urlRepo: $urlRepo) {
             id
             weight
+            urlRepo
+            urlProject
         }
     }
 `;

@@ -44,6 +44,16 @@
                                 </md-card-content>
 
                                 <md-card-actions>
+                                    <a :href="implementation.urlRepo"  v-if="implementation.urlRepo">
+                                        <md-button>
+                                            Github
+                                        </md-button>
+                                    </a>
+                                    <a :href="implementation.urlProject"  v-if="implementation.urlProject">
+                                        <md-button>
+                                            Siteweb
+                                        </md-button>
+                                    </a>
                                     <md-button @click.prevent="showModifyModal = true; setModifyData(implementation)">Modifier</md-button>
                                 </md-card-actions>
                             </md-ripple>
@@ -60,14 +70,22 @@
                     <md-input type="number" :value="modalItem.weight" id="weight" name="weight" step="0.1"></md-input>
                     <span class="md-helper-text">La pondération doit être un nombre entre 0 et 1</span>
                 </md-field>
+                <md-field>
+                    <label for="urlRepo">Github url</label>
+                    <md-input name="urlRepo" id="urlRepo" placeholder="Écrivez l'url du repository" :value="modalItem.urlRepo" />
+                </md-field>
+                <md-field>
+                    <label for="urlProject">Projet url</label>
+                    <md-input name="urlProject" id="urlProject" placeholder="Écrivez l'url du projet" :value="modalItem.urlProject" />
+                </md-field>
             </form>
             <div slot="footer">
-                    <md-button @click.prevent="modifyImplementation(modalItem.id)" class="md-raised md-primary">
-                        Sauvegarder les modifications
-                    </md-button>
-                    <md-button @click.prevent="showModifyModal = false" class="md-accent">
-                        Annuler           
-                    </md-button>
+                <md-button @click.prevent="modifyImplementation(modalItem.id)" class="md-raised md-primary">
+                    Sauvegarder les modifications
+                </md-button>
+                <md-button @click.prevent="showModifyModal = false" class="md-accent">
+                    Annuler           
+                </md-button>
             </div>
         </modify>
     </div>
@@ -130,10 +148,12 @@ export default {
         ]),
         modifyImplementation(implementationId){
             let id = implementationId;
-            let weight = parseFloat(document.getElementById("weight").value);
+            let weight = parseFloat(document.getElementById("weight").value),
+                urlProject = document.getElementById("urlProject").value,
+                urlRepo = document.getElementById("urlRepo").value;
             let studentId = this.id
 
-            Bus.$emit('modifyImplementation', { id, weight, studentId });
+            Bus.$emit('modifyImplementation', { id, weight, studentId, urlRepo, urlProject });
 
             // Close the modify modal
             this.showModifyModal = false;
