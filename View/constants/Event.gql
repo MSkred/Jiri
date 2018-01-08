@@ -11,6 +11,7 @@ export const SINGLE_EVENT_QUERY = gql `
                 name
                 implementations(filter: {events_some: {id: $id}}) {
                     id
+                    weight
                     project{
                         id
                         name
@@ -19,6 +20,9 @@ export const SINGLE_EVENT_QUERY = gql `
                         id
                         score
                         comment
+                        implementation{
+                            id
+                        }
                         meeting{
                             id
                             author{
@@ -89,6 +93,12 @@ export const SINGLE_EVENT_QUERY = gql `
                             name
                         }
                     }
+                }
+            }
+            scores{
+                id
+                meeting{
+                    id
                 }
             }
         }

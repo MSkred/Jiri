@@ -1,11 +1,3 @@
-
-<style>
-tr, th, td{
-    width: 200px;
-    background: yellow;
-}
-</style>
-
 <template>
     <div class="wrapper">
         <section class="hero is-link">
@@ -55,6 +47,9 @@ tr, th, td{
                                     <md-card-content>
                                         <p>{{student.email}}</p>
                                     </md-card-content>
+                                    <md-card-actions>
+                                        <md-button @click.prevent="showMeetingModal = true; setModifyData(student)">Voir le student</md-button>
+                                    </md-card-actions>
                                 </md-ripple>
                             </md-card>
                         </router-link>
@@ -98,58 +93,52 @@ tr, th, td{
                 </div>
             </md-tab>
             <md-tab md-label="Tableau des scores">
-                <!-- <table class="scores" v-for="(student, key) in event.students">
-                    <caption>{{student.name}}</caption>
-                    <thead>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th v-for="(meeting, key) in student.meetings">{{meeting.author.name}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(implementation, key) in student.implementations">
-                            <td>{{implementation.project.name}}</td>
-                            <template v-for="meeting in student.meetings">
-                                <template v-for="score in implementation.scores">
-                                <td v-if="meeting.id !== score.meeting.id">ok</td>
-                                <td v-if="meeting.id == score.meeting.id">{{meeting.author.name}}</td>
-
-                                </template>
-                            </template>
-                        </tr>
-                    </tbody>
-                </table> -->
-                <template v-for="(student, key) in event.students">
-                    <b-card :header="student.name">
-                        <table class="table table-hover">
-                            <caption class="sr-only">Résultats de {{student.name}}</caption>
-                            <thead>
-                                <tr class="text-center">
-                                    <th scope="col">&nbsp;</th>
-                                    <th v-for="implementation in student.implementations" :key="implementation.id" scope="col">{{implementation.project.name}}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="user in users" :key="user.id">
-                                    <th scope="row">{{user.name}}</th>
-                                    <td class="text-center" v-for="score in userScores(user.id, student.id)" :key="score.id" v-if="score.score != ''">{{score.score}}</td>
-                                </tr>
-                                <tr class="table-info">
-                                    <th scope="row">évaluations gloables</th>
-                                    <td class="text-center" v-for="implementation in student.implementations" :key="implementation.id" scope="row">
-                                        <strong>{{implementationGlobalScore(implementation)}}</strong>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <!-- <b-badge>Moyenne calculée : {{studentGlobalScore()}}</b-badge> -->
-                    <!-- <b-badge>Moyenne finale : {{studentFinalScore}}</b-badge> -->
-                    </b-card>
-                </template>
 
             </md-tab>
         </md-tabs>
-    </div>
+        <div v-if="showMeetingModal">
+            <md-dialog :md-active.sync="showMeetingModal">
+                <md-dialog-title>Meeting avec {{modalItem.name}}</md-dialog-title>
+                <md-tabs md-dynamic-height >
+                    <md-tab md-label="Tableau">
+                        <template v-if="modalItem">
+                            <b-card :header="modalItem.name">
+                                <table class="table table-hover">
+                                    <caption class="sr-only">Résultats de {{modalItem.name}}</caption>
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th scope="col">&nbsp;</th>
+                                            <th v-for="implementation in modalItem.implementations" :key="implementation.id" scope="col">{{implementation.project.name}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="user in users" :key="user.id">
+                                            <th scope="row">{{user.name}}</th>
+                                                <template v-for="score in userScores(user.id, id)">
+                                                    <td class="text-center" :key="score.id">{{score.score}}</td>
+                                                </template>
+                                        </tr>
+                                        <tr class="table-info">
+                                            <th scope="row">évaluations gloables</th>
+                                            <td class="text-center" v-for="implementation in modalItem.implementations" :key="implementation.id" scope="row">
+                                                <strong>{{implementationGlobalScore(implementation)}}</strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- user Score = scoreID - implementationID - meetingID -->
+                                <b-badge>Moyenne calculée : {{studentGlobalScore()}}</b-badge>
+                            <!-- <b-badge>Moyenne finale : {{studentFinalScore}}</b-badge> -->
+                            </b-card>
+                        </template>
+                    </md-tab>
+                </md-tabs>
+                <md-dialog-actions>
+                    <md-button class="md-primary" @click="showMeetingModal = false">Fermer</md-button>
+                    <md-button class="md-accent" @click="showModifyModal = true; showMeetingModal = false">Modifier</md-button>
+                </md-dialog-actions>
+            </md-dialog>
+        </div>
     </div>
 </template>
 
@@ -157,6 +146,7 @@ tr, th, td{
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
 //import { TABLE_EVENT_QUERY } from '../constants/EventTable.gql'
 //import { TABLE_EVENT_SUBSCRIPTION } from '../constants/EventTableSubscription.gql'
+import {mapGetters, mapMutations} from 'vuex'
 import _ from 'lodash'
 import nanoid from 'nanoid'
 import gql from 'graphql-tag'
@@ -167,6 +157,7 @@ export default {
     data(){
         return{
             event: {},
+            showMeetingModal: false,
         }
     },
     apollo: {
@@ -213,6 +204,9 @@ export default {
         // }
     },
     computed: {
+        ...mapGetters([
+            'modalItem',
+        ]),
         users(){
             let users = [];
             this.event.students.forEach( student => {
@@ -226,14 +220,15 @@ export default {
         }
     },
     methods: {
+        ...mapMutations([
+            'setModifyData'
+        ]),
         userScores(userId, studentId){
             let userScores = [];
-            this.event.students.forEach(student => {
-                student.implementations.forEach(implementation => {
-                    userScores.push(_.filter(implementation.scores, score => {
-                        return score.meeting.author.id === userId && score.meeting.student.id === studentId;
-                    }))
-                });
+            this.modalItem.implementations.forEach(implementation => {
+                userScores.push(_.filter(implementation.scores, score => {
+                    return score.meeting.author.id === userId 
+                }))
             })
             userScores.forEach(score => {
                 if(score.length === 0) {
@@ -243,26 +238,8 @@ export default {
                     }
                 }
             })
-           console.log(_.flatten(userScores))
             return _.flatten(userScores);
         },
-        // studentScores(studentId, userId){
-        //     let studentScores = [];
-        //     this.userScores(userId).forEach(score => {
-        //         studentScores.push(_.filter(score.meeting, () => {
-        //             return score.meeting.student.id === studentId;
-        //         }))
-        //     }); 
-        //     // studentScores.forEach(score => {
-        //     //     if(score.length === 0){
-        //     //         score[0] = {
-        //     //             id: nanoid(),
-        //     //             score: "",
-        //     //         }
-        //     //     }
-        //     // })
-        //   console.log(_.flatten(studentScores))
-        // },
         implementationGlobalScore(implementation) {
             if(implementation.scores[0]) {
                 let globalScore = implementation.scores[0].score;
@@ -276,6 +253,19 @@ export default {
                 return globalScore/denominator
             }
         },
+        studentGlobalScore() {
+            let allGlobalScores = [];
+            this.modalItem.implementations.forEach(implementation => {
+                allGlobalScores.push(this.implementationGlobalScore(implementation)*implementation.weight)
+            })
+            
+            allGlobalScores = _.compact(allGlobalScores)
+            if(!allGlobalScores[0]) {
+                return "Aucun résultat"
+            }
+            return allGlobalScores.reduce(function(a,b){return a+b;});
+        }
+
     }
 }
 </script>

@@ -80,4 +80,9 @@ form
         width: 80%
         margin: 50px auto 
         max-width: 800px
+
+tbody
+    tr
+        &:hover 
+            background: #f8f8f8
 </style>
