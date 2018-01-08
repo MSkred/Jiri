@@ -7,7 +7,7 @@
                         Dashboard
                     </h1>
                     <h2 class="subtitle">
-                        Bonjour {{currentUser.name}} vous êtes connecté en tant <span v-if="currentUser.isAdmin">que administrateur</span><span v-else>qu'utilisateur</span>
+                        Bonjour {{currentUser.name}} vous êtes connecté en tant <span v-if="currentUser.isAdmin">que administrateur.</span><span v-else>qu'utilisateur</span>
                     </h2>
                 </div>
             </div>

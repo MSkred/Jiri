@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar is-link" role="navigation" aria-label="dropdown navigation">
-      <template v-if="userId">
+      <template v-if="userId && currentUser.isAdmin">
         <div class="navbar-start">
           <router-link :to="{name :'home'}" class="navbar-item">Dashboard</router-link>
           <div class="navbar-item has-dropdown is-hoverable">

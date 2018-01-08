@@ -44,7 +44,7 @@ const routes = [
 
     { path: '/addEvent', component: AddEvent, name: 'addEvent', meta: {isAdmin: true} },
     { path: '/editEvent/:id', component: EditEvent, name: 'editEvent', props: true, meta: {isAdmin: true} },
-    { path: '/events', component: Events, name: 'events', meta: {isAdmin: false} },
+    { path: '/events', component: Events, name: 'events', meta: {isAdmin: true} },
     { path: '/event/:id', component: SingleEvent, name: 'event', props: true, meta: {isAdmin: false} },
 
     { path: '/event/:id/addMeeting', component: AddMeeting, name: 'addMeeting', props: true, meta: {isAdmin: false} },
