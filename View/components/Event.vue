@@ -48,7 +48,7 @@
                                         <p>{{student.email}}</p>
                                     </md-card-content>
                                     <md-card-actions>
-                                        <md-button @click.prevent="showMeetingModal = true; setModifyData(student)">Voir les résultats</md-button>
+                                        <md-button @click.prevent="showTableScoresModal = true; setModifyData(student)">Voir les résultats</md-button>
                                     </md-card-actions>
                                 </md-ripple>
                             </md-card>
@@ -92,12 +92,9 @@
                     </div>
                 </div>
             </md-tab>
-            <md-tab md-label="Tableau des scores">
-
-            </md-tab>
         </md-tabs>
-        <div v-if="showMeetingModal">
-            <md-dialog :md-active.sync="showMeetingModal">
+        <div v-if="showTableScoresModal">
+            <md-dialog :md-active.sync="showTableScoresModal">
                 <md-dialog-title>Tableau des scores de {{modalItem.name}}</md-dialog-title>
                 <md-tabs md-dynamic-height >
                     <md-tab md-label="Tableau">
@@ -112,12 +109,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(user, key) in users" :key="user.id" :id="key">
-                                            <th scope="row">{{user.name}}</th>
+                                        <tr v-for="(user, key) in users" :key="user.id" :class="'row'+key">
+                                                <th scope="row">{{user.name}}</th>
                                                 <template v-for="(score, key) in userScores(user.id, id)">
                                                     <td @dblclick="editable = true" v-if="!editable" class="text-center" :key="score.id">{{score.score}}</td>
-                                                    <td v-if="editable" :id="key">
-                                                        <input type="number" :data-id="score.id" :id="key" :value="score.score" name="number">
+                                                    <td v-if="editable" :class="'input'+key">
+                                                        <input type="number" :data-id="score.id" :value="score.score" name="number">
                                                     </td>
                                                 </template>
                                         </tr>
@@ -130,16 +127,15 @@
                                     </tbody>
                                 </table>
                                 <b-badge>Moyenne calculée : {{studentGlobalScore()}}</b-badge>
-                                <b-badge>Moyenne finale : {{studentFinalScore}}</b-badge>
+                                <!-- <b-badge>Moyenne finale : {{studentFinalScore}}</b-badge> -->
                             </b-card>
                         </template>
                     </md-tab>
                 </md-tabs>
                 <md-dialog-actions>
-                    <md-button class="md-primary" @click="showMeetingModal = false">Fermer</md-button>
+                    <md-button class="md-primary" @click="showTableScoresModal = false">Fermer</md-button>
                     <md-button v-if="!editable" class="md-accent" @click="editable = true">Modifier</md-button>
-                    <md-button v-if="editable" class="md-accent" @click="editable = false">Annuler</md-button>
-                    <md-button v-if="editable" class="md-accent" @click="editable = false">Sauvegarder</md-button>
+                    <md-button v-if="editable" class="md-accent" @click="modifyStudentScores()">Sauvegarder</md-button>
                 </md-dialog-actions>
             </md-dialog>
         </div>
@@ -148,8 +144,7 @@
 
 <script>
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
-//import { TABLE_EVENT_QUERY } from '../constants/EventTable.gql'
-//import { TABLE_EVENT_SUBSCRIPTION } from '../constants/EventTableSubscription.gql'
+import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
 import _ from 'lodash'
 import nanoid from 'nanoid'
@@ -161,7 +156,7 @@ export default {
     data(){
         return{
             event: {},
-            showMeetingModal: false,
+            showTableScoresModal: false,
             editable: false,
         }
     },
@@ -241,8 +236,32 @@ export default {
                 return "Aucun résultat"
             }
             return allGlobalScores.reduce(function(a,b){return a+b;});
+        },
+        modifyStudentScores(){
+            let usersLength = this.users.length-1,
+                projectsLength = this.event.projects.length-1,
+                i = 0;
+            while (i <= usersLength) {
+                let y = 0;
+                while (y <= projectsLength) {
+                    var row = document.querySelector(`table.table tbody .row`+i+` .input`+y),
+                        col = row.childNodes[0];
+                        if(col.value != ""){
+                            var id = col.getAttribute('data-id'),
+                                score = parseFloat(col.value);
+                        }else{
+                            score = null;
+                        }
+                        console.log(id, score)
+                        if(score != null){
+                            Bus.$emit('updateScore', {id, score});
+                        }
+                    y++;
+                }
+                i++;
+            }
+            this.showTableScoresModal = false;
         }
-
     }
 }
 </script>
