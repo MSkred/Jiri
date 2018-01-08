@@ -98,7 +98,7 @@ tr, th, td{
                 </div>
             </md-tab>
             <md-tab md-label="Tableau des scores">
-                <table class="scores" v-for="(student, key) in event.students">
+                <!-- <table class="scores" v-for="(student, key) in event.students">
                     <caption>{{student.name}}</caption>
                     <thead>
                         <tr>
@@ -118,7 +118,35 @@ tr, th, td{
                             </template>
                         </tr>
                     </tbody>
-                </table>
+                </table> -->
+                <template v-for="(student, key) in event.students">
+                    <b-card :header="student.name">
+                        <table class="table table-hover">
+                            <caption class="sr-only">Résultats de {{student.name}}</caption>
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col">&nbsp;</th>
+                                    <th v-for="implementation in student.implementations" :key="implementation.id" scope="col">{{implementation.project.name}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="user in users" :key="user.id">
+                                    <th scope="row">{{user.name}}</th>
+                                    <td class="text-center" v-for="score in userScores(user.id, student.id)" :key="score.id" v-if="score.score != ''">{{score.score}}</td>
+                                </tr>
+                                <tr class="table-info">
+                                    <th scope="row">évaluations gloables</th>
+                                    <td class="text-center" v-for="implementation in student.implementations" :key="implementation.id" scope="row">
+                                        <strong>{{implementationGlobalScore(implementation)}}</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <b-badge>Moyenne calculée : {{studentGlobalScore()}}</b-badge> -->
+                    <!-- <b-badge>Moyenne finale : {{studentFinalScore}}</b-badge> -->
+                    </b-card>
+                </template>
+
             </md-tab>
         </md-tabs>
     </div>
@@ -127,8 +155,10 @@ tr, th, td{
 
 <script>
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
-import { TABLE_EVENT_QUERY } from '../constants/EventTable.gql'
-import { TABLE_EVENT_SUBSCRIPTION } from '../constants/EventTableSubscription.gql'
+//import { TABLE_EVENT_QUERY } from '../constants/EventTable.gql'
+//import { TABLE_EVENT_SUBSCRIPTION } from '../constants/EventTableSubscription.gql'
+import _ from 'lodash'
+import nanoid from 'nanoid'
 import gql from 'graphql-tag'
 
 export default {
@@ -137,13 +167,12 @@ export default {
     data(){
         return{
             event: {},
-            tableEvent: {},
         }
     },
     apollo: {
         event: {
             query: SINGLE_EVENT_QUERY,
-            pollInterval: 300,
+            pollInterval: 1000,
             variables() {
                 // Use vue reactive properties
                 return {
@@ -183,5 +212,70 @@ export default {
         //     }
         // }
     },
+    computed: {
+        users(){
+            let users = [];
+            this.event.students.forEach( student => {
+                student.implementations.forEach( implementation => {
+                    implementation.scores.forEach(score => {
+                        users.push(score.meeting.author)
+                    });
+                });
+            });
+            return _.unionBy(users, user => user.id)
+        }
+    },
+    methods: {
+        userScores(userId, studentId){
+            let userScores = [];
+            this.event.students.forEach(student => {
+                student.implementations.forEach(implementation => {
+                    userScores.push(_.filter(implementation.scores, score => {
+                        return score.meeting.author.id === userId && score.meeting.student.id === studentId;
+                    }))
+                });
+            })
+            userScores.forEach(score => {
+                if(score.length === 0) {
+                    score[0] = {
+                        id: nanoid(),
+                        score: "",
+                    }
+                }
+            })
+           console.log(_.flatten(userScores))
+            return _.flatten(userScores);
+        },
+        // studentScores(studentId, userId){
+        //     let studentScores = [];
+        //     this.userScores(userId).forEach(score => {
+        //         studentScores.push(_.filter(score.meeting, () => {
+        //             return score.meeting.student.id === studentId;
+        //         }))
+        //     }); 
+        //     // studentScores.forEach(score => {
+        //     //     if(score.length === 0){
+        //     //         score[0] = {
+        //     //             id: nanoid(),
+        //     //             score: "",
+        //     //         }
+        //     //     }
+        //     // })
+        //   console.log(_.flatten(studentScores))
+        // },
+        implementationGlobalScore(implementation) {
+            if(implementation.scores[0]) {
+                let globalScore = implementation.scores[0].score;
+                let denominator = 1;
+                for (let index = 1; index < implementation.scores.length; index++) {
+                    if(implementation.scores[index].score) {
+                        globalScore = globalScore+implementation.scores[index].score;
+                        denominator++
+                    }
+                }
+                return globalScore/denominator
+            }
+        },
+    }
 }
 </script>

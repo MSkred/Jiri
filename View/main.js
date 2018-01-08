@@ -18,11 +18,14 @@ import 'keen-ui/dist/keen-ui.css';
 // Merge the locales.
 Validator.localize('fr', fr);
 
-
 import VueMaterial from 'vue-material'
+import BootstrapVue from 'bootstrap-vue'
+
+
 // Use this
 Vue.use(VeeValidate, KeenUI)
 Vue.use(VueMaterial)
+Vue.use(BootstrapVue)
 
 
 new Vue({

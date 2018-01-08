@@ -21,6 +21,14 @@ export const SINGLE_EVENT_QUERY = gql `
                         comment
                         meeting{
                             id
+                            author{
+                                id
+                                name
+                            }
+                            student{
+                                id
+                                name
+                            }
                         }
                     }
                 }
