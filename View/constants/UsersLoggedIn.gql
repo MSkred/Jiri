@@ -4,6 +4,7 @@ export const LOGGEDIN_USER_QUERY  = gql`
   query LoggedInUser {
     loggedInUser {
       id
+      isAdmin
     }
   }
 `

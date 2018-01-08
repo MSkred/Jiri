@@ -26,29 +26,29 @@ import { apolloClient } from './apollo'
 
 // Create routes
 const routes = [
-    { path: '/', component: Home, name: 'home' },
+    { path: '/', component: Home, name: 'home', meta: {isAdmin: false} },
 
-    { path: '/addUser', component: AddUser, name: 'addUser' },
-    { path: '/users', component: Users, name: 'users' },
-    { path: '/user/:id', component: User, name: 'user', props: true },
-
-
-    { path: '/addStudent', component: AddStudent, name: 'addStudent' },
-    { path: '/students', component: Students, name: 'students' },
-    { path: '/student/:id', component: Student, name: 'student', props: true },
+    { path: '/addUser', component: AddUser, name: 'addUser', meta: {isAdmin: true} },
+    { path: '/users', component: Users, name: 'users', meta: {isAdmin: true} },
+    { path: '/user/:id', component: User, name: 'user', props: true, meta: {isAdmin: true} },
 
 
-    { path: '/addProject', component: AddProject, name: 'addProject' },
-    { path: '/projects', component: Projects, name: 'projects' },
+    { path: '/addStudent', component: AddStudent, name: 'addStudent', meta: {isAdmin: true} },
+    { path: '/students', component: Students, name: 'students', meta: {isAdmin: true} },
+    { path: '/student/:id', component: Student, name: 'student', props: true, meta: {isAdmin: true} },
 
 
-    { path: '/addEvent', component: AddEvent, name: 'addEvent' },
-    { path: '/editEvent/:id', component: EditEvent, name: 'editEvent', props: true },
-    { path: '/events', component: Events, name: 'events' },
-    { path: '/event/:id', component: SingleEvent, name: 'event', props: true },
+    { path: '/addProject', component: AddProject, name: 'addProject', meta: {isAdmin: true} },
+    { path: '/projects', component: Projects, name: 'projects', meta: {isAdmin: true} },
 
-    { path: '/event/:id/addMeeting', component: AddMeeting, name: 'addMeeting', props: true },
-    { path: '/event/:eventId/meeting/:id/student/:studentId', component: Meeting, name: 'meeting', props: true },
+
+    { path: '/addEvent', component: AddEvent, name: 'addEvent', meta: {isAdmin: true} },
+    { path: '/editEvent/:id', component: EditEvent, name: 'editEvent', props: true, meta: {isAdmin: true} },
+    { path: '/events', component: Events, name: 'events', meta: {isAdmin: false} },
+    { path: '/event/:id', component: SingleEvent, name: 'event', props: true, meta: {isAdmin: false} },
+
+    { path: '/event/:id/addMeeting', component: AddMeeting, name: 'addMeeting', props: true, meta: {isAdmin: false} },
+    { path: '/event/:eventId/meeting/:id/student/:studentId', component: Meeting, name: 'meeting', props: true, meta: {isAdmin: true} },
 
 
     { path: '/login', component: Login, name: 'login' },
@@ -72,13 +72,20 @@ router.beforeEach((to, from, next) => {
         query: LOGGEDIN_USER_QUERY,
         fetchPolicy: 'network-only',
     }).then(data => {
+        if(to.meta.isAdmin === true && data.data.loggedInUser.isAdmin == false) {
+          return next({name: 'home'});
+        }else{
+            next();
+        }
         if (loggedIn(data) === null && to.name !== 'login') {
             console.log('Vous n etes pas connecter')
             return next({ name: 'login' });
         } else if (loggedIn(data) !== null) {
-            console.log('Vous etes connecter')
             store.commit('getUserId', data.data.loggedInUser.id);
-            next();
+            if(data.data.loggedInUser.isAdmin){
+                next();
+                console.log( 'Vous etes connecter en admin')
+            }
         } else {
             next();
         }

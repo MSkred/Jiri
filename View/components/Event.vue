@@ -252,7 +252,6 @@ export default {
                         }else{
                             score = null;
                         }
-                        console.log(id, score)
                         if(score != null){
                             Bus.$emit('updateScore', {id, score});
                         }
