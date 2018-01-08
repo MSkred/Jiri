@@ -114,7 +114,8 @@
                                                 <template v-for="(score, key) in userScores(user.id, id)">
                                                     <td @dblclick="editable = true" v-if="!editable" class="text-center" :key="score.id">{{score.score}}</td>
                                                     <td v-if="editable" :class="'input'+key">
-                                                        <input type="number" :data-id="score.id" :value="score.score" name="number">
+                                                        <input v-if="score.score == ''" disabled type="number" :data-id="score.id" :value="score.score" name="number">
+                                                        <input v-else type="number" :data-id="score.id" :value="score.score" name="number">
                                                     </td>
                                                 </template>
                                         </tr>
