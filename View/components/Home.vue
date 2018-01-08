@@ -87,7 +87,7 @@
                         </md-field>
                     </md-tab>
                 </md-tabs>
-                <md-dialog-actions>
+                <md-dialog-actions class="md-dialog-title md-title">
                     <md-button class="md-primary" @click="showModifyModal = false">Fermer</md-button>
                     <md-button class="md-primary" @click="modifyMeeting(modalItem.id)">Sauvegarder les modifications</md-button>
                 </md-dialog-actions>
@@ -110,7 +110,7 @@
                         <p>{{modalItem.evaluation}}</p>
                     </md-tab>
                 </md-tabs>
-                <md-dialog-actions>
+                <md-dialog-actions class="md-dialog-title md-title">
                     <md-button class="md-primary" @click="showMeetingModal = false">Fermer</md-button>
                     <md-button class="md-accent" @click="showModifyModal = true; showMeetingModal = false">Modifier</md-button>
                 </md-dialog-actions>
@@ -123,14 +123,10 @@
 <script>  
 import { USER_QUERY } from '../constants/User.gql'
 import {mapGetters, mapMutations} from 'vuex'
-import Modify from './Modify.vue';
 import {Bus} from '../Bus'
 
 export default {
   name: 'home',
-    components: {
-        Modify
-    },
   data(){
     return{
         currentUser: {},

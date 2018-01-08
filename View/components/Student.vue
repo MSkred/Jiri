@@ -62,46 +62,48 @@
                 </div>
             </md-tab>
         </md-tabs>
-        <modify v-if="showModifyModal" >
-            <h3 slot="header">Modifier la pondération du projet {{modalItem.project.name}}</h3>
-            <form slot="body">
-                <md-field>
-                    <label for="weight">Pondération du projet</label>
-                    <md-input type="number" :value="modalItem.weight" id="weight" name="weight" step="0.1"></md-input>
-                    <span class="md-helper-text">La pondération doit être un nombre entre 0 et 1</span>
-                </md-field>
-                <md-field>
-                    <label for="urlRepo">Github url</label>
-                    <md-input name="urlRepo" id="urlRepo" placeholder="Écrivez l'url du repository" :value="modalItem.urlRepo" />
-                </md-field>
-                <md-field>
-                    <label for="urlProject">Projet url</label>
-                    <md-input name="urlProject" id="urlProject" placeholder="Écrivez l'url du projet" :value="modalItem.urlProject" />
-                </md-field>
-            </form>
-            <div slot="footer">
+        <md-dialog v-if="showModifyModal" :md-active.sync="showModifyModal" >
+            <md-dialog-title>
+                Modification la pondération du projet {{modalItem.name}}
+            </md-dialog-title>
+            <md-tabs md-dynamic-height>
+                <md-tab md-label="Modifier">
+                    <template>
+                        <md-field>
+                            <label for="weight">Pondération du projet</label>
+                            <md-input type="number" :value="modalItem.weight" id="weight" name="weight" step="0.1"></md-input>
+                            <span class="md-helper-text">La pondération doit être un nombre entre 0 et 1</span>
+                        </md-field>
+                        <md-field>
+                            <label for="urlRepo">Github url</label>
+                            <md-input name="urlRepo" id="urlRepo" placeholder="Écrivez l'url du repository" :value="modalItem.urlRepo" />
+                        </md-field>
+                        <md-field>
+                            <label for="urlProject">Projet url</label>
+                            <md-input name="urlProject" id="urlProject" placeholder="Écrivez l'url du projet" :value="modalItem.urlProject" />
+                        </md-field>
+                    </template>
+                </md-tab>
+            </md-tabs>
+            <md-dialog-actions class="md-dialog-title md-title">
                 <md-button @click.prevent="modifyImplementation(modalItem.id)" class="md-raised md-primary">
                     Sauvegarder les modifications
                 </md-button>
                 <md-button @click.prevent="showModifyModal = false" class="md-accent">
                     Annuler           
                 </md-button>
-            </div>
-        </modify>
+            </md-dialog-actions>
+        </md-dialog>
     </div>
 </template>
 
 <script>
 import {mapGetters,mapMutations} from 'vuex'
-import Modify from './Modify.vue';
 import {Bus} from '../Bus'
 import { STUDENT_QUERY } from '../constants/Student.gql'
 import { USER_QUERY } from '../constants/User.gql'
 export default {
     name: 'student',
-    components: {
-        Modify
-    },
     props: ['id'],
     data(){
         return{

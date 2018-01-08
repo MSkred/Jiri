@@ -48,7 +48,7 @@
                                         <p>{{student.email}}</p>
                                     </md-card-content>
                                     <md-card-actions>
-                                        <md-button @click.prevent="showMeetingModal = true; setModifyData(student)">Voir le student</md-button>
+                                        <md-button @click.prevent="showMeetingModal = true; setModifyData(student)">Voir les résultats</md-button>
                                     </md-card-actions>
                                 </md-ripple>
                             </md-card>
@@ -98,7 +98,7 @@
         </md-tabs>
         <div v-if="showMeetingModal">
             <md-dialog :md-active.sync="showMeetingModal">
-                <md-dialog-title>Meeting avec {{modalItem.name}}</md-dialog-title>
+                <md-dialog-title>Tableau des scores de {{modalItem.name}}</md-dialog-title>
                 <md-tabs md-dynamic-height >
                     <md-tab md-label="Tableau">
                         <template v-if="modalItem">
@@ -112,10 +112,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="user in users" :key="user.id">
+                                        <tr v-for="(user, key) in users" :key="user.id" :id="key">
                                             <th scope="row">{{user.name}}</th>
-                                                <template v-for="score in userScores(user.id, id)">
-                                                    <td class="text-center" :key="score.id">{{score.score}}</td>
+                                                <template v-for="(score, key) in userScores(user.id, id)">
+                                                    <td @dblclick="editable = true" v-if="!editable" class="text-center" :key="score.id">{{score.score}}</td>
+                                                    <td v-if="editable" :id="key">
+                                                        <input type="number" :data-id="score.id" :id="key" :value="score.score" name="number">
+                                                    </td>
                                                 </template>
                                         </tr>
                                         <tr class="table-info">
@@ -126,16 +129,17 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <!-- user Score = scoreID - implementationID - meetingID -->
                                 <b-badge>Moyenne calculée : {{studentGlobalScore()}}</b-badge>
-                            <!-- <b-badge>Moyenne finale : {{studentFinalScore}}</b-badge> -->
+                                <b-badge>Moyenne finale : {{studentFinalScore}}</b-badge>
                             </b-card>
                         </template>
                     </md-tab>
                 </md-tabs>
                 <md-dialog-actions>
                     <md-button class="md-primary" @click="showMeetingModal = false">Fermer</md-button>
-                    <md-button class="md-accent" @click="showModifyModal = true; showMeetingModal = false">Modifier</md-button>
+                    <md-button v-if="!editable" class="md-accent" @click="editable = true">Modifier</md-button>
+                    <md-button v-if="editable" class="md-accent" @click="editable = false">Annuler</md-button>
+                    <md-button v-if="editable" class="md-accent" @click="editable = false">Sauvegarder</md-button>
                 </md-dialog-actions>
             </md-dialog>
         </div>
@@ -158,6 +162,7 @@ export default {
         return{
             event: {},
             showMeetingModal: false,
+            editable: false,
         }
     },
     apollo: {
@@ -174,34 +179,6 @@ export default {
                 return data.allEvents[0]
             }
         },
-        // allScores(){
-        //     let id = this.id;
-        //     return {
-        //         query: gql`
-        //             query allScores($id: ID!){
-        //                 allScores(filter: 
-        //                     {event_every: { id: $id}}) {
-        //                     id
-        //                     score
-        //                     comment
-        //                     implementation{
-        //                         id
-        //                     }
-        //                     meeting{
-        //                         id
-        //                         author{
-        //                             id
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         `,
-        //         pollInterval: 300,
-        //         variables: {
-        //             id
-        //         }
-        //     }
-        // }
     },
     computed: {
         ...mapGetters([

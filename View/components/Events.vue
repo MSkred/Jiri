@@ -36,37 +36,39 @@
                     </md-card>
                 </router-link>
             </div>
-            <desactivate v-if="showDesactivateModal && currentUser.isAdmin" >
-                    <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.courseName}} de {{modalItem.academicYear}}</h3>
-                    <div slot="footer">
-                        <md-button @click.prevent="desactivateEvent(modalItem.id)" class="md-accent">
-                            Désactiver
-                        </md-button>
-                        <md-button @click.prevent="showDesactivateModal = false" class="md-raised md-primary">
-                            Annuler           
-                        </md-button>
-                    </div>
-            </desactivate>  
-            <modify v-if="showModifyModal" >
-                <h3 slot="header">Voullez-vous vraiment modifier {{modalItem.courseName}} de {{modalItem.academicYear}}</h3>
-                <div slot="body">Vous allez être dirigé vers la page de modification d'événement</div>
-                <div slot="footer">
+
+            <md-dialog v-if="showDesactivateModal" :md-active.sync="showDesactivateModal" >
+                <md-dialog-title>
+                    Voullez-vous vraiment désactiver {{modalItem.courseName}} de {{modalItem.academicYear}} ?
+                </md-dialog-title>
+                <md-dialog-action class="md-dialog-title md-title">
+                    <md-button @click.prevent="desactivateEvent(modalItem.id)" class="md-accent">
+                        Désactiver
+                    </md-button>
+                    <md-button @click.prevent="showDesactivateModal = false" class="md-raised md-primary">
+                        Annuler           
+                    </md-button>
+                </md-dialog-action>
+            </md-dialog>
+            <md-dialog v-if="showModifyModal" :md-active.sync="showModifyModal" >
+                <md-dialog-title>
+                    Voullez-vous vraiment modifier {{modalItem.courseName}} de {{modalItem.academicYear}} ?
+                </md-dialog-title>
+                <md-dialog-action class="md-dialog-title md-title">
                     <md-button @click.prevent="editEvent(modalItem.id)" class="md-raised md-primary">
                         Modifier
                     </md-button>
                     <md-button @click.prevent="showModifyModal = false" class="md-accent">
                         Annuler           
                     </md-button>
-                </div>
-            </modify>
+                </md-dialog-action>
+            </md-dialog>
       </div>
   </div>
 </template>
 
 <script>
 import {mapGetters, mapMutations} from 'vuex'
-import Desactivate from './Desactivate.vue';
-import Modify from './Modify.vue';
 
 import {Bus} from '../Bus'
 
@@ -74,10 +76,6 @@ import { USER_QUERY } from '../constants/User.gql'
 import { ALL_EVENT_QUERY } from '../constants/EventsAll.gql'
 export default {
     name: 'events',
-    components: {
-        Desactivate,
-        Modify
-    },
     data(){
         return{
             showDesactivateModal: false,

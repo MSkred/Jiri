@@ -14,7 +14,6 @@
                 </div>
             </div>
         </section>
-        
         <div class="md-layout papa">
             <div class="enfant" v-for="(user, key) in users">
                 <router-link class="contenu" :to="{name: 'user', params: {id: user.id}}" :href="`/user/${user.id}`">
@@ -38,68 +37,65 @@
                     </md-card>
                 </router-link>
             </div>
-            <desactivate v-if="showDesactivateModal" >
-                <h3 slot="header">Voullez-vous vraiment désactiver {{modalItem.name}}</h3>
-                <div slot="footer">
+            <md-dialog v-if="showDesactivateModal" :md-active.sync="showDesactivateModal" >
+                <md-dialog-title>
+                    Voullez-vous vraiment désactiver {{modalItem.name}}
+                </md-dialog-title>
+                <md-dialog-action class="md-dialog-title md-title">
                     <md-button @click.prevent="desactivateUser(modalItem.id)" class="md-accent">
                         Désactiver
                     </md-button>
                     <md-button @click.prevent="showDesactivateModal = false" class="md-raised md-primary">
                         Annuler           
                     </md-button>
-                </div>
-            </desactivate>
-            <modify v-if="showModifyModal" >
-                <h3 slot="header">Modification de {{modalItem.name}}</h3>
-                <form slot="body">
-                    <md-field >
-                        <label for="name">Prénom & nom</label>
-                        <md-input name="name" id="name" placeholder="Écrivez le prénom et nom" :value="modalItem.name" />
-                    </md-field>
-                    <md-field >
-                        <label for="email">Email</label>
-                        <md-input name="email" id="email" type="email" placeholder="Écrivez l'adresse mail" :value="modalItem.email" />
-                    </md-field>
-                    <md-field>
-                        <label for="password">Mot de passe</label>
-                        <md-input name="password" id="password" type="password" placeholder="Écrivez le mot de passe" :value="modalItem.password" />
-                    </md-field>
-                    <md-field >
-                        <label for="company">Entreprise</label>
-                        <md-input name="company" id="company" placeholder="Écrivez l'entreprise" :value="modalItem.company" />
-                    </md-field>
-                </form>
-                <div slot="footer">
+                </md-dialog-action>
+            </md-dialog>
+            <md-dialog v-if="showModifyModal" :md-active.sync="showModifyModal" >
+                <md-dialog-title>
+                    Modification de {{modalItem.name}}
+                </md-dialog-title>
+                <md-tabs md-dynamic-height>
+                    <md-tab md-label="Modifier">
+                        <template>
+                            <md-field >
+                                <label for="name">Prénom & nom</label>
+                                <md-input name="name" id="name" placeholder="Écrivez le prénom et nom" :value="modalItem.name" />
+                            </md-field>
+                            <md-field >
+                                <label for="email">Email</label>
+                                <md-input name="email" id="email" type="email" placeholder="Écrivez l'adresse mail" :value="modalItem.email" />
+                            </md-field>
+                            <md-field>
+                                <label for="password">Mot de passe</label>
+                                <md-input name="password" id="password" type="password" placeholder="Écrivez le mot de passe" :value="modalItem.password" />
+                            </md-field>
+                            <md-field >
+                                <label for="company">Entreprise</label>
+                                <md-input name="company" id="company" placeholder="Écrivez l'entreprise" :value="modalItem.company" />
+                            </md-field>
+                        </template>
+                    </md-tab>
+                </md-tabs>
+                <md-dialog-actions>
                     <md-button @click.prevent="modifyUser(modalItem.id)" class="md-raised md-primary">
                         Sauvegarder les modifications
                     </md-button>
                     <md-button @click.prevent="showModifyModal = false" class="md-accent">
                         Annuler           
                     </md-button>
-                </div>
-            </modify>
+                </md-dialog-actions>
+            </md-dialog>
         </div>
         </div>
-    </div>
 </template>
 
 
 <script>
 import {mapGetters, mapMutations} from 'vuex'
-import Desactivate from './Desactivate.vue';
-import Modify from './Modify.vue';
 import {Bus} from '../Bus'
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
-import { UiAlert, UiButton, UiIcon } from 'keen-ui';
 export default {
     name: 'users',
-    components: {
-        UiAlert,
-        UiButton,
-        UiIcon,
-        Desactivate,
-        Modify,
-    },
     data(){
         return{
             showDesactivateModal: false,
