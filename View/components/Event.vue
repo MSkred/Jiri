@@ -27,7 +27,14 @@
         </ui-alert>
         <md-tabs>
             <md-tab md-label="Jurys">
-                <div class="md-layout papa">
+                <md-empty-state
+                    v-if="event.jurys <= [0]"
+                    md-rounded
+                    md-icon="account_circle"
+                    md-label="Aucun jury"
+                    md-description="Aucun jury participe à cette événement, éditez l'événement pour pouvoir en ajouter.">
+                </md-empty-state>
+                <div v-else class="md-layout papa">
                     <div class="enfant" v-for="(jury, key) in event.jurys">
                         <router-link class="contenu" :to="{name: 'user', params: {id: jury.id}}" :href="`/user/${jury.id}`">
                             <md-card class="md-primary" md-with-hover>
@@ -46,7 +53,14 @@
                 </div>
             </md-tab>
             <md-tab md-label="Étudiants">
-                <div class="md-layout papa">
+                <md-empty-state
+                    v-if="event.students <= [0]"
+                    md-rounded
+                    md-icon="face"
+                    md-label="Aucun étudiant"
+                    md-description="Aucun étudiant participe à cette événement, éditez l'événement pour pouvoir en ajouter.">
+                </md-empty-state>
+                <div v-else class="md-layout papa">
                     <div class="enfant" v-for="(student, key) in event.students" >
                         <router-link class="contenu" :to="{name: 'student', params: {id: student.id}}" :href="`/student/${student.id}`">
                             <!-- successful -->
@@ -103,6 +117,13 @@
                 </div>
             </md-tab>
             <md-tab md-label="Projets">
+                <md-empty-state
+                    v-if="event.projects <= [0]"
+                    md-rounded
+                    md-icon="computer"
+                    md-label="Aucun projet"
+                    md-description="Aucun projet participe à cette événement, éditez l'événement pour pouvoir en ajouter.">
+                </md-empty-state>
                 <div class="md-layout papa">
                     <div v-for="(project, key) in event.projects" class="enfant">
                         <md-card class="md-primary" md-with-hover>
@@ -120,6 +141,13 @@
                 </div>
             </md-tab>
             <md-tab md-label="Meetings">
+                <md-empty-state
+                    v-if="event.meetings <= [0]"
+                    md-rounded
+                    md-icon="people"
+                    md-label="Aucun meeting"
+                    md-description="Aucun meeting n'a encore été valider.">
+                </md-empty-state>
                 <div class="md-layout papa">
                     <div v-for="(meeting, key) in event.meetings" class="enfant">
                         <div class="contenu">

@@ -36,7 +36,7 @@ export const SINGLE_EVENT_QUERY = gql `
                         }
                     }
                 }
-                performances{
+                performances(filter: {event: {id: $id}}){
                     id
                     manualScore
                     calculatedScore

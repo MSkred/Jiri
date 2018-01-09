@@ -427,17 +427,17 @@ export const Bus = new Vue();
                         // Init variable for implementation mutation
                         let weight = 1 / (projectsIds.length),
                             projectId = project,
-                            studentsIds = student,
+                            studentId = student,
                             softDelete = false,
-                            eventId = store.getters.lastAddedId;
+                            eventsIds = store.getters.lastAddedId;
 
                         apolloClient.mutate({
                             mutation: CREATE_IMPLEMENTATIONS_MUTATION,
                             variables: {
                                 softDelete,
-                                eventId,
+                                eventsIds,
                                 projectId,
-                                studentsIds,
+                                studentId,
                                 weight,
                             },
                             update: (cache, { data: { createImplementation } }) => {
