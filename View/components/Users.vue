@@ -122,7 +122,7 @@ export default {
             showDesactivateModal: false,
             showModifyModal: false,
             users: [],
-            isLoading: false,   
+            isLoading: 0,   
         }
     },
     apollo: {
