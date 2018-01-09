@@ -14,7 +14,14 @@
         </section>
         <md-tabs>
             <md-tab md-label="événements">
-                <div class="md-layout papa">
+                <md-empty-state
+                    v-if="student.studentEvents <= [0]"
+                    md-icon="event"
+                    md-label="Aucun événement"
+                    md-description="L'étudiant ne participe à aucun événement."
+                    class="tabsIsEmpty">
+                </md-empty-state>
+                <div v-else class="md-layout papa">
                     <div v-for="(event, key) in student.studentEvents" class="enfant">
                         <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
                             <md-card class="md-primary" md-with-hover>
@@ -30,7 +37,14 @@
                 </div>
             </md-tab>
             <md-tab md-label="implémentations">
-                <div class="md-layout papa">
+                <md-empty-state
+                    v-if="student.implementations <= [0]"
+                    md-icon="computer"
+                    md-label="Aucunne implémentation"
+                    md-description="L'étudiant n'a aucune implémentation."
+                    class="tabsIsEmpty">
+                </md-empty-state>
+                <div v-else class="md-layout papa">
                     <div v-for="(implementation, key) in student.implementations" class="enfant">
                         <md-card class="md-primary" md-with-hover>
                             <md-ripple>

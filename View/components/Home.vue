@@ -14,7 +14,14 @@
         </section>
         <md-tabs>
             <md-tab md-label="Mes événements">
-                <div class="md-layout papa">
+                <md-empty-state
+                    v-if="currentUser.juryEvents <= [0]"
+                    md-icon="event"
+                    md-label="Aucun événement"
+                    md-description="Vous ne participez à aucun événement"
+                    class="tabsIsEmpty">
+                </md-empty-state>
+                <div v-else class="md-layout papa">
                     <div v-for="(event, key) in currentUser.juryEvents" class="enfant">
                         <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
                             <md-card class="md-primary" md-with-hover>
@@ -30,7 +37,14 @@
                 </div>
             </md-tab>
             <md-tab md-label="Mes meetings">
-                <div class="md-layout papa">
+                <md-empty-state
+                    v-if="currentUser.meetings <= [0]"
+                    md-icon="people"
+                    md-label="Aucun meeting"
+                    md-description="Vous n'avez pas encore de meeting."
+                    class="tabsIsEmpty">
+                </md-empty-state>
+                <div v-else class="md-layout papa">
                     <div v-for="(meeting, key) in currentUser.meetings" class="enfant">
                         <div class="contenu">
                             <md-card class="md-primary" md-with-hover>
