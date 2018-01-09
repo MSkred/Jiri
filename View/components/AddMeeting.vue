@@ -12,29 +12,35 @@
                 </div>
             </div>
         </section>
-        <form>
-            <md-field>
-                <label for="students">Sélectionnez un étudiant</label>
-                <md-select name="students" id="students" v-model="studentId">
-                    <md-option v-for="(student, key) in event.students" :value="student.id">{{student.name}}</md-option>
-                </md-select>
-            </md-field>
-            <md-button @click.prevent="startMeeting" class="md-raised md-primary">
-                Commencez le meeting
-            </md-button>
-        </form>
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
+        <template v-else>
+            <form>
+                <md-field>
+                    <label for="students">Sélectionnez un étudiant</label>
+                    <md-select name="students" id="students" v-model="studentId">
+                        <md-option v-for="(student, key) in event.students" :value="student.id">{{student.name}}</md-option>
+                    </md-select>
+                </md-field>
+                <md-button @click.prevent="startMeeting" class="md-raised md-primary">
+                    Commencez le meeting
+                </md-button>
+            </form>
+        </template>
     </div>
 </template>
 
 <script>
+import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
-
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
 import { USER_QUERY } from '../constants/User.gql'
-import {Bus} from '../Bus'
 export default {
     name: 'add-meeting',
     props: ['id'], 
+    components: {
+        ScaleLoader,
+    },
     data(){
         return{
             softDelete: false,
@@ -49,7 +55,6 @@ export default {
         event: {
             query: SINGLE_EVENT_QUERY,
             variables() {
-                // Use vue reactive properties
                 return {
                     id: this.id,
                 }
@@ -61,14 +66,11 @@ export default {
         currentUser: {
         query: USER_QUERY,
             variables() {
-                // Use vue reactive properties
                 return {
                     id: this.userId,
                 }
             },
             update(data){
-                //console.log(data)
-                console.log('User data get done')
                 return data.User
             }
         }
@@ -76,6 +78,7 @@ export default {
     computed: {
         ...mapGetters([
             'userId',
+            'isLoading'
         ])
     },
     methods: {

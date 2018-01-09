@@ -206,6 +206,7 @@ export const Bus = new Vue();
      *  Create Meeting
     *******************/
     Bus.$on('startMeeting', payload => {
+        store.commit('appIsLoading')
         let { studentId, softDelete, authorId, eventId } = payload;
 
         apolloClient.mutate({
@@ -219,15 +220,12 @@ export const Bus = new Vue();
             update: (cache, { data: { createMeeting } }) => {
                 // Get the lastAddedId for meeting creation
                 store.commit('lastAddedId', createMeeting.id)
-
-                console.log(createMeeting)
-                console.log('Meeting creation done')
-
                 // Put meeting data in store
                 store.commit('meeting', createMeeting)
             
                 // Redirection on create meeting view
                 location.assign(`/event/${eventId}/meeting/${store.getters.lastAddedId}/student/${studentId}`);
+                store.commit('appIsDone')
             }
         });
     })
@@ -235,6 +233,7 @@ export const Bus = new Vue();
      *  Create Score
     *******************/
     Bus.$on('createScore', payload => {
+        store.commit('appIsLoading')
         let { meetingId, softDelete, implementationId, comment, score, eventIds  } = payload;
 
         apolloClient.mutate({
@@ -248,8 +247,7 @@ export const Bus = new Vue();
                 eventIds
             },
             update: (cache, { data: { createScore } }) => {
-                console.log(createScore)
-                console.log('Score creation done')
+                store.commit('appIsDone')
             },
         });
     })
@@ -447,6 +445,7 @@ export const Bus = new Vue();
      *  Update Meeting
     *******************/
     Bus.$on('validateMeeting', payload => {
+        store.commit('appIsLoading')
         let { id, comment, evaluation } = payload;
 
         apolloClient.mutate({
@@ -457,8 +456,7 @@ export const Bus = new Vue();
                 evaluation
             },
             update: (cache, { data: { updateMeeting } }) => {
-                console.log(updateMeeting)
-                console.log('Meeting updating done')
+                store.commit('appIsDone')
                 router.push({ name: 'home' });
             },
         })

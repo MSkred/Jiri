@@ -12,66 +12,70 @@
                 </div>
             </div>
         </section>
-        <form @submit.prevent="validateBeforeSubmit">
-            <label for="project">Sélectionnez les projets</label>
-            <md-switch v-for="implementation in meeting.event.implementations" v-model="implementation.meeting" class="md-primary">
-                        {{implementation.project.name}}
-            </md-switch>
-            <!-- Display choosed project -->
-            <div v-for="(implementation, key) in meeting.event.implementations" v-if="implementation.meeting" :key="implementation.id">
-                <h1>{{implementation.project.name}}</h1>
-                <p>{{implementation.project.description}}</p>
-                <a :href="implementation.urlRepo">
-                    <md-button class="md-raised">
-                        Github
-                    </md-button>
-                </a>
-                <a :href="implementation.urlProject">
-                    <md-button class="md-raised">
-                        Siteweb
-                    </md-button>
-                </a>
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
+        <template v-else>
+            <form @submit.prevent="validateBeforeSubmit">
+                <label for="project">Sélectionnez les projets</label>
+                <md-switch v-for="implementation in meeting.event.implementations" v-model="implementation.meeting" class="md-primary">
+                            {{implementation.project.name}}
+                </md-switch>
+                <!-- Display choosed project -->
+                <div v-for="(implementation, key) in meeting.event.implementations" v-if="implementation.meeting" :key="implementation.id">
+                    <h1>{{implementation.project.name}}</h1>
+                    <p>{{implementation.project.description}}</p>
+                    <a :href="implementation.urlRepo">
+                        <md-button class="md-raised">
+                            Github
+                        </md-button>
+                    </a>
+                    <a :href="implementation.urlProject">
+                        <md-button class="md-raised">
+                            Siteweb
+                        </md-button>
+                    </a>
+                    <md-field>
+                        <label for="comment">Commentaire</label>
+                        <md-textarea v-model="implementation.score.comment" md-counter="256" name="comment" id="comment"></md-textarea>
+                    </md-field>
+                    <md-field>
+                        <label for="score">Côte</label>
+                        <md-input type="number" v-model="implementation.score.score" id="score" name="score" step="0.5" min="0" max="20"
+                        data-vv-as="Le champs côte global" 
+                        data-vv-validate-on="blur"
+                        v-validate="'required|min_value:0|max_value:20'"></md-input>
+                        <span class="md-helper-text">La côte golbale doit être un nombre entre 0 et 20</span>
+                    </md-field>
+                </div>
+                <!-- Global comment -->
                 <md-field>
-                    <label for="comment">Commentaire</label>
-                    <md-textarea v-model="implementation.score.comment" md-counter="256" name="comment" id="comment"></md-textarea>
+                    <label for="comment">Commentaire global</label>
+                    <md-textarea v-model="global.comment" md-counter="256" name="comment" id="comment"></md-textarea>
                 </md-field>
                 <md-field>
-                    <label for="score">Côte</label>
-                    <md-input type="number" v-model="implementation.score.score" id="score" name="score" step="0.5" min="0" max="20"
-                    data-vv-as="Le champs côte global" 
-                    data-vv-validate-on="blur"
-                    v-validate="'required|min_value:0|max_value:20'"></md-input>
+                    <label for="score">Côte global</label>
+                    <md-input type="number" v-model="global.score" id="score" name="score" step="0.5" min="0" max="20"
+                        data-vv-as="Le champs côte global" 
+                        data-vv-validate-on="blur"
+                        v-validate="'required|min_value:0|max_value:20'"
+                    ></md-input>
                     <span class="md-helper-text">La côte golbale doit être un nombre entre 0 et 20</span>
                 </md-field>
-            </div>
-            <!-- Global comment -->
-            <md-field>
-                <label for="comment">Commentaire global</label>
-                <md-textarea v-model="global.comment" md-counter="256" name="comment" id="comment"></md-textarea>
-            </md-field>
-            <md-field>
-                <label for="score">Côte global</label>
-                <md-input type="number" v-model="global.score" id="score" name="score" step="0.5" min="0" max="20"
-                    data-vv-as="Le champs côte global" 
-                    data-vv-validate-on="blur"
-                    v-validate="'required|min_value:0|max_value:20'"
-                ></md-input>
-                <span class="md-helper-text">La côte golbale doit être un nombre entre 0 et 20</span>
-            </md-field>
-            <md-button type="submit" class="md-raised md-primary">
-                Valider le meeting
-            </md-button>
-        </form>
+                <md-button type="submit" class="md-raised md-primary">
+                    Valider le meeting
+                </md-button>
+            </form>
+        </template>
     </div>
 </template>
 
 <script>
 
-import { SINGLE_MEETING_QUERY } from '../constants/Meeting.gql'
-import {mapGetters, mapMutations} from 'vuex'
-import { USER_QUERY } from '../constants/User.gql'
 import {Bus} from '../Bus'
 import { store } from '../store'
+import {mapGetters, mapMutations} from 'vuex'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
+import { SINGLE_MEETING_QUERY } from '../constants/Meeting.gql'
+import { USER_QUERY } from '../constants/User.gql'
 export default {
     name: 'Meeting',
     props: [
@@ -79,6 +83,9 @@ export default {
         'eventId',
         'studentId'
     ],
+    components: {
+        ScaleLoader,
+    },
     data(){
         return{
             scores: [],
@@ -95,14 +102,12 @@ export default {
         meeting: {
             query: SINGLE_MEETING_QUERY,
             variables() {
-                // Use vue reactive properties
                 return {
                     id: this.id,
                     eventId: this.eventId
                 }
             },
             update(data){
-                console.log(data)
                 // Added meeting boolean
                 var implementations = [];
                 var newMeeting = [];
@@ -129,16 +134,13 @@ export default {
             }
         },
         currentUser: {
-        query: USER_QUERY,
+            query: USER_QUERY,
             variables() {
-                // Use vue reactive properties
                 return {
                     id: this.userId,
                 }
             },
             update(data){
-                //console.log(data)
-                console.log('User data get done')
                 return data.User
             }
         }
@@ -146,7 +148,8 @@ export default {
     computed: {
         ...mapGetters([
             'lastAddedId',
-            'userId'
+            'userId',
+            'isLoading'
         ])
     },
     methods: {
@@ -183,9 +186,6 @@ export default {
                 let score = parseFloat(scoore.score);
                 let eventIds = this.eventId;
                 Bus.$emit('createScore', {meetingId, softDelete, implementationId, comment, score, eventIds});
-
-                
-                //this.$router.push({name: `event`})
             });
 
             // Update meeting with comment & evaluation
