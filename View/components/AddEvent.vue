@@ -25,7 +25,7 @@
                         label="Nom de l'événement"
                         data-vv-as="Le champs nom de l'événement" 
                         data-vv-validate-on="blur"
-                        v-validate="'required|alpha_spaces|min:5'" 
+                        v-validate="'required|min:5'" 
                         :class="{'is-danger': errors.has('courseName') }"
                     ></ui-textbox>
                     <span v-show="errors.has('courseName')" class="help is-danger">{{ errors.first('courseName') }}</span>
@@ -97,32 +97,28 @@
                         </template>
                 </tab-content>
                 <tab-content title="Validation des informations">
-                    <div class="form-group">
-                                <li>
-                                    Nom: {{courseName}}
-                                </li>
-                                <li>
-                                    Année: {{academicYear}}
-                                </li>
-                                <ul>Jurys:
-                                    <li v-for="(jury, key) in eventJurys">
-                                        {{jury.name}}
-                                    </li>
-                                    <li v-if="eventJurys <= [0]">Pas de jurys</li>
-                                </ul>
-                                <ul>Étudiants:
-                                    <li v-for="(student, key) in eventStudents">
-                                        {{student.name}}
-                                    </li>
-                                    <li v-if="eventStudents <= [0]">Pas d'étudiants</li>
-                                </ul>
-                                <ul>Projects:
-                                    <li v-for="(projet, key) in eventProjects">
-                                        {{projet.name}}
-                                    </li>
-                                    <li v-if="eventProjects <= [0]">Pas de projets</li>
-                                </ul>
-                            </div>
+                        <div class="md-display-1">{{courseName}} de {{academicYear}}</div>
+                        <template v-if="eventJurys > [0]">
+                            <div class="md-title" style="margin-top: 25px;">Les jurys</div>
+                            <div class="md-subheading" v-for="(jury, key) in eventJurys">{{jury.name}}</div>
+                        </template>
+                        <template v-else>
+                            <div class="md-title" style="margin-top: 25px;">Il n'y a pas de jury</div>
+                        </template>
+                        <template v-if="eventStudents > [0]">
+                            <div class="md-title" style="margin-top: 25px;">Les étudiant</div>
+                            <div class="md-subheading" v-for="(student, key) in eventStudents">{{student.name}}</div>
+                        </template>
+                        <template v-else>
+                            <div class="md-title" style="margin-top: 25px;">Il n'y a pas d'étudiant</div>
+                        </template>
+                        <template v-if="eventProjects > [0]">
+                            <div class="md-title" style="margin-top: 25px;">Les Projets</div>
+                            <div class="md-subheading" v-for="(project, key) in eventProjects">{{project.name}}</div>
+                        </template>
+                        <template v-else>
+                            <div class="md-title" style="margin-top: 25px;">Il n'y a pas de projet</div>
+                        </template>
                 </tab-content>
             </form-wizard>
         </template>
