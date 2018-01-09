@@ -15,5 +15,11 @@ export const mutations = {
     },
     setFeedback(state, payload){
         state.feedbackItem = payload;
+    },
+    appIsLoading(state){
+        state.isLoading = true;
+    },
+    appIsDone(state){
+        state.isLoading = false;
     }
 }
