@@ -588,6 +588,7 @@ export const Bus = new Vue();
      *  Authenticate User
     *******************/
     Bus.$on('authentification', payload => {
+        store.commit('appIsLoading')
         let { email, password } = payload;
         apolloClient.mutate({
             mutation: LOGIN_USER_MUTATION,
@@ -600,6 +601,7 @@ export const Bus = new Vue();
                 localStorage.setItem('userToken', authenticateUser.token);
                 localStorage.setItem('userId', authenticateUser.id);
                 router.push({ name: 'home' });
+                store.commit('appIsDone')
             },
         });
     })

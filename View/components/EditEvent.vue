@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import {Bus} from '../Bus'
 
 import { store } from '../store'

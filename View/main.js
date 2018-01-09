@@ -21,7 +21,6 @@ Validator.localize('fr', fr);
 import VueMaterial from 'vue-material'
 import BootstrapVue from 'bootstrap-vue'
 
-
 // Use this
 Vue.use(VeeValidate, KeenUI)
 Vue.use(VueMaterial)
