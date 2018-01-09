@@ -603,5 +603,8 @@ export const Bus = new Vue();
                 router.push({ name: 'home' });
                 store.commit('appIsDone')
             },
+        }).catch(e => {
+            Bus.$emit('loginError', "L'adresse email ou le mot de passe de l'utilisateur est incorrect. Corrigez pour réessayer")
+            store.commit('appIsDone')
         });
     })

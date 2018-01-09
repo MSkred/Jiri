@@ -93,15 +93,6 @@
         </template>
     </div>
 </template>
-<style lang="sass">
-.v-spinner
-
-    box-sizing: border-box;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-</style>
 
 
 <script>

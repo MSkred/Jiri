@@ -12,6 +12,9 @@
                     </div>
                 </div>
             </section>
+            <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
+                {{this.feedbackItem.message}}
+            </ui-alert>
             <form>
                 <md-field >
                     <label for="email">Email</label>
@@ -39,15 +42,6 @@
       </template>
   </div>
 </template>
-<style lang="sass">
-.v-spinner
-
-    box-sizing: border-box;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-</style>
 
 <script>
 
@@ -55,16 +49,23 @@ import { LOGIN_USER_MUTATION } from '../constants/UsersLogin.gql'
 import {Bus} from '../Bus'
 import {mapGetters} from 'vuex'
 import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
+import { UiAlert } from 'keen-ui';
 
 export default {
     name: 'login',
     components: {
         ScaleLoader,
+        UiAlert,
     },
     data(){
         return{
             email: null, 
             password: null,
+            showAlert: false,
+            feedbackItem: {
+                type: "error",
+                message: null,
+            },
         }
     },
     computed: {
@@ -78,5 +79,11 @@ export default {
             Bus.$emit('authentification', {email, password})
         }
     },
+    created(){
+        Bus.$on('loginError', payload => {
+            this.feedbackItem.message = payload;
+            this.showAlert = true;
+        })
+    }
 }
 </script>

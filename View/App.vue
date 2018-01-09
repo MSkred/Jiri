@@ -85,4 +85,11 @@ tbody
     tr
         &:hover 
             background: #f8f8f8
+
+.v-spinner
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 </style>
