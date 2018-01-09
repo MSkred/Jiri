@@ -29,4 +29,9 @@ export const getters = {
     feedbackItem(state) {
         return state.feedbackItem;
     },
+
+    // Data IsLoading
+    isLoading(state){
+        return state.isLoading;
+    } 
 }
