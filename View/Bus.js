@@ -47,6 +47,9 @@ import { UPDATE_MEETING_MUTATION } from './constants/MeetingsUpdate.gql'
 import { CREATE_SCORE_MUTATION } from './constants/ScoresCreate.gql'
 import { UPDATE_SCORE_MUTATION } from './constants/ScoresUpdate.gql'
 
+// Performances query
+import { CREATE_PERFORMANCE_MUTATION } from './constants/PerformanceCreate.gql'
+
 import { create } from 'domain';
 
 export const Bus = new Vue();
@@ -252,6 +255,28 @@ export const Bus = new Vue();
         });
     })
 
+    /*******************
+     *  Create Performance
+    *******************/
+    Bus.$on('createPerformance', payload => {
+        store.commit('appIsLoading')
+        let { calculatedScore, manualScore, studentId, eventId, softDelete } = payload;
+
+        apolloClient.mutate({
+            mutation: CREATE_PERFORMANCE_MUTATION,
+            variables: {
+                calculatedScore,
+                manualScore,
+                studentId,
+                eventId,
+                softDelete
+            },
+            update: (cache, { data: { createPerformance } }) => {
+                console.log(createPerformance)
+                store.commit('appIsDone')
+            }
+        });
+    })
 /*******************
  *   Update
 *******************/

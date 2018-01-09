@@ -1,0 +1,11 @@
+import gql from 'graphql-tag'
+
+export const CREATE_PERFORMANCE_MUTATION = gql `
+    mutation CreatePerformance($studentId: ID!, $eventId: ID!, $manualScore: Float!, $softDelete: Boolean!, $calculatedScore: Float!) {
+        createPerformance(manualScore: $manualScore, studentId: $studentId, eventId: $eventId, softDelete: $softDelete, calculatedScore: $calculatedScore) {
+            id
+            manualScore
+            calculatedScore
+        }
+    }
+`;

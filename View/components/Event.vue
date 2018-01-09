@@ -126,9 +126,13 @@
                                             </td>
                                         </tr>
                                     </tbody>
+
                                 </table>
-                                <b-badge>Moyenne calculée : {{studentGlobalScore()}}</b-badge>
-                                <!-- <b-badge>Moyenne finale : {{studentFinalScore}}</b-badge> -->
+                                <div>
+                                    <md-button class="md-primary">Moyenne calculée : {{studentGlobalScore()}}</md-button>
+                                    <md-button v-if="!finaleScoreEditable" class="md-raised md-accent" @click="finaleScoreEditable = true">Valider la moyenne finale : {{studentGlobalScore()}} </md-button>
+                                </div>
+                                
                             </b-card>
                         </template>
                     </md-tab>
@@ -139,26 +143,51 @@
                     <md-button v-if="editable" class="md-accent" @click="modifyStudentScores()">Sauvegarder</md-button>
                 </md-dialog-actions>
             </md-dialog>
+            <scale-loader v-if="isLoading" color="#448aff" ></scale-loader>
+            <div v-if="finaleScoreEditable">
+                <md-dialog :md-active.sync="finaleScoreEditable">
+                    <md-dialog-title>Modifier la côte final de {{modalItem.name}}</md-dialog-title>
+
+                <template>
+                    <md-tabs md-dynamic-height >
+                        <md-tab md-label="Moyenne finale">
+                        <md-field v-if="finaleScoreEditable" class="final">
+                                <label for="company">Moyenne finale</label>
+                                <md-input id="final" @keyup.prevent.enter="finaleScoreEditable = false;" type="number" :value="studentGlobalScore()" max="20" min="0" step="0.5"></md-input>
+                            </md-field>
+                        </md-tab>
+                    </md-tabs>
+                </template>
+                <md-dialog-actions class="md-dialog-title md-title">
+                    <md-button class="md-primary" @click="finaleScoreEditable = false">Fermer</md-button>
+                    <md-button class="md-accent" @click="finaleScoreEditable = false; createPerformance()">Valider</md-button>
+                </md-dialog-actions>
+                </md-dialog>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
+import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 import _ from 'lodash'
 import nanoid from 'nanoid'
-import gql from 'graphql-tag'
 
 export default {
     name: 'SingleEvent',
     props: ['id'],
+    components: {
+        ScaleLoader,
+    },
     data(){
         return{
             event: {},
             showTableScoresModal: false,
             editable: false,
+            finaleScoreEditable: false,
         }
     },
     apollo: {
@@ -179,6 +208,7 @@ export default {
     computed: {
         ...mapGetters([
             'modalItem',
+            'isLoading'
         ]),
         users(){
             let users = [];
@@ -196,6 +226,20 @@ export default {
         ...mapMutations([
             'setModifyData'
         ]),
+        createPerformance(){
+            let calculatedScore = parseFloat(this.studentGlobalScore()),
+                manualScore = parseFloat(document.getElementById('final').value),
+                studentId = this.modalItem.id,
+                eventId = this.id,
+                softDelete = false;
+                console.log(calculatedScore, manualScore, studentId, eventId, softDelete)
+            
+            Bus.$emit('createPerformance', { calculatedScore, manualScore, studentId, eventId, softDelete });
+
+            if(this.isLoading == false){
+                this.finaleScoreEditable = false;
+            }
+        },
         userScores(userId, studentId){
             let userScores = [];
             this.modalItem.implementations.forEach(implementation => {
