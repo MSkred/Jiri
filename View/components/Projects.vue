@@ -8,12 +8,22 @@
                     </h1>
                     <h2 class="subtitle">
                         <router-link :to="{name: 'addProject'}" :href="`/addProject`">
-                            <md-button class="md-raised">Créer un projet</md-button>
+                            <md-button class="md-raised">Ajouter un projet</md-button>
                         </router-link>
                     </h2>
                 </div>
             </div>
         </section>
+        <md-empty-state
+            v-if="allProjects <= [0]"
+            md-icon="computer"
+            md-label="Aucun projet"
+            md-description="Aucun projet n'a encore été ajouter."
+            class="tabsIsEmpty">
+            <router-link :to="{name: 'addProject'}" :href="`/addProject`">
+                <md-button class="md-raised md-primary">Ajouter un projet</md-button>
+            </router-link>
+        </md-empty-state>
         <div class="md-layout papa">
             <div v-for="(project, key) in allProjects" class="enfant">
                 <md-card class="md-primary" md-with-hover>

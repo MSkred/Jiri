@@ -92,4 +92,7 @@ tbody
     display: flex;
     align-items: center;
     justify-content: center;
+
+.tabsIsEmpty  
+    margin-top: 50px;
 </style>

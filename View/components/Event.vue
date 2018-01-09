@@ -124,7 +124,7 @@
                     md-label="Aucun projet"
                     md-description="Aucun projet participe à cette événement, éditez l'événement pour pouvoir en ajouter.">
                 </md-empty-state>
-                <div class="md-layout papa">
+                <div v-else class="md-layout papa">
                     <div v-for="(project, key) in event.projects" class="enfant">
                         <md-card class="md-primary" md-with-hover>
                             <md-ripple>
@@ -148,7 +148,7 @@
                     md-label="Aucun meeting"
                     md-description="Aucun meeting n'a encore été valider.">
                 </md-empty-state>
-                <div class="md-layout papa">
+                <div v-else class="md-layout papa">
                     <div v-for="(meeting, key) in event.meetings" class="enfant">
                         <div class="contenu">
                             <md-card class="md-primary" md-with-hover>
