@@ -45,7 +45,8 @@
                                         <div class="md-title">{{student.name}}</div>
                                     </md-card-header>
                                     <md-card-content>
-                                        <p>{{student.email}}</p>
+                                        <p v-if="student.performances <= [0]"> <ui-icon icon="warning"></ui-icon> La côte final non validé</p>
+                                        <p v-else> <ui-icon icon="check_circle"></ui-icon> Moyenne manuelle: {{student.performances[0].manualScore}}</p>
                                     </md-card-content>
                                     <md-card-actions>
                                         <md-button @click.prevent="showTableScoresModal = true; setModifyData(student)">Voir les résultats</md-button>
@@ -130,7 +131,8 @@
                                 </table>
                                 <div>
                                     <md-button class="md-primary">Moyenne calculée : {{studentGlobalScore()}}</md-button>
-                                    <md-button v-if="!finaleScoreEditable" class="md-raised md-accent" @click="finaleScoreEditable = true">Valider la moyenne finale : {{studentGlobalScore()}} </md-button>
+                                    <md-button v-if="!finaleScoreEditable && modalItem.performances <= [0]" class="md-raised md-accent" @click="finaleScoreEditable = true">Valider la moyenne finale</md-button>
+                                    <md-button v-if="modalItem.performances > [0]" class="md-accent">Moyenne finale: {{modalItem.performances[0].manualScore}}</md-button>
                                 </div>
                                 
                             </b-card>
@@ -143,7 +145,6 @@
                     <md-button v-if="editable" class="md-accent" @click="modifyStudentScores()">Sauvegarder</md-button>
                 </md-dialog-actions>
             </md-dialog>
-            <scale-loader v-if="isLoading" color="#448aff" ></scale-loader>
             <div v-if="finaleScoreEditable">
                 <md-dialog :md-active.sync="finaleScoreEditable">
                     <md-dialog-title>Modifier la côte final de {{modalItem.name}}</md-dialog-title>
@@ -172,7 +173,7 @@
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
-import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
+import { UiIcon } from 'keen-ui';
 import _ from 'lodash'
 import nanoid from 'nanoid'
 
@@ -180,7 +181,7 @@ export default {
     name: 'SingleEvent',
     props: ['id'],
     components: {
-        ScaleLoader,
+        UiIcon,
     },
     data(){
         return{
@@ -208,7 +209,6 @@ export default {
     computed: {
         ...mapGetters([
             'modalItem',
-            'isLoading'
         ]),
         users(){
             let users = [];
@@ -236,9 +236,8 @@ export default {
             
             Bus.$emit('createPerformance', { calculatedScore, manualScore, studentId, eventId, softDelete });
 
-            if(this.isLoading == false){
-                this.finaleScoreEditable = false;
-            }
+            this.finaleScoreEditable = false;
+            this.showTableScoresModal = false;
         },
         userScores(userId, studentId){
             let userScores = [];

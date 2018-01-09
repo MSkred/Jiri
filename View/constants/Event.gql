@@ -36,6 +36,11 @@ export const SINGLE_EVENT_QUERY = gql `
                         }
                     }
                 }
+                performances{
+                    id
+                    manualScore
+                    calculatedScore
+                }
                 meetings(filter: {event: {id: $id}}) {
                     id
                     author{
