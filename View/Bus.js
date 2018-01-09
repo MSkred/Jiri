@@ -272,7 +272,6 @@ export const Bus = new Vue();
                 softDelete
             },
             update: (cache, { data: { createPerformance } }) => {
-                console.log(createPerformance)
                 store.commit('appIsDone')
             }
         });

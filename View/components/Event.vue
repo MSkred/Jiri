@@ -22,6 +22,9 @@
                 </div>
             </div>
         </section>
+        <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
+            {{this.feedbackItem.message}}
+        </ui-alert>
         <md-tabs>
             <md-tab md-label="Jurys">
                 <div class="md-layout papa">
@@ -142,9 +145,8 @@
                 <md-tabs md-dynamic-height >
                     <md-tab md-label="Tableau">
                         <template v-if="modalItem">
-                            <b-card :header="modalItem.name">
+                            <b-card>
                                 <table class="table table-hover">
-                                    <caption class="sr-only">Résultats de {{modalItem.name}}</caption>
                                     <thead>
                                         <tr class="text-center">
                                             <th scope="col">&nbsp;</th>
@@ -155,7 +157,7 @@
                                         <tr v-for="(user, key) in users" :key="user.id" :class="'row'+key">
                                                 <th scope="row">{{user.name}}</th>
                                                 <template v-for="(score, key) in userScores(user.id, id)">
-                                                    <td @dblclick="editable = true" v-if="!editable" class="text-center" :key="score.id">{{score.score}}</td>
+                                                    <td v-if="!editable" class="text-center" :key="score.id">{{score.score}}</td>
                                                     <td v-if="editable" :class="'input'+key">
                                                         <input v-if="score.score == ''" disabled type="number" :data-id="score.id" :value="score.score" name="number">
                                                         <input v-else type="number" :data-id="score.id" :value="score.score" name="number">
@@ -163,7 +165,7 @@
                                                 </template>
                                         </tr>
                                         <tr class="table-info">
-                                            <th scope="row">évaluations gloables</th>
+                                            <th scope="row">Côtes gloables</th>
                                             <td class="text-center" v-for="implementation in modalItem.implementations" :key="implementation.id" scope="row">
                                                 <strong>{{implementationGlobalScore(implementation)}}</strong>
                                             </td>
@@ -182,9 +184,9 @@
                     </md-tab>
                 </md-tabs>
                 <md-dialog-actions>
-                    <md-button class="md-primary" @click="showTableScoresModal = false">Fermer</md-button>
-                    <md-button v-if="!editable" class="md-accent" @click="editable = true">Modifier</md-button>
-                    <md-button v-if="editable" class="md-accent" @click="modifyStudentScores()">Sauvegarder</md-button>
+                    <md-button class="md-primary" @click="showTableScoresModal = false; editable = false">Fermer</md-button>
+                    <md-button v-if="!editable && modalItem.performances <= [0]" class="md-accent" @click="editable = true">Modifier</md-button>
+                    <md-button v-if="editable" class="md-accent" @click="modifyStudentScores(); editable = false">Sauvegarder</md-button>
                 </md-dialog-actions>
             </md-dialog>
             <div v-if="finaleScoreEditable">
@@ -215,7 +217,7 @@
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
-import { UiIcon } from 'keen-ui';
+import { UiIcon, UiAlert } from 'keen-ui';
 import _ from 'lodash'
 import nanoid from 'nanoid'
 
@@ -224,6 +226,7 @@ export default {
     props: ['id'],
     components: {
         UiIcon,
+        UiAlert
     },
     data(){
         return{
@@ -231,6 +234,7 @@ export default {
             showTableScoresModal: false,
             editable: false,
             finaleScoreEditable: false,
+            showAlert: false,
         }
     },
     apollo: {
@@ -251,6 +255,7 @@ export default {
     computed: {
         ...mapGetters([
             'modalItem',
+            'feedbackItem',
         ]),
         users(){
             let users = [];
@@ -266,7 +271,8 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'setModifyData'
+            'setModifyData',
+            'setFeedback',
         ]),
         createPerformance(){
             let calculatedScore = parseFloat(this.studentGlobalScore()),
@@ -278,8 +284,18 @@ export default {
             
             Bus.$emit('createPerformance', { calculatedScore, manualScore, studentId, eventId, softDelete });
 
+            // Create feedback
+            this.feedback = {
+                type: 'success',
+                message: `La côte finale de ${this.modalItem.name} à bien été validée. Elle est de ${manualScore} sur 20.`,
+            }
+            
+            // Set feedback
+            this.setFeedback(this.feedback);
+
             this.finaleScoreEditable = false;
             this.showTableScoresModal = false;
+            this.showAlert = true;
         },
         userScores(userId, studentId){
             let userScores = [];
