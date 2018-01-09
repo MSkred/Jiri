@@ -11,13 +11,23 @@
                             </h1>
                             <h2 class="subtitle">
                                 <router-link :to="{name: 'addStudent'}" :href="`/addStudent`">
-                                    <md-button class="md-raised">Créer un étudiant</md-button>
+                                    <md-button class="md-raised">Ajouter un étudiant</md-button>
                                 </router-link>
                             </h2>
                         </div>
                     </div>
                 </section>
-                <div class="md-layout papa">
+                <md-empty-state
+                    v-if="allStudents <= [0]"
+                    md-icon="face"
+                    md-label="Aucun étudiant"
+                    md-description="Aucun étudiant n'a encore été ajouter."
+                    class="tabsIsEmpty">
+                    <router-link :to="{name: 'addStudent'}" :href="`/addStudent`">
+                        <md-button class="md-raised md-primary">Ajouter un étudiant</md-button>
+                    </router-link>
+                </md-empty-state>
+                <div v-else class="md-layout papa">
                         <div class="enfant" v-for="(student, key) in allStudents" >
                             <router-link class="contenu" :to="{name: 'student', params: {id: student.id}}" :href="`/student/${student.id}`">
                                 <md-card class="md-primary" md-with-hover>
