@@ -1,3 +1,10 @@
+<style lang="sass" scoped>
+.successful
+    background: #009688 !important
+.missed
+    background: #F44336 !important
+</style>
+
 <template>
     <div class="wrapper">
         <section class="hero is-link">
@@ -39,7 +46,42 @@
                 <div class="md-layout papa">
                     <div class="enfant" v-for="(student, key) in event.students" >
                         <router-link class="contenu" :to="{name: 'student', params: {id: student.id}}" :href="`/student/${student.id}`">
-                            <md-card class="md-primary" md-with-hover>
+                            <!-- successful -->
+                            <template v-if="student.performances >= [1] && parseFloat(student.performances[0].manualScore) >= parseFloat(10)">
+                                <md-card  class="md-primary successful" md-with-hover>
+                                    <md-ripple>
+                                        <md-card-header>
+                                            <div class="md-title">{{student.name}}</div>
+                                        </md-card-header>
+                                        <md-card-content>
+                                            <p v-if="student.performances <= [0]"> <ui-icon icon="warning"></ui-icon> La côte final non validé</p>
+                                            <p v-else> <ui-icon icon="check_circle"></ui-icon> Moyenne manuelle: {{student.performances[0].manualScore}}</p>
+                                        </md-card-content>
+                                        <md-card-actions>
+                                            <md-button @click.prevent="showTableScoresModal = true; setModifyData(student)">Voir les résultats</md-button>
+                                        </md-card-actions>
+                                    </md-ripple>
+                                </md-card>
+                            </template>
+                            <!-- missed -->
+                            <template v-if="student.performances >= [1] && student.performances[0].manualScore <= 10">
+                                <md-card  class="md-primary missed" md-with-hover>
+                                    <md-ripple>
+                                        <md-card-header>
+                                            <div class="md-title">{{student.name}}</div>
+                                        </md-card-header>
+                                        <md-card-content>
+                                            <p v-if="student.performances <= [0]"> <ui-icon icon="warning"></ui-icon> La côte final non validé</p>
+                                            <p v-else> <ui-icon icon="check_circle"></ui-icon> Moyenne manuelle: {{student.performances[0].manualScore}}</p>
+                                        </md-card-content>
+                                        <md-card-actions>
+                                            <md-button @click.prevent="showTableScoresModal = true; setModifyData(student)">Voir les résultats</md-button>
+                                        </md-card-actions>
+                                    </md-ripple>
+                                </md-card>
+                            </template>
+                            <!-- normal -->
+                            <md-card v-if="student.performances <= [0]" class="md-primary" md-with-hover>
                                 <md-ripple>
                                     <md-card-header>
                                         <div class="md-title">{{student.name}}</div>
@@ -308,3 +350,4 @@ export default {
     }
 }
 </script>
+
