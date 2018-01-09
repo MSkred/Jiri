@@ -136,6 +136,7 @@ export const Bus = new Vue();
      *  Create Event
     *******************/
     Bus.$on('createEvent', payload => {
+        store.commit('appIsLoading')
         let { courseName, academicYear, softDelete, authorId, jurysIds, studentsIds, projectsIds } = payload;
 
         apolloClient.mutate({
@@ -192,6 +193,7 @@ export const Bus = new Vue();
                     });
                 });
                 router.push({ name: 'events' });
+                store.commit('appIsDone')
             },
             refetchQueries: [
                 {

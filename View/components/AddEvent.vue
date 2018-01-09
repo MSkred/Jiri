@@ -10,119 +10,122 @@
                 </div>
             </div>
         </section>
-        <form-wizard 
-            :title="null" 
-            :subtitle="null" 
-            :finishButtonText="`Créez l'événement`"
-            :nextButtonText="`Suivant`"
-            :backButtonText="`Précédent`"
-            :color="`#3273dc`"
-            @on-complete="validateBeforeSubmit">
-            <tab-content title="Nom & année">
-                <ui-textbox v-model="courseName" name="courseName" id="courseName"
-                    label="Nom de l'événement"
-                    data-vv-as="Le champs nom de l'événement" 
-                    data-vv-validate-on="blur"
-                    v-validate="'required|alpha_spaces|min:5'" 
-                    :class="{'is-danger': errors.has('courseName') }"
-                ></ui-textbox>
-                <span v-show="errors.has('courseName')" class="help is-danger">{{ errors.first('courseName') }}</span>
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
+        <template v-else>
+            <form-wizard 
+                :title="null" 
+                :subtitle="null" 
+                :finishButtonText="`Créez l'événement`"
+                :nextButtonText="`Suivant`"
+                :backButtonText="`Précédent`"
+                :color="`#3273dc`"
+                @on-complete="validateBeforeSubmit">
+                <tab-content title="Nom & année">
+                    <ui-textbox v-model="courseName" name="courseName" id="courseName"
+                        label="Nom de l'événement"
+                        data-vv-as="Le champs nom de l'événement" 
+                        data-vv-validate-on="blur"
+                        v-validate="'required|alpha_spaces|min:5'" 
+                        :class="{'is-danger': errors.has('courseName') }"
+                    ></ui-textbox>
+                    <span v-show="errors.has('courseName')" class="help is-danger">{{ errors.first('courseName') }}</span>
 
-                <ui-select v-model="academicYear"
-                    label="L'année académique"
-                    placeholder="Sélectionnez l'année académique"
-                    :options="yearsStrings"
-                ></ui-select>
-            </tab-content>
-            <tab-content title="Ajout des jurys">
-                    <label for="jury">Sélectionnez les projets</label>
-                    <template v-for="(jury, key) in jurys">
-                        <!--Add jury -->
-                        <ui-switch 
-                            :value="jury.id" :key="jury.id"
-                            v-if="!jury.event"
-                            @change="addJury(key)"
-                            v-model="jury.event"
-                        >{{jury.name}}</ui-switch>
+                    <ui-select v-model="academicYear"
+                        label="L'année académique"
+                        placeholder="Sélectionnez l'année académique"
+                        :options="yearsStrings"
+                    ></ui-select>
+                </tab-content>
+                <tab-content title="Ajout des jurys">
+                        <label for="jury">Sélectionnez les projets</label>
+                        <template v-for="(jury, key) in jurys">
+                            <!--Add jury -->
+                            <ui-switch 
+                                :value="jury.id" :key="jury.id"
+                                v-if="!jury.event"
+                                @change="addJury(key)"
+                                v-model="jury.event"
+                            >{{jury.name}}</ui-switch>
 
-                        <!--Remove jury -->
-                        <ui-switch 
-                            :value="jury.id" :key="jury.id"
-                            v-if="jury.event"
-                            @change="removeJury(key)"
-                            v-model="jury.event"
-                        >{{jury.name}}</ui-switch>
-                    </template>
-            </tab-content>
-            <tab-content title="Ajout des étudiants">
-                    <label for="jury">Sélectionnez les étudiants</label>
-                    <template v-for="(student, key) in students">
-                        <!--Add student -->
-                        <ui-switch 
-                            :value="student.id" :key="student.id"
-                            v-if="!student.event"
-                            @change="addStudent(key)"
-                            v-model="student.event"
-                        >{{student.name}}</ui-switch>
+                            <!--Remove jury -->
+                            <ui-switch 
+                                :value="jury.id" :key="jury.id"
+                                v-if="jury.event"
+                                @change="removeJury(key)"
+                                v-model="jury.event"
+                            >{{jury.name}}</ui-switch>
+                        </template>
+                </tab-content>
+                <tab-content title="Ajout des étudiants">
+                        <label for="jury">Sélectionnez les étudiants</label>
+                        <template v-for="(student, key) in students">
+                            <!--Add student -->
+                            <ui-switch 
+                                :value="student.id" :key="student.id"
+                                v-if="!student.event"
+                                @change="addStudent(key)"
+                                v-model="student.event"
+                            >{{student.name}}</ui-switch>
 
-                        <!--Remove student -->
-                        <ui-switch 
-                            :value="student.id" :key="student.id"
-                            v-if="student.event"
-                            @change="removeStudent(key)"
-                            v-model="student.event"
-                        >{{student.name}}</ui-switch>
-                    </template>
-            </tab-content>
-            <tab-content title="Ajout des projets">
-                    <label for="jury">Sélectionnez les projets</label>
-                    <template v-for="(project, key) in projects">
-                        <!--Add project -->
-                        <ui-switch 
-                            :value="project.id" :key="project.id"
-                            v-if="!project.event"
-                            @change="addProject(key)"
-                            v-model="project.event"
-                        >{{project.name}}</ui-switch>
+                            <!--Remove student -->
+                            <ui-switch 
+                                :value="student.id" :key="student.id"
+                                v-if="student.event"
+                                @change="removeStudent(key)"
+                                v-model="student.event"
+                            >{{student.name}}</ui-switch>
+                        </template>
+                </tab-content>
+                <tab-content title="Ajout des projets">
+                        <label for="jury">Sélectionnez les projets</label>
+                        <template v-for="(project, key) in projects">
+                            <!--Add project -->
+                            <ui-switch 
+                                :value="project.id" :key="project.id"
+                                v-if="!project.event"
+                                @change="addProject(key)"
+                                v-model="project.event"
+                            >{{project.name}}</ui-switch>
 
-                        <!--Remove project -->
-                        <ui-switch 
-                            :value="project.id" :key="project.id"
-                            v-if="project.event"
-                            @change="removeProject(key)"
-                            v-model="project.event"
-                        >{{project.name}}</ui-switch>
-                    </template>
-            </tab-content>
-            <tab-content title="Validation des informations">
-                <div class="form-group">
-                            <li>
-                                Nom: {{courseName}}
-                            </li>
-                            <li>
-                                Année: {{academicYear}}
-                            </li>
-                            <ul>Jurys:
-                                <li v-for="(jury, key) in eventJurys">
-                                    {{jury.name}}
+                            <!--Remove project -->
+                            <ui-switch 
+                                :value="project.id" :key="project.id"
+                                v-if="project.event"
+                                @change="removeProject(key)"
+                                v-model="project.event"
+                            >{{project.name}}</ui-switch>
+                        </template>
+                </tab-content>
+                <tab-content title="Validation des informations">
+                    <div class="form-group">
+                                <li>
+                                    Nom: {{courseName}}
                                 </li>
-                                <li v-if="eventJurys <= [0]">Pas de jurys</li>
-                            </ul>
-                            <ul>Étudiants:
-                                <li v-for="(student, key) in eventStudents">
-                                    {{student.name}}
+                                <li>
+                                    Année: {{academicYear}}
                                 </li>
-                                <li v-if="eventStudents <= [0]">Pas d'étudiants</li>
-                            </ul>
-                            <ul>Projects:
-                                <li v-for="(projet, key) in eventProjects">
-                                    {{projet.name}}
-                                </li>
-                                <li v-if="eventProjects <= [0]">Pas de projets</li>
-                            </ul>
-                        </div>
-            </tab-content>
-        </form-wizard>
+                                <ul>Jurys:
+                                    <li v-for="(jury, key) in eventJurys">
+                                        {{jury.name}}
+                                    </li>
+                                    <li v-if="eventJurys <= [0]">Pas de jurys</li>
+                                </ul>
+                                <ul>Étudiants:
+                                    <li v-for="(student, key) in eventStudents">
+                                        {{student.name}}
+                                    </li>
+                                    <li v-if="eventStudents <= [0]">Pas d'étudiants</li>
+                                </ul>
+                                <ul>Projects:
+                                    <li v-for="(projet, key) in eventProjects">
+                                        {{projet.name}}
+                                    </li>
+                                    <li v-if="eventProjects <= [0]">Pas de projets</li>
+                                </ul>
+                            </div>
+                </tab-content>
+            </form-wizard>
+        </template>
       </div>
   </div>
 </template>
@@ -136,7 +139,7 @@ import { store } from '../store'
 import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
 import { ALL_STUDENT_QUERY } from '../constants/StudentsAll.gql'
 import { ALL_PROJECT_QUERY } from '../constants/ProjectsAll.gql'
-
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 
 import {FormWizard, TabContent} from 'vue-form-wizard'
 import { UiAlert, UiTextbox, UiSelect, UiSwitch } from 'keen-ui';
@@ -148,7 +151,8 @@ export default {
         UiAlert,
         UiTextbox,
         UiSelect,
-        UiSwitch
+        UiSwitch,
+        ScaleLoader,
     },
     data(){
         return{
@@ -219,7 +223,8 @@ export default {
             'eventStudents',
             'eventProjects',
             'userId',
-            'feedbackItem'
+            'feedbackItem',
+            'isLoading'
         ]),
     },
     methods: {
