@@ -138,12 +138,16 @@
 
 
 <script>  
-import { USER_QUERY } from '../constants/User.gql'
-import {mapGetters, mapMutations} from 'vuex'
 import {Bus} from '../Bus'
+import {mapGetters, mapMutations} from 'vuex'
+import { USER_QUERY } from '../constants/User.gql'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 
 export default {
   name: 'home',
+    components: {
+        ScaleLoader,
+    },
   data(){
     return{
         currentUser: {},
