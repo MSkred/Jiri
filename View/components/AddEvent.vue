@@ -173,6 +173,7 @@ export default {
                 '2020 - 2021',
                 '2021 - 2022',
             ],
+            isLoading: 0,
         }
     },
     apollo: {
@@ -186,7 +187,7 @@ export default {
                     newJury.push( {id: id, name: name, event: false} )
                 } )
                 return newJury
-            }
+            },
         },
         students: {
             query: ALL_STUDENT_QUERY,
@@ -198,7 +199,7 @@ export default {
                     newStudents.push( {id: id, name: name, event: false} )
                 } )
                 return newStudents
-            }
+            },
         },
         projects: {
             query: ALL_PROJECT_QUERY,
@@ -210,7 +211,8 @@ export default {
                     newProjects.push( {id: id, name: name, event: false} )
                 } )
                 return newProjects
-            }
+            },
+            loadingKey: 'isLoading',
         },
     },
     computed:{

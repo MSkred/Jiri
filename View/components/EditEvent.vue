@@ -10,7 +10,9 @@
                 </div>
             </div>
         </section>
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
         <form-wizard 
+            v-else
             :title="null" 
             :subtitle="null" 
             :finishButtonText="`Sauvegarder les`"
@@ -137,6 +139,7 @@ import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
 
 import {FormWizard, TabContent} from 'vue-form-wizard'
 import { UiAlert, UiTextbox, UiSelect, UiSwitch } from 'keen-ui';
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 var _ = require('lodash');
 export default {
     name: 'edit-event',
@@ -147,7 +150,8 @@ export default {
         UiAlert,
         UiTextbox,
         UiSelect,
-        UiSwitch
+        UiSwitch,
+        ScaleLoader,
     },
   data(){
       return{
@@ -171,6 +175,7 @@ export default {
             '2020 - 2021',
             '2021 - 2022',
         ],
+        isLoading: 0,   
       }
   },
     apollo: {
@@ -276,11 +281,8 @@ export default {
                         }
                     })
                 })
-
-
-               //return data.allEvents[0]
-            }
-
+            },
+            loadingKey: 'isLoading',
         },
     },
     computed:{
