@@ -12,7 +12,8 @@
                 </div>
             </div>
         </section>
-        <md-tabs>
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
+        <md-tabs v-else>
             <md-tab md-label="événements">
                 <md-empty-state
                     v-if="student.studentEvents <= [0]"
@@ -116,14 +117,19 @@ import {mapGetters,mapMutations} from 'vuex'
 import {Bus} from '../Bus'
 import { STUDENT_QUERY } from '../constants/Student.gql'
 import { USER_QUERY } from '../constants/User.gql'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 export default {
     name: 'student',
     props: ['id'],
+    components: {
+        ScaleLoader,
+    },
     data(){
         return{
             student: [],
             currentUser: {},
             showModifyModal: false,
+            isLoading: 0,   
         }
     },
     computed: {
@@ -143,6 +149,7 @@ export default {
             update(data){
                 return data.Student
             },
+            loadingKey: 'isLoading',
         },
         currentUser: {
             query: USER_QUERY,

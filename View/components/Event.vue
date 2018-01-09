@@ -25,7 +25,8 @@
         <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
             {{this.feedbackItem.message}}
         </ui-alert>
-        <md-tabs>
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
+        <md-tabs v-else>
             <md-tab md-label="Jurys">
                 <md-empty-state
                     v-if="event.jurys <= [0]"
@@ -246,6 +247,7 @@ import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
 import { SINGLE_EVENT_QUERY } from '../constants/Event.gql'
 import { UiIcon, UiAlert } from 'keen-ui';
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 import _ from 'lodash'
 import nanoid from 'nanoid'
 
@@ -254,7 +256,8 @@ export default {
     props: ['id'],
     components: {
         UiIcon,
-        UiAlert
+        UiAlert,
+        ScaleLoader,
     },
     data(){
         return{
@@ -263,6 +266,7 @@ export default {
             editable: false,
             finaleScoreEditable: false,
             showAlert: false,
+            isLoading: 0,   
         }
     },
     apollo: {
@@ -277,7 +281,8 @@ export default {
             },
             update(data){
                 return data.allEvents[0]
-            }
+            },
+            loadingKey: 'isLoading',
         },
     },
     computed: {

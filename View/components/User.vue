@@ -12,7 +12,8 @@
                 </div>
             </div>
         </section>
-        <md-tabs>
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
+        <md-tabs v-else>
             <md-tab md-label="événements">
                 <div class="md-layout papa">
                     <md-empty-state
@@ -74,12 +75,17 @@
 <script>
 import {mapGetters} from 'vuex'
 import { USER_QUERY } from '../constants/User.gql'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 export default {
     name: 'user',
     props: ['id'],
+    components: {
+        ScaleLoader,
+    },
     data(){
         return{
             user: [],
+            isLoading: 0,   
         }
     },
     apollo: {
@@ -93,7 +99,8 @@ export default {
             },
             update(data){
                 return data.User
-            }
+            },
+            loadingKey: 'isLoading',
         },
     },
 }

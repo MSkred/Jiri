@@ -75,7 +75,7 @@
             <md-dialog :md-active.sync="showModifyModal">
                 <md-dialog-title>Modifier le meeting avec {{modalItem.student.name}}</md-dialog-title>
                 <md-tabs md-dynamic-height >
-                    <md-tab v-for="(score, key) in modalItem.scores" :id="key" :md-label="score.implementation.project.name">
+                    <md-tab v-for="(score, key) in modalItem.scores" id="key" :md-label="score.implementation.project.name">
                         <md-field>
                             <label for="comment">Commentaire</label>
                             <md-textarea :value="score.comment" md-counter="256" name="comment" id="comment"></md-textarea>
@@ -115,21 +115,20 @@
                 <md-dialog-title>Meeting avec {{modalItem.student.name}}</md-dialog-title>
                 <md-tabs md-dynamic-height >
                     <md-tab v-for="score in modalItem.scores" :md-label="score.implementation.project.name">
-                        <h3>Commentaire</h3>
+                        <h3 class="md-title" style="margin-top: 25px;">Commentaire</h3>
                         <p>{{score.comment}}</p>
-                        <h3>Côte</h3>
+                        <h3 class="md-title" style="margin-top: 25px;">Côte</h3>
                         <p>{{score.score}}</p>
                     </md-tab>
                     <md-tab md-label="Global">
-                        <h3>Commentaire global</h3>
+                        <h3 class="md-title" style="margin-top: 25px;">Commentaire global</h3>
                         <p>{{modalItem.comment}}</p>
-                        <h3>Côte global</h3>
+                        <h3 class="md-title" style="margin-top: 25px;">Côte global</h3>
                         <p>{{modalItem.evaluation}}</p>
                     </md-tab>
                 </md-tabs>
                 <md-dialog-actions class="md-dialog-title md-title">
                     <md-button class="md-primary" @click="showMeetingModal = false">Fermer</md-button>
-                    <md-button class="md-accent" @click="showModifyModal = true; showMeetingModal = false">Modifier</md-button>
                 </md-dialog-actions>
             </md-dialog>
         </div>
