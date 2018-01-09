@@ -14,6 +14,9 @@
                 </div>
             </div>
         </section>
+        <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
+            {{this.feedbackItem.message}}
+        </ui-alert>
       <div class="md-layout papa">
             <div v-for="(event, key) in events" class="enfant">
                 <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
@@ -74,14 +77,20 @@ import {Bus} from '../Bus'
 
 import { USER_QUERY } from '../constants/User.gql'
 import { ALL_EVENT_QUERY } from '../constants/EventsAll.gql'
+import { UiAlert } from 'keen-ui';
 export default {
     name: 'events',
+    components: {
+        UiAlert,
+    },
     data(){
         return{
             showDesactivateModal: false,
             showModifyModal: false,
             events: [],
             currentUser: {},
+            showAlert: false,
+            feedback: null,
         }
     },
     apollo: {
@@ -100,7 +109,6 @@ export default {
                 }
             },
             update(data){
-                console.log('User data get done')
                 return data.User
             }
         }
@@ -108,7 +116,9 @@ export default {
     computed: {
         ...mapGetters([
             'modalItem',
-            'userId'
+            'userId',
+            'feedbackItem',
+            'showSpecialAlert'
         ])
     },  
     methods: {
@@ -127,5 +137,8 @@ export default {
             this.showDesactivateModal = false;
         }
     },
+    created(){
+        this.showAlert = this.showSpecialAlert;
+    }
 }
 </script>

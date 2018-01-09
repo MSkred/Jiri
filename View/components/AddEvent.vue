@@ -10,10 +10,6 @@
                 </div>
             </div>
         </section>
-        <h1></h1>
-        <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
-            {{this.feedbackItem.message}}
-        </ui-alert>
         <form-wizard 
             :title="null" 
             :subtitle="null" 
@@ -177,8 +173,6 @@ export default {
                 '2020 - 2021',
                 '2021 - 2022',
             ],
-            showAlert: false,
-            feedback: null,
         }
     },
     apollo: {

@@ -27,6 +27,7 @@ export const store = new Vuex.Store({
 
         // Data isLoading
         isLoading: false,
+        showSpecialAlert: false,
     },
     getters,
     mutations,

@@ -15,6 +15,7 @@ export const mutations = {
     },
     setFeedback(state, payload){
         state.feedbackItem = payload;
+        state.showSpecialAlert = true;
     },
     appIsLoading(state){
         state.isLoading = true;
