@@ -10,71 +10,75 @@
                 </div>
             </div>
         </section>
-        <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
-            {{this.feedbackItem.message}}
-        </ui-alert>
-        <form @submit.prevent="validateBeforeSubmit">
-                <div class="form-group" :class="{ 'control': true }">
-                    <ui-textbox v-model="name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom"
-                        label="Prénom & nom"
-                        data-vv-as="Le champs prénom et nom" 
-                        data-vv-validate-on="blur"
-                        v-validate="'required|alpha_spaces|min:5'" 
-                        :class="{'is-danger': errors.has('name') }">
-                    </ui-textbox>
-                    <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
-                </div>
-        
-                <div class="form-group" :class="{ 'control': true }">
-                    <ui-textbox v-model="email" type="email" id="email" name="email"  placeholder="Écrivez l'adresse mail"
-                        label="Email"
-                        data-vv-as="Le champs email" 
-                        data-vv-validate-on="blur"
-                        v-validate="'required|email'"
-                        :class="{'is-danger': errors.has('email') }">
-                    </ui-textbox>
-                    <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
-                </div>
-                <div class="form-group">
-                    <ui-textbox v-model="c_password" type="password" id="password" name="password"  placeholder="Écrivez le mot de passe"
-                        label="Mot de passe"
-                        data-vv-as="Le champs mot de passe" 
-                        data-vv-validate-on="blur"
-                        v-validate="'required|confirmed:c_password|min:4'"
-                        :class="{'is-danger': errors.has('password') }">
-                    </ui-textbox>
-                    <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>
-                    <ui-textbox v-model="password" type="password" id="c_password" name="c_password"  placeholder="Réécrivez le mot de passe"
-                        label="Confirmez le mot de passe"
-                        data-vv-as="Le champs mot de passe" 
-                        data-vv-validate-on="blur"
-                        v-validate="'required|confirmed:c_password|min:4'"
-                        :class="{'is-danger': errors.has('password') }">
-                    </ui-textbox>
-                </div>
-                <div class="form-group">
-                    <ui-textbox v-model="company" type="text" id="company" name="company"  placeholder="Écrivez le nom de l'entreprise"
-                        label="Entreprise"
-                        data-vv-as="Le champs entreprise" 
-                        data-vv-validate-on="blur"
-                        v-validate="'alpha_num|min:2'" 
-                        :class="{'is-danger': errors.has('company') }">
-                    </ui-textbox>
-                    <span v-show="errors.has('company')" class="help is-danger">{{ errors.first('company') }}</span>
-                </div>
-                <div class="form-group">
-                    <md-switch v-model="isAdmin">Cette utilisateur est un admin</md-switch>
-                </div>
-                <div class="control">
-                    <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" size="normal">Créer l'utilisateur</ui-button>
-                </div>
-        </form>
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
+        <template v-else>
+            <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
+                {{this.feedbackItem.message}}
+            </ui-alert>
+            <form @submit.prevent="validateBeforeSubmit">
+                    <div class="form-group" :class="{ 'control': true }">
+                        <ui-textbox v-model="name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom"
+                            label="Prénom & nom"
+                            data-vv-as="Le champs prénom et nom" 
+                            data-vv-validate-on="blur"
+                            v-validate="'required|alpha_spaces|min:5'" 
+                            :class="{'is-danger': errors.has('name') }">
+                        </ui-textbox>
+                        <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+                    </div>
+            
+                    <div class="form-group" :class="{ 'control': true }">
+                        <ui-textbox v-model="email" type="email" id="email" name="email"  placeholder="Écrivez l'adresse mail"
+                            label="Email"
+                            data-vv-as="Le champs email" 
+                            data-vv-validate-on="blur"
+                            v-validate="'required|email'"
+                            :class="{'is-danger': errors.has('email') }">
+                        </ui-textbox>
+                        <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+                    </div>
+                    <div class="form-group">
+                        <ui-textbox v-model="c_password" type="password" id="password" name="password"  placeholder="Écrivez le mot de passe"
+                            label="Mot de passe"
+                            data-vv-as="Le champs mot de passe" 
+                            data-vv-validate-on="blur"
+                            v-validate="'required|confirmed:c_password|min:4'"
+                            :class="{'is-danger': errors.has('password') }">
+                        </ui-textbox>
+                        <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>
+                        <ui-textbox v-model="password" type="password" id="c_password" name="c_password"  placeholder="Réécrivez le mot de passe"
+                            label="Confirmez le mot de passe"
+                            data-vv-as="Le champs mot de passe" 
+                            data-vv-validate-on="blur"
+                            v-validate="'required|confirmed:c_password|min:4'"
+                            :class="{'is-danger': errors.has('password') }">
+                        </ui-textbox>
+                    </div>
+                    <div class="form-group">
+                        <ui-textbox v-model="company" type="text" id="company" name="company"  placeholder="Écrivez le nom de l'entreprise"
+                            label="Entreprise"
+                            data-vv-as="Le champs entreprise" 
+                            data-vv-validate-on="blur"
+                            v-validate="'alpha_num|min:2'" 
+                            :class="{'is-danger': errors.has('company') }">
+                        </ui-textbox>
+                        <span v-show="errors.has('company')" class="help is-danger">{{ errors.first('company') }}</span>
+                    </div>
+                    <div class="form-group">
+                        <md-switch v-model="isAdmin">Cette utilisateur est un admin</md-switch>
+                    </div>
+                    <div class="control">
+                        <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" size="normal">Créer l'utilisateur</ui-button>
+                    </div>
+            </form>
+        </template>
       </div>
   </div>
 </template>
 <script>
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 import { UiAlert,UiTextbox, UiButton, UiIcon } from 'keen-ui';
 
 export default {
@@ -83,7 +87,8 @@ export default {
         UiAlert,
         UiTextbox,
         UiButton,
-        UiIcon
+        UiIcon,
+        ScaleLoader,
     },
     data () {
       return {
@@ -95,12 +100,12 @@ export default {
         company: null,
         softDelete: false,
         showAlert: false,
-        feedback: null,
       }
     },
     computed: {
         ...mapGetters([
-            'feedbackItem'
+            'feedbackItem',
+            'isLoading'
         ])
     },
     methods: {

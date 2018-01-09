@@ -59,6 +59,7 @@ export const Bus = new Vue();
      *  Create User
     *******************/
     Bus.$on('createUser', payload => {
+        store.commit('appIsLoading')
         let { email, password, name, company, isAdmin, softDelete } = payload;
 
         apolloClient.mutate({
@@ -73,7 +74,7 @@ export const Bus = new Vue();
             },
             update: (cache, { data: { signupUser }}) => {
                 console.log(signupUser)
-                console.log('User creation done')
+                store.commit('appIsDone')
             },
             refetchQueries: [
                 {
@@ -86,6 +87,7 @@ export const Bus = new Vue();
      *  Create Student
     *******************/
     Bus.$on('createStudent', payload => {
+        store.commit('appIsLoading')
         let { email, name, softDelete } = payload;
 
         apolloClient.mutate({
@@ -96,8 +98,7 @@ export const Bus = new Vue();
                 softDelete
             },
             update: (cache, { data: { createStudent } }) => {
-                console.log(createStudent)
-                console.log('Student creation done')
+                store.commit('appIsDone')
             },
             refetchQueries: [
                 {
@@ -110,6 +111,7 @@ export const Bus = new Vue();
      *  Create Project
     *******************/
     Bus.$on('createProject', payload => {
+        store.commit('appIsLoading')
         let { description, name, softDelete, weight } = payload;
 
         apolloClient.mutate({
@@ -121,8 +123,7 @@ export const Bus = new Vue();
                 weight
             },
             update: (cache, { data: { createProject } }) => {
-                console.log(createProject)
-                console.log('Project creation done')
+                store.commit('appIsDone')
             },
             refetchQueries: [
                 {

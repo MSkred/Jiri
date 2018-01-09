@@ -10,52 +10,55 @@
                 </div>
             </div>
         </section>
-        <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
-            {{this.feedbackItem.message}}
-        </ui-alert>
-        <form @submit.prevent="validateBeforeSubmit">
-            <div class="form-group">
-                    <ui-textbox v-model="name" placeholder="Écrivez nom du projet" label="Nom du projet" name="name" id="name" type="text"
-                        data-vv-as="Le champs nom du projet" 
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
+        <template v-else>
+            <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
+                {{this.feedbackItem.message}}
+            </ui-alert>
+            <form @submit.prevent="validateBeforeSubmit">
+                <div class="form-group">
+                        <ui-textbox v-model="name" placeholder="Écrivez nom du projet" label="Nom du projet" name="name" id="name" type="text"
+                            data-vv-as="Le champs nom du projet" 
+                            data-vv-validate-on="blur"
+                            v-validate="'required|alpha_spaces|min:2'" 
+                            :class="{'is-danger': errors.has('name') }">
+                        </ui-textbox>
+                        <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+                </div>
+                <div class="form-group">
+                    <ui-textbox v-model="description" placeholder="Écrivez une petite description du projet" label="Description du projet" 
+                        id="description" name="description"
+                        enforce-maxlength
+                        help="Maximum 256 caractères"
+                        :multi-line="true"
+                        :maxlength="256"
+                        data-vv-as="Le champs déscription du projet" 
                         data-vv-validate-on="blur"
-                        v-validate="'required|alpha_spaces|min:2'" 
-                        :class="{'is-danger': errors.has('name') }">
+                        v-validate="'min:10|max:256'" 
+                        :class="{'is-danger': errors.has('description') }">
                     </ui-textbox>
-                    <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
-            </div>
-            <div class="form-group">
-                 <ui-textbox v-model="description" placeholder="Écrivez une petite description du projet" label="Description du projet" 
-                    id="description" name="description"
-                    enforce-maxlength
-                    help="Maximum 256 caractères"
-                    :multi-line="true"
-                    :maxlength="256"
-                    data-vv-as="Le champs déscription du projet" 
+                    <span v-show="errors.has('description')" class="help is-danger">{{ errors.first('description') }}</span>
+                </div>
+                <div class="form-group">
+                    <ui-textbox label="Pondération du projet" placeholder="Entrez la pondération du projet" v-model="weight"
+                    id="weight" name="weight"
+                    help="La pondération doit être un nombre entre 0 et 1"
+                    type="number"
+                    step="0.1"
+                    :min="0"
+                    :max="1"
+                    data-vv-as="Le champs pondération du projet" 
                     data-vv-validate-on="blur"
-                    v-validate="'min:10|max:256'" 
-                    :class="{'is-danger': errors.has('description') }">
-                </ui-textbox>
-                <span v-show="errors.has('description')" class="help is-danger">{{ errors.first('description') }}</span>
-            </div>
-            <div class="form-group">
-                <ui-textbox label="Pondération du projet" placeholder="Entrez la pondération du projet" v-model="weight"
-                id="weight" name="weight"
-                help="La pondération doit être un nombre entre 0 et 1"
-                type="number"
-                step="0.1"
-                :min="0"
-                :max="1"
-                data-vv-as="Le champs pondération du projet" 
-                data-vv-validate-on="blur"
-                v-validate="'required|min_value:0.1|max_value:1'" 
-                :class="{'is-danger': errors.has('description') }"
-                ></ui-textbox>
-                <span v-show="errors.has('weight')" class="help is-danger">{{ errors.first('weight') }}</span>
-            </div>
-            <div class="form-group">
-                <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" :size="normal">Créer un projet</ui-button>
-            </div>
-        </form>
+                    v-validate="'required|min_value:0.1|max_value:1'" 
+                    :class="{'is-danger': errors.has('description') }"
+                    ></ui-textbox>
+                    <span v-show="errors.has('weight')" class="help is-danger">{{ errors.first('weight') }}</span>
+                </div>
+                <div class="form-group">
+                    <ui-button color="primary" buttonType="submit" icon="send" icon-position="right">Créer un projet</ui-button>
+                </div>
+            </form>
+        </template>
       </div>
   </div>
 </template>
@@ -63,6 +66,7 @@
 <script>
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 import { UiAlert,UiTextbox, UiButton } from 'keen-ui';
 
 export default {
@@ -70,7 +74,8 @@ export default {
     components: {
         UiAlert,
         UiTextbox,
-        UiButton
+        UiButton,
+        ScaleLoader,
     },
     data(){
         return{
@@ -79,12 +84,12 @@ export default {
             weight: null,
             softDelete: false,
             showAlert: false,
-            feedback: null,
         }
     },
     computed: {
         ...mapGetters([
-            'feedbackItem'
+            'feedbackItem',
+            'isLoading'
         ])
     },
     methods: {

@@ -10,34 +10,37 @@
                 </div>
             </div>
         </section>
-        <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
-            {{this.feedbackItem.message}}
-        </ui-alert>
-        <form @submit.prevent="validateBeforeSubmit">
-            <div class="form-group" :class="{ 'control': true }">
-                <ui-textbox v-model="name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom"
-                    label="Prénom & nom"
-                    data-vv-as="Le champs prénom et nom" 
-                    data-vv-validate-on="blur"
-                    v-validate="'required|alpha_spaces|min:5'" 
-                    :class="{'is-danger': errors.has('name') }">
-                </ui-textbox>
-                <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
-            </div>
-            <div class="form-group" :class="{ 'control': true }">
-                <ui-textbox v-model="email" type="email" id="email" name="email"  placeholder="Écrivez l'adresse mail"
-                    label="Email"
-                    data-vv-as="Le champs email" 
-                    data-vv-validate-on="blur"
-                    v-validate="'required|email'"
-                    :class="{'is-danger': errors.has('email') }">
-                </ui-textbox>
-                <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
-            </div>
-            <div class="form-group">
-                <ui-button color="primary" buttonType="submit" icon="send" icon-position="right" size="normal">Créer un étudiant</ui-button>
-            </div>
-        </form>
+        <scale-loader v-if="isLoading" color="#448aff" style="height: 90vh;"></scale-loader>
+        <template v-else>
+            <ui-alert @dismiss="showAlert = false" v-if="this.feedbackItem" v-show="showAlert" :type="this.feedbackItem.type">
+                {{this.feedbackItem.message}}
+            </ui-alert>
+            <form @submit.prevent="validateBeforeSubmit">
+                <div class="form-group" :class="{ 'control': true }">
+                    <ui-textbox v-model="name" type="text" id="name" name="name" placeholder="Écrivez le prénom et nom"
+                        label="Prénom & nom"
+                        data-vv-as="Le champs prénom et nom" 
+                        data-vv-validate-on="blur"
+                        v-validate="'required|alpha_spaces|min:5'" 
+                        :class="{'is-danger': errors.has('name') }">
+                    </ui-textbox>
+                    <span v-show="errors.has('name')" class="help is-danger">{{ errors.first('name') }}</span>
+                </div>
+                <div class="form-group" :class="{ 'control': true }">
+                    <ui-textbox v-model="email" type="email" id="email" name="email"  placeholder="Écrivez l'adresse mail"
+                        label="Email"
+                        data-vv-as="Le champs email" 
+                        data-vv-validate-on="blur"
+                        v-validate="'required|email'"
+                        :class="{'is-danger': errors.has('email') }">
+                    </ui-textbox>
+                    <span v-show="errors.has('email')" class="help is-danger">{{ errors.first('email') }}</span>
+                </div>
+                <div class="form-group">
+                    <ui-button color="primary" buttonType="submit" icon="send" icon-position="right">Créer un étudiant</ui-button>
+                </div>
+            </form>
+        </template>
       </div>
   </div>
 </template>
@@ -45,6 +48,7 @@
 <script>
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 import { UiAlert, UiTextbox, UiButton } from 'keen-ui';
 
 export default {
@@ -52,7 +56,8 @@ export default {
     components: {
         UiAlert,
         UiTextbox,
-        UiButton
+        UiButton,
+        ScaleLoader,
     },
     data(){
         return{
@@ -60,12 +65,12 @@ export default {
             email: null,
             softDelete: false,
             showAlert: false,
-            feedback: null,
         }
     },
     computed: {
         ...mapGetters([
-            'feedbackItem'
+            'feedbackItem',
+            'isLoading'
         ])
     },
     methods: {
