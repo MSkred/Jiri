@@ -48,7 +48,7 @@
                         <span v-show="errors.has('password')" class="help is-danger">{{ errors.first('password') }}</span>
                         <ui-textbox v-model="password" type="password" id="c_password" name="c_password"  placeholder="Réécrivez le mot de passe"
                             label="Confirmez le mot de passe"
-                            data-vv-as="Le champs mot de passe" 
+                            data-vv-as="Le champs de confirmation de mot de passe" 
                             data-vv-validate-on="blur"
                             v-validate="'required|confirmed:c_password|min:4'"
                             :class="{'is-danger': errors.has('password') }">
@@ -59,7 +59,7 @@
                             label="Entreprise"
                             data-vv-as="Le champs entreprise" 
                             data-vv-validate-on="blur"
-                            v-validate="'alpha_num|min:2'" 
+                            v-validate="'min:2'" 
                             :class="{'is-danger': errors.has('company') }">
                         </ui-textbox>
                         <span v-show="errors.has('company')" class="help is-danger">{{ errors.first('company') }}</span>

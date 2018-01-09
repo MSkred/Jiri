@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "graphcool-lib": "^0.1.4",
+    "graphql-request": "^1.4.1",
+    "validator": "^9.2.0"
+  }
+}

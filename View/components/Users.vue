@@ -70,7 +70,7 @@
                                     </md-field>
                                     <md-field>
                                         <label for="password">Mot de passe</label>
-                                        <md-input name="password" id="password" type="password" placeholder="Écrivez le mot de passe" :value="modalItem.password" />
+                                        <md-input name="password" id="password" type="password" placeholder="Écrivez le mot de passe" :value="decryptPassword(modalItem.password)" />
                                     </md-field>
                                     <md-field >
                                         <label for="company">Entreprise</label>
@@ -100,6 +100,8 @@ import { ALL_USER_QUERY } from '../constants/UsersAll.gql'
 import {Bus} from '../Bus'
 import {mapGetters, mapMutations} from 'vuex'
 import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
+import { decrypt, encrypt } from '../../Model/crypto'
+
 export default {
     name: 'users',
     components: {
@@ -117,7 +119,6 @@ export default {
         users: {
             query: ALL_USER_QUERY,
             update(data){
-                console.log(data)
                 return data.allUsers
             },
             loadingKey: 'isLoading',
@@ -138,7 +139,7 @@ export default {
             let name = document.getElementById("name").value;
             let company = document.getElementById("company").value;
             let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
+            let password = encrypt(document.getElementById("password").value);
             
             Bus.$emit('modifyUser', { id, name, company, email, password });
 
@@ -150,7 +151,10 @@ export default {
 
             // Close the modify modal
             this.showDesactivateModal = false;
+        },
+        decryptPassword(password){
+            return decrypt(password)
         }
-    },
+    }
 }
 </script>

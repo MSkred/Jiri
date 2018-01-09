@@ -270,8 +270,6 @@ export const Bus = new Vue();
                 email,
             },
             update: (cache, { data: { updateStudent } }) => {
-                console.log(updateStudent)
-                console.log('Student updating done')
             },
             refetchQueries: [
                 {
@@ -297,8 +295,6 @@ export const Bus = new Vue();
                 password,
             },
             update: (cache, { data: { updateUser } }) => {
-                console.log(updateUser)
-                console.log('User updating done')
             },
             refetchQueries: [
                 {
@@ -323,8 +319,6 @@ export const Bus = new Vue();
                 weight
             },
             update: (cache, { data: { updateProject } }) => {
-                console.log(updateProject)
-                console.log('Project updating done')
             },
             refetchQueries: [
                 {
@@ -349,8 +343,6 @@ export const Bus = new Vue();
                 urlRepo
             },
             update: (cache, { data: { updateImplementation } }) => {
-                console.log(updateImplementation)
-                console.log('Implementation updating done')
             
             },
             refetchQueries: [
@@ -475,8 +467,6 @@ export const Bus = new Vue();
                 score,
             },
             update: (cache, { data: { updateScore } }) => {
-                console.log(updateScore)
-                console.log('Score update done')
             },
         });
     })
@@ -499,8 +489,6 @@ export const Bus = new Vue();
                 softDelete
             },
             update: (cache, { data: { updateUser } }) => {
-                console.log(updateUser)
-                console.log('User desactivation done')
             },
             refetchQueries: [
                 {
@@ -524,8 +512,6 @@ export const Bus = new Vue();
                 softDelete
             },
             update: (cache, { data: { updateStudent } }) => {
-                console.log(updateStudent)
-                console.log('Student desactivation done')
             },
             refetchQueries: [
                 {
@@ -549,8 +535,6 @@ export const Bus = new Vue();
                 softDelete
             },
             update: (cache, { data: { updateEvent } }) => {
-                console.log(updateEvent)
-                console.log('Event desactivation done')
             },
             refetchQueries: [
                 {
@@ -574,8 +558,6 @@ export const Bus = new Vue();
                 softDelete
             },
             update: (cache, { data: { updateProject } }) => {
-                console.log(updateProject)
-                console.log('Project desactivation done')
             },
             refetchQueries: [
                 {
