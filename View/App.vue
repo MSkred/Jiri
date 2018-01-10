@@ -15,6 +15,9 @@ export default {
 }
 </script>
 <style lang="sass">
+.zoom-move
+   transition: transform .3s cubic-bezier(.25,.8,.50,1);
+ 
 .wrapper 
     padding: 0;
 

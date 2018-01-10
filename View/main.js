@@ -20,6 +20,8 @@ Validator.localize('fr', fr);
 
 import VueMaterial from 'vue-material'
 import BootstrapVue from 'bootstrap-vue'
+import Transitions from 'vue2-transitions'
+Vue.use(Transitions)
 
 // Use this
 Vue.use(VeeValidate, KeenUI)

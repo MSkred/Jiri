@@ -28,26 +28,28 @@
                     </router-link>
                 </md-empty-state>
                 <div v-else class="md-layout papa">
-                    <div class="enfant" v-for="(user, key) in users">
+                    <div v-for="(user, key) in users" :key="user.id" class="enfant">
                         <router-link class="contenu" :to="{name: 'user', params: {id: user.id}}" :href="`/user/${user.id}`">
-                            <md-card class="md-primary" md-with-hover>
-                                <md-ripple>
-                                    <md-card-header>
-                                        <div class="md-title">{{user.name}}</div>
-                                        <div class="md-subhead">{{user.company}}</div>
-                                    </md-card-header>
+  <zoom-center-transition group >
+                                <md-card :key="key" v-if="show" class="md-primary" md-with-hover>
+                                    <md-ripple>
+                                        <md-card-header>
+                                            <div class="md-title">{{user.name}}</div>
+                                            <div class="md-subhead">{{user.company}}</div>
+                                        </md-card-header>
 
-                                    <md-card-content>
-                                        <p class="event">{{user.juryEvents.length}} événements</p>
-                                        <p class="meeting">{{user.meetings.length}} meetings</p>
-                                    </md-card-content>
+                                        <md-card-content>
+                                            <p class="event">{{user.juryEvents.length}} événements</p>
+                                            <p class="meeting">{{user.meetings.length}} meetings</p>
+                                        </md-card-content>
 
-                                    <md-card-actions>
-                                        <md-button @click.prevent="showModifyModal = true; setModifyData(user)">Modifier</md-button>
-                                        <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(user)">Désactiver</md-button>
-                                    </md-card-actions>
-                                </md-ripple>
-                            </md-card>
+                                        <md-card-actions>
+                                            <md-button @click.prevent="showModifyModal = true; setModifyData(user)">Modifier</md-button>
+                                            <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(user)">Désactiver</md-button>
+                                        </md-card-actions>
+                                    </md-ripple>
+                                </md-card>
+  </zoom-center-transition>
                         </router-link>
                     </div>
                     <md-dialog v-if="showDesactivateModal" :md-active.sync="showDesactivateModal" >
@@ -123,6 +125,7 @@ export default {
             showModifyModal: false,
             users: [],
             isLoading: 0,   
+            show: false,
         }
     },
     apollo: {
@@ -165,6 +168,13 @@ export default {
         decryptPassword(password){
             return decrypt(password)
         }
+    },
+    mounted(){
+        this.show = true;
     }
 }
 </script>
+
+<style lang="scss" scoped>
+
+</style>
