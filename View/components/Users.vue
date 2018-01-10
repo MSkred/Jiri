@@ -30,7 +30,7 @@
                 <div v-else class="md-layout papa">
                     <div v-for="(user, key) in users" :key="user.id" class="enfant">
                         <router-link class="contenu" :to="{name: 'user', params: {id: user.id}}" :href="`/user/${user.id}`">
-  <zoom-center-transition group >
+                            <zoom-center-transition group >
                                 <md-card :key="key" v-if="show" class="md-primary" md-with-hover>
                                     <md-ripple>
                                         <md-card-header>
@@ -49,7 +49,7 @@
                                         </md-card-actions>
                                     </md-ripple>
                                 </md-card>
-  </zoom-center-transition>
+                            </zoom-center-transition>
                         </router-link>
                     </div>
                     <md-dialog v-if="showDesactivateModal" :md-active.sync="showDesactivateModal" >
@@ -174,7 +174,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

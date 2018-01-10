@@ -32,23 +32,25 @@
             <div v-else class="md-layout papa">
                     <div v-for="(event, key) in events" class="enfant">
                         <router-link :to="{name: 'event', params: {id: event.id}}" :href="`/event/${event.id}`" class="contenu">
-                            <md-card class="md-primary" md-with-hover>
-                                <md-ripple>
-                                    <md-card-header>
-                                        <div class="md-title">{{event.courseName}}</div>
-                                        <div class="md-subhead">{{event.academicYear}}</div>
-                                    </md-card-header>
-                                    <md-card-content>
-                                        <p class="jurys">{{event.jurys.length}} jurys</p>
-                                        <p class="students">{{event.students.length}} étudiants</p>
-                                        <p class="projects">{{event.projects.length}} projets</p>
-                                    </md-card-content>
-                                    <md-card-actions>
-                                        <md-button @click.prevent="showModifyModal = true; setModifyData(event)">Modifier</md-button>
-                                        <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(event)">Désactiver</md-button>
-                                    </md-card-actions>
-                                </md-ripple>
-                            </md-card>
+                            <zoom-center-transition group >
+                                <md-card :key="key" v-if="show" class="md-primary" md-with-hover>
+                                    <md-ripple>
+                                        <md-card-header>
+                                            <div class="md-title">{{event.courseName}}</div>
+                                            <div class="md-subhead">{{event.academicYear}}</div>
+                                        </md-card-header>
+                                        <md-card-content>
+                                            <p class="jurys">{{event.jurys.length}} jurys</p>
+                                            <p class="students">{{event.students.length}} étudiants</p>
+                                            <p class="projects">{{event.projects.length}} projets</p>
+                                        </md-card-content>
+                                        <md-card-actions>
+                                            <md-button @click.prevent="showModifyModal = true; setModifyData(event)">Modifier</md-button>
+                                            <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(event)">Désactiver</md-button>
+                                        </md-card-actions>
+                                    </md-ripple>
+                                </md-card>
+                            </zoom-center-transition>
                         </router-link>
                     </div>
 
@@ -107,6 +109,7 @@ export default {
             isLoading: 0,
             showAlert: false,
             feedback: null,
+            show: false,
         }
     },
     apollo: {
@@ -156,6 +159,9 @@ export default {
     },
     created(){
         this.showAlert = this.showSpecialAlert;
+    },
+    mounted(){
+        this.show = true;
     }
 }
 </script>

@@ -31,22 +31,24 @@
                     <div v-else class="md-layout papa">
                             <div class="enfant" v-for="(student, key) in allStudents" >
                                 <router-link class="contenu" :to="{name: 'student', params: {id: student.id}}" :href="`/student/${student.id}`">
-                                    <md-card class="md-primary" md-with-hover>
-                                        <md-ripple>
-                                            <md-card-header>
-                                                <div class="md-title">{{student.name}}</div>
-                                                <div class="md-subhead">{{student.email}}</div>
-                                            </md-card-header>
-                                            <md-card-content>
-                                                <p class="event">{{student.studentEvents.length}} événements</p>
-                                                <p class="meeting">{{student.implementations.length}} implémentations</p>
-                                            </md-card-content>
-                                            <md-card-actions>
-                                                <md-button @click.prevent="showModifyModal = true; setModifyData(student)">Modifier</md-button>
-                                                <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(student)">Désactiver</md-button>
-                                            </md-card-actions>
-                                        </md-ripple>
-                                    </md-card>
+                                    <zoom-center-transition group >
+                                        <md-card :key="key" v-if="show" class="md-primary" md-with-hover>
+                                            <md-ripple>
+                                                <md-card-header>
+                                                    <div class="md-title">{{student.name}}</div>
+                                                    <div class="md-subhead">{{student.email}}</div>
+                                                </md-card-header>
+                                                <md-card-content>
+                                                    <p class="event">{{student.studentEvents.length}} événements</p>
+                                                    <p class="meeting">{{student.implementations.length}} implémentations</p>
+                                                </md-card-content>
+                                                <md-card-actions>
+                                                    <md-button @click.prevent="showModifyModal = true; setModifyData(student)">Modifier</md-button>
+                                                    <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(student)">Désactiver</md-button>
+                                                </md-card-actions>
+                                            </md-ripple>
+                                        </md-card>
+                                    </zoom-center-transition>
                                 </router-link>
                             </div>  
 
@@ -114,6 +116,7 @@ export default {
             showModifyModal: false,
             allStudents: [],
             isLoading: 0,   
+            show: false,
         }
     },
     apollo: {
@@ -152,5 +155,8 @@ export default {
             this.showDesactivateModal = false;
         }
     },
+    mounted(){
+        this.show = true;
+    }
 }
 </script>

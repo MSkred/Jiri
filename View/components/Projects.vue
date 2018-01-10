@@ -28,23 +28,25 @@
             </md-empty-state>
             <div class="md-layout papa">
                 <div v-for="(project, key) in allProjects" class="enfant">
-                    <md-card class="md-primary" md-with-hover>
-                        <md-ripple>
-                            <md-card-header>
-                                <div class="md-title">{{project.name}}</div>
-                                <div class="md-subhead">Pondération de {{project.weight}}</div>
-                            </md-card-header>
+                    <zoom-center-transition group >
+                        <md-card :key="key" v-if="show" class="md-primary" md-with-hover>
+                            <md-ripple>
+                                <md-card-header>
+                                    <div class="md-title">{{project.name}}</div>
+                                    <div class="md-subhead">Pondération de {{project.weight}}</div>
+                                </md-card-header>
 
-                            <md-card-content>
-                                <p>{{project.description}}</p>
-                            </md-card-content>
+                                <md-card-content>
+                                    <p>{{project.description}}</p>
+                                </md-card-content>
 
-                            <md-card-actions>
-                                <md-button @click.prevent="showModifyModal = true; setModifyData(project)">Modifier</md-button>
-                                <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(project)">Désactiver</md-button>
-                            </md-card-actions>
-                        </md-ripple>
-                    </md-card>
+                                <md-card-actions>
+                                    <md-button @click.prevent="showModifyModal = true; setModifyData(project)">Modifier</md-button>
+                                    <md-button @click.prevent="showDesactivateModal = true; setDesactivateData(project)">Désactiver</md-button>
+                                </md-card-actions>
+                            </md-ripple>
+                        </md-card>
+                    </zoom-center-transition>
                 </div>
                 <md-dialog v-if="showDesactivateModal" :md-active.sync="showDesactivateModal" >
                     <md-dialog-title>
@@ -112,7 +114,8 @@ export default {
             showDesactivateModal: false,
             showModifyModal: false,
             allProjects: [],
-            isLoading: 0,   
+            isLoading: 0,      
+            show: false,
         }
     },
     apollo: {
@@ -152,5 +155,8 @@ export default {
             this.showDesactivateModal = false;
         }
     },
+    mounted(){
+        this.show = true;
+    }
 }
 </script>
