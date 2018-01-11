@@ -189,7 +189,6 @@ export const Bus = new Vue();
                                 weight,
                             },
                             update: (cache, { data: { createImplementation } }) => {
-                                console.log(createImplementation)
                                 console.log('Implementation creation done')
                             }
                         });
