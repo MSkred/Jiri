@@ -78,13 +78,11 @@ router.beforeEach((to, from, next) => {
             next();
         }
         if (loggedIn(data) === null && to.name !== 'login') {
-            console.log('Vous n etes pas connecter')
             return next({ name: 'login' });
         } else if (loggedIn(data) !== null) {
             store.commit('getUserId', data.data.loggedInUser.id);
             if(data.data.loggedInUser.isAdmin){
                 next();
-                console.log( 'Vous etes connecter en admin')
             }
         } else {
             next();
