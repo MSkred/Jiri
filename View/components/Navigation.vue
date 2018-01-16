@@ -1,39 +1,58 @@
+<style lang="sass" scoped>
+nav
+  position: absolute;
+  height: 100vh;
+  background: pink;
+  width: 256px;
+  z-index: 10;
+  transform: translateX(-256px)
+  transition: .5s;
+  &.open
+    transform: translateX(0px)
+    transition: .5s
+  .menu
+    a
+      display: block;
+button
+  transform: translateX(0)
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: .5s;
+  &.close
+    z-index: -1
+    transform: translateX(0)
+    transition: .5s
+
+  &.open
+    transform: translateX(256px)
+    transition: .5s
+</style>
+
 <template>
-  <nav class="navbar is-link" role="navigation" aria-label="dropdown navigation">
-      <template v-if="userId">
-        <div v-if="currentUser.isAdmin" class="navbar-start">
-          <router-link :to="{name :'home'}" class="navbar-item">Dashboard</router-link>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <router-link :to="{name :'users'}" class="navbar-link">Tous les utilisateurs</router-link>
-            <div class="navbar-dropdown">
-              <router-link :to="{name :'addUser'}" class="navbar-item">Ajouter un utilisateur</router-link>
-            </div>
+  <div>
+    <button v-if="!menuIsOpen" @click="menuIsOpen = true;">Open</button>  
+    <button :class="{ close: !menuIsOpen,open: menuIsOpen }"@click="menuIsOpen = false;">X</button>  
+    <nav :class="{ open: menuIsOpen }">
+        <template v-if="userId">
+          <div class="menu" v-if="currentUser.isAdmin">
+              <router-link :to="{name :'home'}" >Dashboard</router-link>
+              <router-link :to="{name :'users'}" >Tous les utilisateurs</router-link>
+              <router-link :to="{name :'addUser'}" >Ajouter un utilisateur</router-link>
+              <router-link :to="{name :'students'}" >Tous les étudiants</router-link>
+              <router-link :to="{name :'addStudent'}" >Ajouter un étudiant</router-link>
+              <router-link :to="{name :'events'}" >Tous les événements</router-link>
+              <router-link :to="{name :'addEvent'}" >Ajouter un événement</router-link>
+              <router-link :to="{name :'projects'}" >Tous les projets</router-link>
+              <router-link :to="{name :'addProject'}" >Ajouter un projet</router-link>
           </div>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <router-link :to="{name :'students'}" class="navbar-link">Tous les étudiants</router-link>
-            <div class="navbar-dropdown">
-              <router-link :to="{name :'addStudent'}" class="navbar-item">Ajouter un étudiant</router-link>
-            </div>
+          <div class="connect">
+            <a href="javascript:avoid" @click.prevent="logout()"  >Se deconecter</a>
+            <router-link v-if="!userId" :to="{name :'login'}" >Se connecter</router-link>
           </div>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <router-link :to="{name :'events'}" class="navbar-link">Tous les événements</router-link>
-            <div class="navbar-dropdown">
-              <router-link :to="{name :'addEvent'}" class="navbar-item">Ajouter un événement</router-link>
-            </div>
-          </div>
-          <div class="navbar-item has-dropdown is-hoverable">
-              <router-link :to="{name :'projects'}" class="navbar-link">Tous les projets</router-link>
-            <div class="navbar-dropdown">
-              <router-link :to="{name :'addProject'}" class="navbar-item">Ajouter un projet</router-link>
-            </div>
-          </div>
-        </div>
-        <div class="navbar-end">
-          <a href="javascript:avoid" @click.prevent="logout()"  class="navbar-item">Se deconecter</a>
-          <router-link v-if="!userId" :to="{name :'login'}" class="navbar-item">Se connecter</router-link>
-        </div>
-      </template>
-  </nav>
+        </template>
+    </nav>
+  </div>
 </template>
 
 <script>
@@ -45,6 +64,7 @@ export default {
   data(){
     return{
       currentUser: {},
+      menuIsOpen: false,
     }
   },
   computed: {
