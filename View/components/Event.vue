@@ -313,7 +313,6 @@ export default {
                 studentId = this.modalItem.id,
                 eventId = this.id,
                 softDelete = false;
-                console.log(calculatedScore, manualScore, studentId, eventId, softDelete)
             
             Bus.$emit('createPerformance', { calculatedScore, manualScore, studentId, eventId, softDelete });
 

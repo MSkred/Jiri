@@ -76,7 +76,6 @@ export const Bus = new Vue();
                 softDelete
             },
             update: (cache, { data: { signupUser }}) => {
-                console.log(signupUser)
                 store.commit('appIsDone')
             },
             refetchQueries: [
@@ -158,8 +157,6 @@ export const Bus = new Vue();
                 // Get the lastAddedId for implementaiton creation
                 store.commit('lastAddedId', createEvent.id)
 
-                console.log(createEvent)
-                console.log('Event creation done')
                 
                 // Looped on students & projects ID
                 // for create implementation mutation
@@ -189,7 +186,6 @@ export const Bus = new Vue();
                                 weight,
                             },
                             update: (cache, { data: { createImplementation } }) => {
-                                console.log('Implementation creation done')
                             }
                         });
                     });
@@ -222,8 +218,6 @@ export const Bus = new Vue();
             update: (cache, { data: { createMeeting } }) => {
                 // Get the lastAddedId for meeting creation
                 store.commit('lastAddedId', createMeeting.id)
-                // Put meeting data in store
-                //store.commit('meeting', createMeeting)
             
                 // Redirection on create meeting view
                 location.assign(`/event/${eventId}/meeting/${store.getters.lastAddedId}/student/${studentId}`);
@@ -397,8 +391,6 @@ export const Bus = new Vue();
                 projectsIds,
             },
             update: (cache, { data: { updateEvent } }) => {
-                console.log(updateEvent)
-                console.log('Event updating done')
 
                 // Get the lastAddedId for implementaiton creation
                 store.commit('lastAddedId', updateEvent.id)
@@ -413,8 +405,6 @@ export const Bus = new Vue();
                             id,
                         },
                         update: (cache, { data: {deleteImplementation} }) => {
-                            console.log(deleteImplementation)
-                            console.log('Implementation delete done')
                         }
                     })
                 });
@@ -440,8 +430,6 @@ export const Bus = new Vue();
                                 weight,
                             },
                             update: (cache, { data: { createImplementation } }) => {
-                                console.log(createImplementation)
-                                console.log('Implementation creation done')
                             }
                         });
                     });

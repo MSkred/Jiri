@@ -160,7 +160,6 @@ export default {
                 }
             },
             update(data){
-                console.log('User data get done')
                 return data.User
             }
         }
