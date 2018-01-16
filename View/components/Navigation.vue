@@ -21,6 +21,11 @@ nav
         text-transform: underline;
     ul
       color: #fff
+      .dashboard
+        a
+          margin: 0 0 25px 0
+          display: inline-block
+          vertical-align: sub
       &:not(:last-of-type)
         margin-bottom: 25px
       span i
@@ -72,9 +77,10 @@ button
         <template v-if="userId">
           <div class="menu" v-if="currentUser.isAdmin">
               <ul>
-                <li>
+                <span class="dashboard" @click.prevent="menuIsOpen = false">
+                  <md-icon style="color:white; font:bold;">home</md-icon>
                   <router-link class="test" :to="{name :'home'}" >Dashboard</router-link>
-                </li>
+                </span>
                 <ul :class="{ open: userMenuIsOpen }">
                   <span @click="userMenuIsOpen ? userMenuIsOpen = false : userMenuIsOpen = true">
                     <md-icon>keyboard_arrow_right</md-icon>
