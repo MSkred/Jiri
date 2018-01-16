@@ -63,7 +63,7 @@
                 </md-empty-state>
                 <div v-else class="md-layout papa">
                     <div class="enfant" v-for="(student, key) in event.students" >
-                        <router-link class="contenu" :to="{name: 'student', params: {id: student.id}}" :href="`/student/${student.id}`">
+                        <router-link class="contenu" :key="key" :to="{name: 'student', params: {id: student.id}}" :href="`/student/${student.id}`">
                             <!-- successful -->
                             <template v-if="student.performances >= [1] && parseFloat(student.performances[0].manualScore) >= parseFloat(10)">
                                 <md-card  class="md-primary successful" md-with-hover>
@@ -72,6 +72,7 @@
                                             <div class="md-title">{{student.name}}</div>
                                         </md-card-header>
                                         <md-card-content>
+                                            <p><span v-if="calculatedAdvancement(key) < 7"><ui-icon icon="warning"></ui-icon></span> <span v-else><ui-icon icon="done"></ui-icon></span> {{calculatedAdvancement(key)}} meeting sur 7 on été effectué</p>
                                             <p v-if="student.performances <= [0]"> <ui-icon icon="warning"></ui-icon> La côte final non validé</p>
                                             <p v-else> <ui-icon icon="check_circle"></ui-icon> Moyenne manuelle: {{student.performances[0].manualScore}}</p>
                                         </md-card-content>
@@ -89,6 +90,7 @@
                                             <div class="md-title">{{student.name}}</div>
                                         </md-card-header>
                                         <md-card-content>
+                                            <p><span v-if="calculatedAdvancement(key) < 7"><ui-icon icon="warning"></ui-icon></span> <span v-else><ui-icon icon="done"></ui-icon></span> {{calculatedAdvancement(key)}} meeting sur 7 on été effectué</p>
                                             <p v-if="student.performances <= [0]"> <ui-icon icon="warning"></ui-icon> La côte final non validé</p>
                                             <p v-else> <ui-icon icon="check_circle"></ui-icon> Moyenne manuelle: {{student.performances[0].manualScore}}</p>
                                         </md-card-content>
@@ -105,6 +107,7 @@
                                         <div class="md-title">{{student.name}}</div>
                                     </md-card-header>
                                     <md-card-content>
+                                        <p><span v-if="calculatedAdvancement(key) < 7"><ui-icon icon="warning"></ui-icon></span> <span v-else><ui-icon icon="done"></ui-icon></span> {{calculatedAdvancement(key)}} meeting sur 7 on été effectué</p>
                                         <p v-if="student.performances <= [0]"> <ui-icon icon="warning"></ui-icon> La côte final non validé</p>
                                         <p v-else> <ui-icon icon="check_circle"></ui-icon> Moyenne manuelle: {{student.performances[0].manualScore}}</p>
                                     </md-card-content>
@@ -394,6 +397,9 @@ export default {
                 i++;
             }
             this.showTableScoresModal = false;
+        },
+        calculatedAdvancement(key){
+            return this.event.students[key].meetings.length
         }
     }
 }
