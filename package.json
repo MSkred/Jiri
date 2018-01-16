@@ -47,6 +47,7 @@
     "vue-material": "beta",
     "vue-router": "^3.0.1",
     "vue-spinner": "^1.0.3",
+    "vue-tree-navigation": "^1.0.2",
     "vue2-transitions": "^0.2.2",
     "vuex": "^3.0.1"
   },

@@ -5649,9 +5649,19 @@ vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 
+vue-tree-navigation@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vue-tree-navigation/-/vue-tree-navigation-1.0.2.tgz#7c3567c1c47b649a3b9cfcb7d9f8175e73ad16bc"
+  dependencies:
+    vue "^2.5.11"
+
 vue2-transitions@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/vue2-transitions/-/vue2-transitions-0.2.2.tgz#66bbee64852eb792c396d3061cb435a9fae54a47"
+
+vue@^2.5.11:
+  version "2.5.13"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.13.tgz#95bd31e20efcf7a7f39239c9aa6787ce8cf578e1"
 
 vue@^2.5.3, vue@^2.5.9:
   version "2.5.10"
