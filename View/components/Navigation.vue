@@ -50,10 +50,10 @@ button
                 </li>
                 <ul :class="{ open: userMenuIsOpen }">
                   <span @click="userMenuIsOpen ? userMenuIsOpen = false : userMenuIsOpen = true">Utilisateurs</span>
-                  <li>
-                    <router-link :to="{name :'users'}" >Tout les utilisateurs</router-link>
+                  <li @click.prevent="menuIsOpen = false">
+                    <router-link :to="{name :'users'}">Tout les utilisateurs</router-link>
                   </li>
-                  <li>
+                  <li @click.prevent="menuIsOpen = false">
                     <router-link :to="{name :'addUser'}" >Ajouter un utilisateur</router-link>
                   </li>
                 </ul>
@@ -68,10 +68,10 @@ button
                 </ul>
                 <ul :class="{ open: eventMenuIsOpen }">
                   <span @click="eventMenuIsOpen ? eventMenuIsOpen = false : eventMenuIsOpen = true">Événements</span>
-                  <li>
+                  <li @click.prevent="menuIsOpen = false">
                     <router-link :to="{name :'events'}" >Tous les événements</router-link>
                   </li>
-                  <li>
+                  <li @click.prevent="menuIsOpen = false">
                     <router-link :to="{name :'addEvent'}" >Ajouter un événement</router-link>
                   </li>
                 </ul>
@@ -79,10 +79,10 @@ button
                   <span @click="projectMenuIsOpen ? projectMenuIsOpen = false : projectMenuIsOpen = true">
                     Projets
                   </span>
-                  <li>
+                  <li @click.prevent="menuIsOpen = false">
                     <router-link :to="{name :'projects'}" >Tous les projets</router-link>
                   </li>
-                  <li>
+                  <li @click.prevent="menuIsOpen = false">
                     <router-link :to="{name :'addProject'}" >Ajouter un projet</router-link>
                   </li>
                 </ul>
@@ -140,5 +140,11 @@ export default {
       location.assign('/login')
     },
   },
+  // updated(){
+  //   if(this.menuIsOpen){
+  //     this.menuIsOpen = false;
+      
+  //   }
+  // }
 }
 </script>
