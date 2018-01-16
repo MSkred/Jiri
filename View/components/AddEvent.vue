@@ -37,7 +37,7 @@
                     ></ui-select>
                 </tab-content>
                 <tab-content title="Ajout des jurys">
-                        <label for="jury">Sélectionnez les projets</label>
+                        <label for="jury">Sélectionnez les jurys</label>
                         <template v-for="(jury, key) in jurys">
                             <!--Add jury -->
                             <ui-switch 
