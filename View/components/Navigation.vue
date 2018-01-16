@@ -13,6 +13,14 @@ nav
   .menu
     a
       display: block;
+    ul
+      &:hover
+        cursor: pointer
+      &.open
+        li
+          display: block;
+      li
+        display: none;
 button
   transform: translateX(0)
   position: absolute;
@@ -36,15 +44,49 @@ button
     <nav :class="{ open: menuIsOpen }">
         <template v-if="userId">
           <div class="menu" v-if="currentUser.isAdmin">
-              <router-link :to="{name :'home'}" >Dashboard</router-link>
-              <router-link :to="{name :'users'}" >Tous les utilisateurs</router-link>
-              <router-link :to="{name :'addUser'}" >Ajouter un utilisateur</router-link>
-              <router-link :to="{name :'students'}" >Tous les étudiants</router-link>
-              <router-link :to="{name :'addStudent'}" >Ajouter un étudiant</router-link>
-              <router-link :to="{name :'events'}" >Tous les événements</router-link>
-              <router-link :to="{name :'addEvent'}" >Ajouter un événement</router-link>
-              <router-link :to="{name :'projects'}" >Tous les projets</router-link>
-              <router-link :to="{name :'addProject'}" >Ajouter un projet</router-link>
+              <ul>
+                <li>
+                  <router-link class="test" :to="{name :'home'}" >Dashboard</router-link>
+                </li>
+                <ul :class="{ open: userMenuIsOpen }">
+                  <span @click="userMenuIsOpen ? userMenuIsOpen = false : userMenuIsOpen = true">Utilisateurs</span>
+                  <li>
+                    <router-link :to="{name :'users'}" >Tout les utilisateurs</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{name :'addUser'}" >Ajouter un utilisateur</router-link>
+                  </li>
+                </ul>
+                <ul :class="{ open: studentMenuIsOpen }">
+                  <span @click="studentMenuIsOpen ? studentMenuIsOpen = false : studentMenuIsOpen = true">Étudiants</span>
+                  <li>
+                    <router-link :to="{name :'students'}" >Tous les étudiants</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{name :'addStudent'}" >Ajouter un étudiant</router-link>
+                  </li>
+                </ul>
+                <ul :class="{ open: eventMenuIsOpen }">
+                  <span @click="eventMenuIsOpen ? eventMenuIsOpen = false : eventMenuIsOpen = true">Événements</span>
+                  <li>
+                    <router-link :to="{name :'events'}" >Tous les événements</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{name :'addEvent'}" >Ajouter un événement</router-link>
+                  </li>
+                </ul>
+                <ul :class="{ open: projectMenuIsOpen }">
+                  <span @click="projectMenuIsOpen ? projectMenuIsOpen = false : projectMenuIsOpen = true">
+                    Projets
+                  </span>
+                  <li>
+                    <router-link :to="{name :'projects'}" >Tous les projets</router-link>
+                  </li>
+                  <li>
+                    <router-link :to="{name :'addProject'}" >Ajouter un projet</router-link>
+                  </li>
+                </ul>
+              </ul>
           </div>
           <div class="connect">
             <a href="javascript:avoid" @click.prevent="logout()"  >Se deconecter</a>
@@ -65,6 +107,10 @@ export default {
     return{
       currentUser: {},
       menuIsOpen: false,
+      userMenuIsOpen: false,
+      studentMenuIsOpen: false,
+      eventMenuIsOpen: false,
+      projectMenuIsOpen: false,
     }
   },
   computed: {
