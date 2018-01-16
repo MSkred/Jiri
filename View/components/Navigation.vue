@@ -42,6 +42,14 @@ nav
           transition: .2s;
       li
         display: none;
+    .connect
+      margin-top: 25px;
+      span
+        a
+          margin: 0 0 25px 0
+          display: inline-block
+          vertical-align: sub
+
 button
   border: none;
   background: none;
@@ -66,7 +74,7 @@ button
 </style>
 
 <template>
-  <div>
+  <div v-if="userId">
     <button v-if="!menuIsOpen" @click="menuIsOpen = true;">
       <md-icon style="color:white; font:bold;" class="md-size-2x">menu</md-icon>
     </button>
@@ -74,7 +82,6 @@ button
       <md-icon style="color:white; font:bold;" class="md-size-2x">close</md-icon>
     </button>
     <nav :class="{ open: menuIsOpen }">
-        <template v-if="userId">
           <div class="menu" v-if="currentUser.isAdmin">
               <ul>
                 <span class="dashboard" @click.prevent="menuIsOpen = false">
@@ -130,12 +137,13 @@ button
                   </li>
                 </ul>
               </ul>
+            <div class="connect">
+              <span class="disco" @click.prevent="menuIsOpen = false">
+                <md-icon style="color:white; font:bold;">face</md-icon>
+                <a href="javascript:avoid" @click.prevent="logout()">Se deconecter</a>
+              </span>
+            </div>
           </div>
-          <div class="connect">
-            <a href="javascript:avoid" @click.prevent="logout()"  >Se deconecter</a>
-            <router-link v-if="!userId" :to="{name :'login'}" >Se connecter</router-link>
-          </div>
-        </template>
     </nav>
   </div>
 </template>
@@ -183,11 +191,5 @@ export default {
       location.assign('/login')
     },
   },
-  // updated(){
-  //   if(this.menuIsOpen){
-  //     this.menuIsOpen = false;
-      
-  //   }
-  // }
 }
 </script>
