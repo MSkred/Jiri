@@ -223,7 +223,7 @@ export const Bus = new Vue();
                 // Get the lastAddedId for meeting creation
                 store.commit('lastAddedId', createMeeting.id)
                 // Put meeting data in store
-                store.commit('meeting', createMeeting)
+                //store.commit('meeting', createMeeting)
             
                 // Redirection on create meeting view
                 location.assign(`/event/${eventId}/meeting/${store.getters.lastAddedId}/student/${studentId}`);

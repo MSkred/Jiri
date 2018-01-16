@@ -69,7 +69,6 @@
 </template>
 
 <script>
-
 import {Bus} from '../Bus'
 import { store } from '../store'
 import {mapGetters, mapMutations} from 'vuex'
@@ -95,7 +94,7 @@ export default {
                 comment: null,
                 score: null,
             },
-            meeting: [],
+            newMeeting: [],
         }
     },
     apollo: {
