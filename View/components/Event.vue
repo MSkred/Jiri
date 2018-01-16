@@ -266,7 +266,7 @@ export default {
             editable: false,
             finaleScoreEditable: false,
             showAlert: false,
-            isLoading: 0,   
+            isLoading: 0,
         }
     },
     apollo: {

@@ -175,7 +175,7 @@ export default {
             '2020 - 2021',
             '2021 - 2022',
         ],
-        isLoading: 0,   
+        isLoading: 0,
       }
   },
     apollo: {
@@ -290,7 +290,7 @@ export default {
             'eventJurys',
             'eventStudents',
             'eventProjects',
-            'userId'
+            'userId',
         ]),
     },
     methods: {

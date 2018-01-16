@@ -222,7 +222,6 @@ export default {
             'eventProjects',
             'userId',
             'feedbackItem',
-            'isLoading'
         ]),
     },
     methods: {
@@ -350,6 +349,9 @@ export default {
                     i++;
                 });
             },
+    },
+    created(){
+        this.menuIsOpen = false;
     }
 };
 </script>

@@ -95,6 +95,7 @@ export default {
                 score: null,
             },
             newMeeting: [],
+            isLoading: 0,
         }
     },
     apollo: {
@@ -130,7 +131,8 @@ export default {
                 newMeeting = ({ id, student, event: newStudent })
 
                 return newMeeting
-            }
+            },
+            loadingKey: 'isLoading',
         },
         currentUser: {
             query: USER_QUERY,
@@ -148,7 +150,6 @@ export default {
         ...mapGetters([
             'lastAddedId',
             'userId',
-            'isLoading'
         ])
     },
     methods: {
